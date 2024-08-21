@@ -15,6 +15,7 @@ export const Home: React.FC = () => {
       router.push("/seller-art/seller-dashboard");
     }
   };
+  
   return (
     <div className="w-full h-screen bg-[#20364b] pl-10 pr-5 py-7">
       <div className="flex justify-between">
