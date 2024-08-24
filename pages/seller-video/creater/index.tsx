@@ -1,12 +1,12 @@
 import React from "react";
-import User from "@/components/nft-video/users/user";
+import Creater from "@/components/nft-video/creater/creater";
 import VideoLayout from "@/components/nft-video/vidoe-laylout/vidoe-layout";
 
-const UsersPage: React.FC = () => {
+const CreaterPage: React.FC = () => {
   return (
     <VideoLayout>
-      <User />
+      <Creater />
     </VideoLayout>
   );
 };
-export default UsersPage;
+export default CreaterPage;

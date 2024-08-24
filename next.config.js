@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  publicRuntimeConfig : require("./route-config.json")
 };
 
-export default nextConfig;
+module.exports= nextConfig;

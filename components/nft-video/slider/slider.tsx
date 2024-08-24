@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { selectDarkMode } from "@/redux/slice/darkModeSlice";
 import {BackArrow,NextArrow} from "../../utils/icons"
 
 interface Course {

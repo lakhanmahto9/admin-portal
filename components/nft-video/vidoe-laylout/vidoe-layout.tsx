@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { setModal } from "../../../redux/slice/openModal";
 import { useDispatch } from "react-redux";
 import { SettingModal } from "../common/setting";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface VideoLayoutProps {
   children: ReactNode;
@@ -18,13 +19,15 @@ const VideoLayout: React.FC<VideoLayoutProps> = ({ children }) => {
   const setingModal = (data: any) => {
     dispatch(setModal({ open: true, type: "setting" }));
   };
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
   return (
     <div className="relative flex w-full min-h-screen ">
       <div
         className="fixed top-0 left-0 w-full"
         style={{
+          backgroundColor:colors.topBackground,
           height: "43vh",
-          background: "#070a68",
           zIndex: 0,
         }}
       ></div>
@@ -32,7 +35,7 @@ const VideoLayout: React.FC<VideoLayoutProps> = ({ children }) => {
         className="fixed bottom-0 left-0 w-full"
         style={{
           height: "59vh",
-          background: "#f4f6f8",
+          background: colors.bottomBackground,
           zIndex: 0,
         }}
       ></div>

@@ -5,12 +5,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-// import { selectDarkMode } from "@/redux/slice/darkModeSlice";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 export const TransactionAdmin: React.FC = () => {
   const router = useRouter();
   const [dataItem, setDataItem] = useState<SalesDataItem | null>(null);
-//   const darkModeEnabled = useSelector(selectDarkMode);
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
 
   useEffect(() => {
     if (router.isReady) {
@@ -36,23 +37,20 @@ export const TransactionAdmin: React.FC = () => {
   };
 
   return (
-    <div className="px-4 mt-10 ml-5 bg-slate-100 rounded-xl shadow-md shadow-gray-300">
-      <div
-        className={`h-18 rounded-xl `}
-      >
-        <div className="flex justify-start px-4 py-6">
+    <div
+      className={`px-4 mt-10  bg-slate-100 rounded-xl ${
+        darkModeEnable
+          ? "shadow-md shadow-gray-700"
+          : "shadow-md shadow-gray-300"
+      }`}
+      style={{ background: colors.cardBg, color: colors.text }}
+    >
+      <div className={`h-18 rounded-xl `}>
+        <div className="flex justify-start px-2 py-6">
           <div onClick={gotoDashboard} className="cursor-pointer">
-            <BackArrow
-              color= "black"
-              width="28"
-              height="28"
-            />
+            <BackArrow color={colors.text} width="28" height="28" />
           </div>
-          <p
-            className={`font-semibold text-lg ml-4`}
-          >
-            Transaction
-          </p>
+          <p className={`font-semibold text-lg ml-4`}>Transaction</p>
         </div>
       </div>
 
@@ -85,9 +83,7 @@ export const TransactionAdmin: React.FC = () => {
             <p>{dataItem?.countryName}</p>
           </div>
         </div>
-        <div
-          className={`lg:w-2/5 w-full h-auto p-2 rounded-lg `}
-        >
+        <div className={`lg:w-2/5 w-full h-auto p-2 rounded-lg `}>
           <img
             src={dataItem?.thumbnail}
             alt=""
