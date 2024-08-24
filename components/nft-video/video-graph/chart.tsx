@@ -10,7 +10,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import moment from "moment";
+import { useSelector } from "react-redux";
 import { SalesDataItem } from "../video-dashboard/data-types";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface ChartProps {
   year: number;
@@ -55,6 +57,8 @@ const CustomDot = (props: any) => {
 };
 
 export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
   const [filteredData, setFilteredData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -91,21 +95,21 @@ export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
               dx="0"
               dy="4"
               stdDeviation="4"
-              floodColor="#5E72E4"
+              floodColor={colors.text}
               floodOpacity="0.8"
             />
           </filter>
         </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-        <XAxis dataKey="name" stroke="#333" />
-        <YAxis stroke="#333" />
+        <CartesianGrid strokeDasharray="3 3" stroke={colors.text} />
+        <XAxis dataKey="name" stroke={colors.text} />
+        <YAxis stroke={colors.text} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ color: "#000" }} />
+        <Legend wrapperStyle={{ color: colors.text }} />
         <Line
           type="monotone"
           dataKey="courses"
           name="Courses"
-          stroke="#5E72E4"
+          stroke={colors.graphDraw}
           strokeWidth={3}
           dot={<CustomDot />}
           filter="url(#shadow)"

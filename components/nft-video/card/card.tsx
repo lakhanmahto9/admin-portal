@@ -2,16 +2,19 @@ import { PhotoIcon } from "../../utils/icons";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { DashboardCardData } from "../video-dashboard/video-dashboard";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface CardProps {
-    data: DashboardCardData;
-  }
+  data: DashboardCardData;
+}
 
-export const Card: React.FC<CardProps> = ({data}) => {
-//   const data = useSelector(
-//     (state: any) => state.sellerphotography?.data?.photography || []
-//   );
-//   const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
+export const Card: React.FC<CardProps> = ({ data }) => {
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
+  //   const data = useSelector(
+  //     (state: any) => state.sellerphotography?.data?.photography || []
+  //   );
+  //   const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
   const [info, setInfo] = useState({
     totalPhotography: 0,
     totalBuyer: 0,
@@ -23,38 +26,39 @@ export const Card: React.FC<CardProps> = ({data}) => {
     // callFilterFunction();
   }, []);
 
-//   const callFilterFunction = () => {
-//     if (mysale.length > 0) {
-//       const totalRev = mysale.reduce((total: number, data: any) => {
-//         return total + data.price;
-//       }, 0);
+  //   const callFilterFunction = () => {
+  //     if (mysale.length > 0) {
+  //       const totalRev = mysale.reduce((total: number, data: any) => {
+  //         return total + data.price;
+  //       }, 0);
 
-//       setInfo((prev) => ({
-//         ...prev,
-//         totalRevenue: totalRev,
-//       }));
-//       const currentDate = new Date();
-//       const filterSale = mysale.filter((item: any) => {
-//         const itemDate = new Date(item.createdAt);
-//         return (
-//           itemDate.getFullYear() === currentDate.getFullYear() &&
-//           itemDate.getMonth() === currentDate.getMonth() &&
-//           itemDate.getDate() === currentDate.getDate()
-//         );
-//       });
-//       setInfo((prev) => ({
-//         ...prev,
-//         todayRevenue: filterSale.reduce(
-//           (acc: number, data: any) => (acc = acc + data.price),
-//           0
-//         ),
-//       }));
-//     }
-//   };
+  //       setInfo((prev) => ({
+  //         ...prev,
+  //         totalRevenue: totalRev,
+  //       }));
+  //       const currentDate = new Date();
+  //       const filterSale = mysale.filter((item: any) => {
+  //         const itemDate = new Date(item.createdAt);
+  //         return (
+  //           itemDate.getFullYear() === currentDate.getFullYear() &&
+  //           itemDate.getMonth() === currentDate.getMonth() &&
+  //           itemDate.getDate() === currentDate.getDate()
+  //         );
+  //       });
+  //       setInfo((prev) => ({
+  //         ...prev,
+  //         todayRevenue: filterSale.reduce(
+  //           (acc: number, data: any) => (acc = acc + data.price),
+  //           0
+  //         ),
+  //       }));
+  //     }
+  //   };
   const cardStyle = {
-    backgroundColor: "#fff",
-    border: `1px solid "#192555"`,
-    color: "#3C4E6D",
+    backgroundColor: colors.cardBg,
+    // border: `1px solid ${darkModeEnable ? "#3C4E6D" : "gray"}`,
+    boxShadow: `0px 1px 4px -1px `,
+    color: colors.text,
   };
 
   return (
@@ -74,7 +78,7 @@ export const Card: React.FC<CardProps> = ({data}) => {
               id="bg-round"
             ></div>
             <div className="absolute top-1 right-1 w-8 h-8 bg-[#fff] rounded-full flex justify-center items-center">
-              <PhotoIcon color="#22219a" height="18" width="18"/>
+              <PhotoIcon color="#22219a" height="18" width="18" />
             </div>
           </div>
         </div>

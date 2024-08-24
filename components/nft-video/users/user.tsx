@@ -3,12 +3,13 @@ import {
   useGetUsersQuery,
   useUserBlockUnblockMutation,
 } from "../../../redux/api/adminApiSlice";
-import EditUser from "./editUser"; 
+import EditUser from "./editUser";
 import { useSelector } from "react-redux";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { ThreeDotVertical } from "../../utils/icons";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import NoDataImage from "../../../public/NoData.png";
 
 interface Address {
   aboutMe: string;
@@ -33,7 +34,7 @@ const User: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkEnabled);
@@ -43,7 +44,7 @@ const User: React.FC = () => {
   });
 
   const [blockUnblockUser] = useUserBlockUnblockMutation();
-//   const darkModeEnabled = useSelector(selectDarkMode);
+  //   const darkModeEnabled = useSelector(selectDarkMode);
 
   useEffect(() => {
     if (data) {
@@ -100,9 +101,8 @@ const User: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    router.push("/nft-admin/dashboard"); // Adjust the path as necessary
+    router.push("/seller-video/seller-dashboard"); // Adjust the path as necessary
   };
-
 
   // Filter users based on search term
   const filteredUsers = users.filter(
@@ -123,18 +123,13 @@ const User: React.FC = () => {
   );
 
   return (
-    <div className="mt-16 mx-3 lg:ml-72">
+    <div className="mt-5 mx-3">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div className="flex justify-between mb-2">
           <span className="ml-2" onClick={handleNavigate}>
             {" "}
             <button onClick={handleNavigate}>
-
-            <ArrowLeftIcon
-                width="24"
-                height="24"
-                color={isDarkEnabled ? "#ffffff" : "#000000"}
-              />
+              <ArrowLeftIcon width="24" height="24" color="white" />
             </button>
           </span>
           <input
@@ -142,11 +137,8 @@ const User: React.FC = () => {
             placeholder="Search"
             value={searchTerm}
             onChange={handleSearch}
-            className={`px-3 py-2 rounded-md text-gray-800 dark:text-white border focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              isDarkEnabled
-                ? "bg-gray-900 placeholder-gray-400"
-                : "bg-gray-200 placeholder-gray-600"
-            }`}
+            className={`px-3 py-2 rounded-md border focus:outline-none `}
+            style={{ background: colors.cardBg, color: colors.text }}
           />
         </div>
 
@@ -205,122 +197,158 @@ const User: React.FC = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {paginatedFilteredUsers.map((user) => (
-              <tr
-                key={user._id}
-                className={`border-b dark:border-gray-700 dark:hover:bg-gray-600 ${
-                  isDarkEnabled
-                    ? "bg-[#0E1A49] hover:bg-blue-600 "
-                    : "bg-gray-100 text-gray-700 hover:bg-slate-300 "
+          {paginatedFilteredUsers.length > 0 ? (
+            <tbody>
+              {paginatedFilteredUsers.map((user) => (
+                <tr
+                  key={user._id}
+                  className={`border-b dark:border-gray-700 dark:hover:bg-gray-600 ${
+                    isDarkEnabled
+                      ? "bg-[#0E1A49] hover:bg-blue-600 "
+                      : "bg-gray-100 text-gray-700 hover:bg-slate-300 "
+                  }`}
+                >
+                  <td className="w-4 p-4">
+                    <div className="flex items-center">
+                      <input
+                        id={`checkbox-table-search-${user._id}`}
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-red-400 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor={`checkbox-table-search-${user._id}`}
+                        className="sr-only"
+                      >
+                        checkbox
+                      </label>
+                    </div>
+                  </td>
+                  <td
+                    scope="row"
+                    className={`px-6 py-4 font-medium whitespace-nowrap dark:text-white ${
+                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.name}
+                  </td>
+                  <td
+                    className={`px-6 py-4 ${
+                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.email}
+                  </td>
+
+                  <td
+                    className={`px-6 py-4 ${
+                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.address?.city || "N/A"}
+                  </td>
+
+                  <td
+                    className={`px-6 py-4 ${
+                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.address?.postalCode || "N/A"}
+                  </td>
+                  <td
+                    className={`px-6 py-4 ${
+                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.address?.address || "N/A"}
+                  </td>
+
+                  <td
+                    className={`px-6 py-4 ${
+                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.address?.country || "N/A"}
+                  </td>
+                  <td
+                    className={`px-6 py-4 ${
+                      user.isBlocked
+                        ? isDarkEnabled
+                          ? "text-red-500"
+                          : "text-red-800"
+                        : isDarkEnabled
+                        ? "text-green-500"
+                        : "text-green-800"
+                    }`}
+                  >
+                    {user.isBlocked ? "Blocked" : "Active"}
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="relative inline-block text-left">
+                      <button
+                        onClick={() => handleActionClick(user._id)}
+                        className="p-2 text-gray-500 rounded-full hover:text-gray-700 focus:outline-none focus:text-gray-700"
+                      >
+                        <ThreeDotVertical
+                          width="16"
+                          height="16"
+                          color={colors.text}
+                        />
+                      </button>
+                      {selectedUser === user._id && (
+                        <div
+                          className="absolute right-0 z-10 w-40 py-2 mt-2 rounded-md shadow-xl"
+                          style={{
+                            background: colors.background,
+                            color: colors.text,
+                          }}
+                        >
+                          <button
+                            onClick={() => handleBlockUser(user._id)}
+                            className="block px-4 py-2 text-sm w-full rounded-2xl  hover:bg-blue-400"
+                          >
+                            {user.isBlocked ? "Unblock" : "Block"}
+                          </button>
+                          <button
+                            onClick={() => handleEditUser(user)}
+                            className="block px-4 py-2 text-sm w-full rounded-2xl hover:bg-blue-400"
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          ) : (
+            <tr>
+            <td colSpan={9} className="text-center py-6">
+              <img
+                src={NoDataImage.src}
+                alt="No Data Found"
+                className="mx-auto mb-4"
+                style={{ width: "300px", height: "300px" }}
+              />
+              <p
+                className={`text-lg ${
+                  isDarkEnabled ? "text-gray-300" : "text-gray-500"
                 }`}
               >
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    <input
-                      id={`checkbox-table-search-${user._id}`}
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 bg-red-400 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label
-                      htmlFor={`checkbox-table-search-${user._id}`}
-                      className="sr-only"
-                    >
-                      checkbox
-                    </label>
-                  </div>
-                </td>
-                <td
-                  scope="row"
-                  className={`px-6 py-4 font-medium whitespace-nowrap dark:text-white ${
-                    isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.name}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.email}
-                </td>
-
-                <td
-                  className={`px-6 py-4 ${
-                    isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.address?.city || "N/A"}
-                </td>
-
-                <td
-                  className={`px-6 py-4 ${
-                    isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.address?.postalCode || "N/A"}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.address?.address || "N/A"}
-                </td>
-
-                <td
-                  className={`px-6 py-4 ${
-                    isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.address?.country || "N/A"}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    user.isBlocked
-                      ? isDarkEnabled
-                        ? "text-red-500"
-                        : "text-red-800"
-                      : isDarkEnabled
-                      ? "text-green-500"
-                      : "text-green-800"
-                  }`}
-                >
-                  {user.isBlocked ? "Blocked" : "Active"}
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <div className="relative inline-block text-left">
-                    <button
-                      onClick={() => handleActionClick(user._id)}
-                      className="p-2 text-gray-500 rounded-full hover:text-gray-700 focus:outline-none focus:text-gray-700"
-                    >
-                      <ThreeDotVertical width="16" height="16" color="black" />
-                    </button>
-                    {selectedUser === user._id && (
-                      <div className="absolute right-0 z-10 w-40 py-2 mt-2 bg-white rounded-md shadow-xl">
-                        <button
-                          onClick={() => handleBlockUser(user._id)}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          {user.isBlocked ? "Unblock" : "Block"}
-                        </button>
-                        <button
-                          onClick={() => handleEditUser(user)}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Edit
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+                No data found
+              </p>
+            </td>
+          </tr>
+          )}
         </table>
 
-        {editingUser && <EditUser  user={editingUser} onSave={handleSaveEdit} onCancel={handleCancelEdit} />}
+        {editingUser && (
+          <EditUser
+            user={editingUser}
+            onSave={handleSaveEdit}
+            onCancel={handleCancelEdit}
+          />
+        )}
       </div>
       <div className="flex justify-center mt-4">
         <button
@@ -358,4 +386,3 @@ const User: React.FC = () => {
 };
 
 export default User;
-

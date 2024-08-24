@@ -5,18 +5,21 @@ import {
   LogoutIcon,
   ProfileIcon,
   SqureIcon,
+  Users,
+  MyPlaylist
 } from "../../utils/icons";
 import React, { useEffect, useState } from "react";
 import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
+const { publicRuntimeConfig } = getConfig();
 const VideoSidebar: React.FC = () => {
   const router = useRouter();
-
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
   const [total, setTotal] = useState(0);
-  const [isDarkEnabled, setDarkEnabled] = useState(false);
 
   // const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
   const [info, setInfo] = useState({
@@ -30,20 +33,25 @@ const VideoSidebar: React.FC = () => {
       href: publicRuntimeConfig?.dashboard,
     },
     {
-      icon: <AddphotoIcon color="red" height="18" width="18" />,
+      icon: <BagCheck color="orange" height="18" width="18" />,
       link: "Users",
       href: publicRuntimeConfig?.users,
     },
 
     {
-      icon: <BagCheck color="orange" height="18" width="18" />,
-      link: "Buyer",
-      href: publicRuntimeConfig?.buyer,
+      icon: <Users color="red" height="18" width="18" />,
+      link: "Creater",
+      href: publicRuntimeConfig?.creater,
     },
     {
-      icon: <ProfileIcon color="green" height="18" width="18" />,
-      link: "Profile",
-      href: publicRuntimeConfig?.profile,
+      icon: <Users color="#FF1493" height="18" width="18" />,
+      link: "Subscriber",
+      href: publicRuntimeConfig?.subscribers,
+    },
+    {
+      icon: <MyPlaylist color="green" height="18" width="18" />,
+      link: "Playlist",
+      href: publicRuntimeConfig?.playlist,
     },
     {
       icon: <LogoutIcon color="red" height="18" width="18" />,
@@ -81,7 +89,8 @@ const VideoSidebar: React.FC = () => {
       <div
         className="h-[95vh]  rounded-2xl p-2 shadow-inner"
         style={{
-          backgroundColor: "#dae2ff",
+          backgroundColor:colors.sidebarBg,
+          color:colors.text,
           boxShadow: `0px 1px 6px -1px `,
         }}
       >
@@ -94,7 +103,7 @@ const VideoSidebar: React.FC = () => {
             <hr
               className="w-full"
               style={{
-                backgroundColor: isDarkEnabled ? "gray" : "lightgray",
+                backgroundColor: darkModeEnable ? "gray" : "lightgray",
                 height: "1px",
                 border: "none",
               }}
@@ -106,11 +115,12 @@ const VideoSidebar: React.FC = () => {
             <div
               className={`${
                 item.href === router.pathname
-                  ? isDarkEnabled
+                  ? darkModeEnable
                     ? "bg-[#192555] shadow-inner"
                     : `bg-[#a2c4eb] shadow-inner`
                   : ""
-              } h-12 rounded-xl px-2 flex justify-between items-center cursor-pointer mb-1`}
+              }
+               h-12 rounded-xl px-2 flex justify-between items-center cursor-pointer mb-1`}
               key={index}
               onClick={() => handleLinkClick(item.href, item.link)}
             >
@@ -120,7 +130,7 @@ const VideoSidebar: React.FC = () => {
                   className={`${
                     item.href === router.pathname ? "font-semibold text-lg" : ""
                   }`}
-                  style={{ color: "#192555" }}
+                  // style={{ color: "#192555" }}
                 >
                   {item.link}
                 </p>
@@ -128,22 +138,22 @@ const VideoSidebar: React.FC = () => {
               <AngleIcon
                 width="16"
                 height="16"
-                color={isDarkEnabled ? "gray" : "black"}
+                color={darkModeEnable ? "gray" : "black"}
               />
             </div>
           ))}
         </div>
         <div className="h-[30%] flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center">
-            <img src="/image/wallet.svg" alt="wallet" className="w-12 h-12" />
+            <img src="/wallet.svg" alt="wallet" className="w-12 h-12" />
             <p
               className={`text-sm font-semibold ${
-                isDarkEnabled ? "text-[#5E72E4]" : "text-[#140e69]"
+                darkModeEnable ? "text-[#5E72E4]" : "text-[#140e69]"
               }`}
             >
               ₹{info.totalRevenue}
             </p>
-            <p className="text-sm font-semibold" style={{ color: "#192555" }}>
+            <p className="text-sm font-semibold" style={{ color:colors.text }}>
               Wallet Amount
             </p>
           </div>

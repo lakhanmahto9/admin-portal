@@ -44,12 +44,12 @@ export const VideoDashboard: React.FC = () => {
     totalSellerCount: 0,
   });
   useEffect(() => {
-    if (token) {
+    // if (token) {
       callApiToAllSales();
       callApiToFetchSalesCourses();
       getApiToFetchTotalUserPlaylistCreator();
       //   dispatch<any>(FetchAllPhotographyBySellerSide());
-    }
+    // }
   }, []);
 
   const callApiToAllSales = async () => {

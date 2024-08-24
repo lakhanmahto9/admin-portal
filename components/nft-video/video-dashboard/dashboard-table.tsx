@@ -2,6 +2,8 @@ import React from "react";
 import TableRow from "./table-row";
 import { SalesDataItem } from "./data-types";
 import { useSelector } from "react-redux";
+import { useThemeColors } from "@/components/utils/useThemeColor";
+
 // import { selectDarkMode } from "@/redux/slice/darkModeSlice";
 
 interface Props {
@@ -9,7 +11,8 @@ interface Props {
 }
 
 const DashboardTable: React.FC<Props> = ({ dashboardSalesData }) => {
-//   const darkModeEnable = useSelector(selectDarkMode);
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
   if (!Array.isArray(dashboardSalesData)) {
     console.error(
       "Expected dashboardSalesData to be an array, but got:",
@@ -20,8 +23,8 @@ const DashboardTable: React.FC<Props> = ({ dashboardSalesData }) => {
 
   return (
     <div
-      className={`overflow-x-auto rounded-xl mt-2 w-full  shadow-lg shadow-gray-300 `}
-      style={{ maxHeight: "400px" }}
+      className={`overflow-x-auto rounded-xl mt-2 w-full ${darkModeEnable ? "" :"shadow-lg shadow-gray-300 "} `}
+      style={{ maxHeight: "400px",color:colors.text,background:colors.cardBg }}
     >
       <h2
         className={`p-4 font-bold text-base `}

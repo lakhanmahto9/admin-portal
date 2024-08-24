@@ -3,15 +3,16 @@ import CategoriesTransaction from '../video-dashboard/categories-transaction'
 import { SalesDataItem } from "./data-types";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-// import { selectDarkMode } from "@/redux/slice/darkModeSlice";
 import { RightGo } from "../../utils/icons";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface Props {
   dashboardSalesData: SalesDataItem[];
 }
 
 const Categories: React.FC<Props> = ({ dashboardSalesData }) => {
-//   const darkModeEnable = useSelector(selectDarkMode);
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
   const router = useRouter();
 
   const serializeObjectToQueryString = (obj: any) => {
@@ -25,8 +26,8 @@ const Categories: React.FC<Props> = ({ dashboardSalesData }) => {
 
   return (
     <div
-      className={`overflow-y-auto shadow-lg shadow-gray-300 p-3 `}
-      style={{ maxHeight: "400px" }}
+      className={`overflow-y-auto p-3 rounded-lg ${darkModeEnable ? "" : "shadow-lg shadow-gray-300 "}`}
+      style={{ maxHeight: "400px",background:colors.cardBg,color:colors.text }}
     >
       <h3 className={``}>
         Categories
@@ -43,7 +44,7 @@ const Categories: React.FC<Props> = ({ dashboardSalesData }) => {
                 <RightGo
                   width="16"
                   height="16"
-                  color={``}
+                  color={colors.text}
                   className="cursor-pointer"
                   onClick={() => gotoTransaction(el)}
                 />
