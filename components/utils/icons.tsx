@@ -4,6 +4,14 @@ interface StarProps {
   height: string;
 }
 
+interface CopyProps {
+  color: string;
+  width: string;
+  height: string;
+  onClick?: () => void; // Add optional onClick prop
+  className?: string;
+}
+
 export const SettingIcon: React.FC<StarProps> = ({ color, height, width }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -129,17 +137,119 @@ export const AddphotoIcon: React.FC<StarProps> = ({ color, height, width }) => (
 );
 
 export const CloseIcon: React.FC<StarProps> = ({ color, height, width }) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      fill={color}
-      className="bi bi-x"
-      viewBox="0 0 16 16"
-      cursor="pointer"
-      fontWeight="700"
-    >
-      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-    </svg>
-  );
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-x"
+    viewBox="0 0 16 16"
+    cursor="pointer"
+    fontWeight="700"
+  >
+    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+  </svg>
+);
 
+export const PhotoIcon: React.FC<StarProps> = ({ color, height, width }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill={color}
+    width={width}
+    height={height}
+    className="bi bi-image-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0" />
+  </svg>
+);
+
+export const BackArrow: React.FC<StarProps> = ({ color, width, height }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-arrow-left"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+    />
+  </svg>
+);
+
+export const NextArrow: React.FC<StarProps> = ({ color, width, height }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-arrow-right"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+    />
+  </svg>
+);
+
+export const RightGo: React.FC<CopyProps> = ({
+  color,
+  width,
+  height,
+  onClick,
+  className,
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    onClick={onClick}
+    className={`bi bi-caret-right-fill ${className} `}
+    viewBox="0 0 16 16"
+  >
+    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+  </svg>
+);
+
+export const ArrowLeftIcon: React.FC<StarProps> = ({
+  color,
+  width,
+  height,
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-arrow-left"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+    />
+  </svg>
+);
+
+export const ThreeDotVertical: React.FC<StarProps> = ({
+  color,
+  width,
+  height,
+  
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-three-dots-vertical"
+    viewBox="0 0 16 16"
+  >
+    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+  </svg>
+);

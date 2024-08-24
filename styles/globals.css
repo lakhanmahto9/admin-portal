@@ -29,3 +29,45 @@
     -14px -2px 19px rgba(206, 89, 55, 0.77);
   color: #a7dd3c;
 }
+
+::-webkit-scrollbar {
+  width: 5px; /* Adjust the width as needed */
+}
+
+/* For Firefox */
+::-moz-scrollbar {
+  width: 5px; /* Adjust the width as needed */
+}
+
+/* For Internet Explorer and Edge */
+::-ms-scrollbar {
+  width: 5px; /* Adjust the width as needed */
+}
+
+/* Styles for the thumb/track */
+::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Adjust the border radius as needed */
+}
+
+
+ /* Optional: Styles for the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color of the scrollbar track */
+}
+
+
+/* Hide scrollbar but allow scrolling */
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+/* Hide scrollbar by default */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Show scrollbar on hover */
+.scrollbar-hide:hover::-webkit-scrollbar {
+  display: block;
+}

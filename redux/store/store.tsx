@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import openSlice from "../slice/creadentialSlice";
 import openModal from "../slice/openModal";
 import darkModeSlice from "../slice/darkModeSlice";
+import userSlice from "../../redux/slice/fetchAllUsersDetailSlice"
 
 const persistConfig = {
   key: "root",
@@ -20,11 +21,14 @@ const darkTheme = persistReducer(
   darkModeSlice
 );
 
+const persistUser = persistReducer({ ...persistConfig, key: "user" }, userSlice);
+
 const store = configureStore({
   reducer: {
     open: openCredentialSlice,
     modal: openmodal,
     darkmode: darkTheme,
+    user:persistUser,
   },
 });
 
