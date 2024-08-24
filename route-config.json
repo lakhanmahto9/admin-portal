@@ -1,0 +1,27 @@
+{
+    "login": "/nft-admin/signin",
+    "dashboard": "/nft-admin/dashboard",
+    "profile": "nft-admin/profile",
+    "users": "/seller-video/users",
+    "buyer": "/nft-admin/buyers",
+    "creators": "/nft-admin/creators",
+    "playlist":"/nft-admin/playlists",
+    "coupon":"/nft-admin/create-coupon",
+    "paidUsers":"/nft-admin/paid-users",
+    "sellers": "/nft-admin/sellers",
+    "phsellers": "/nft-admin/photographsellers",
+    "phbuyers": "/nft-admin/photographbuyers",
+    "arts": "/nft-admin/arts",
+    "music": "/nft-admin/musics",
+    "photograph": "/nft-admin/photography",
+    "purchaseArtOrMusic": "/nft-admin/purchase-art-or-music",
+    "SellersByTotalSale": "/nft-admin/sellers-by-total-sales",
+    "topSellersByRevenue": "/nft-admin/top-sellers-by-revenues",
+    "topCreatorsByRevenue": "/nft-admin/top-creators-by-revenues",
+    "topCreatorsByTotalSale": "/nft-admin/top-creators-by-total-sales",
+    "purchasePhotography":"/nft-admin/purchase-photography",
+    "topPhotographCreatorsBySale":"/nft-admin/top-photograph-creators-by-sales",
+    "topPhotographCreatorsByRevenue":"/nft-admin/top-photograph-creators-by-revenues"
+
+  }
+  
