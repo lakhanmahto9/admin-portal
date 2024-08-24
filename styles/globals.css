@@ -46,12 +46,10 @@
   border-radius: 10px; /* Adjust the border radius as needed */
 }
 
-
- /* Optional: Styles for the scrollbar track */
+/* Optional: Styles for the scrollbar track */
 ::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Color of the scrollbar track */
 }
-
 
 /* Hide scrollbar but allow scrolling */
 .overflow-x-auto {
@@ -66,4 +64,26 @@
 /* Show scrollbar on hover */
 .scrollbar-hide:hover::-webkit-scrollbar {
   display: block;
+}
+
+#box-bg {
+  background: #ce2e0a;
+  background: -moz-radial-gradient(
+    center,
+    #ce2e0a 0%,
+    #ffd847 50%,
+    #220d91 100%
+  );
+  background: -webkit-radial-gradient(
+    center,
+    #ce2e0a 0%,
+    #ffd847 50%,
+    #220d91 100%
+  );
+  background: radial-gradient(
+    ellipse at center,
+    #ce2e0a 0%,
+    #ffd847 50%,
+    #220d91 100%
+  );
 }
