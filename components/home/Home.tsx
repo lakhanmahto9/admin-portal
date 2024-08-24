@@ -65,11 +65,11 @@ export const Home: React.FC = () => {
             E-Commerce
           </p>
           <div
-            id="bg-div"
+            // id="bg-div"
             className="w-20 h-10 rounded-full"
             onClick={() => dispatch(openCredential())}
           >
-            <p className="flex justify-center items-center text-slate-100 py-1  cursor-pointer">
+            <p className="flex justify-center items-center border border-[#ddba4c] rounded-full text-slate-100 py-1  cursor-pointer">
               Login
             </p>
           </div>
@@ -93,15 +93,15 @@ export const Home: React.FC = () => {
             <div className="flex flex-col gap-3 w-1/2">
               <div
                 onClick={() => dispatch(openCredential())}
-                id="bg-div"
-                className="w-96 h-16 rounded-full flex justify-center items-center cursor-pointer"
+                // id="bg-div"
+                className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">Tutorial</p>
               </div>
               <div
                 onClick={() => dispatch(openCredential())}
-                id="bg-div"
-                className="w-96 h-16 rounded-full flex justify-center items-center cursor-pointer"
+                // id="bg-div"
+                className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">
                   {" "}
@@ -110,8 +110,8 @@ export const Home: React.FC = () => {
               </div>
               <div
                 onClick={() => dispatch(openCredential())}
-                id="bg-div"
-                className="w-96 h-16 rounded-full flex justify-center items-center cursor-pointer"
+                // id="bg-div"
+                className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">
                   Digital photography
@@ -119,8 +119,8 @@ export const Home: React.FC = () => {
               </div>
               <div
                 onClick={() => dispatch(openCredential())}
-                id="bg-div"
-                className="w-96 h-16 rounded-full flex justify-center items-center cursor-pointer"
+                // id="bg-div"
+                className="w-96 h-16 rounded-full bg-[#9bd4f2] flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">E-Commerce</p>
               </div>
@@ -128,7 +128,7 @@ export const Home: React.FC = () => {
             <div className="w-1/2 flex flex-col justify-center items-center">
               <div>
                 <p className="text-lg text-slate-100">Total Amount</p>
-                <p className="text-6xl font-bold text-[#fff]" id="textshadow">99,990</p>
+                <p className="text-6xl font-bold text-[#fff]" id="textshadow">$99,990</p>
               </div>
             </div>
           </div>
