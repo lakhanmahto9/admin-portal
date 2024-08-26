@@ -40,7 +40,7 @@ export const Login: React.FC = () => {
        if(result.payload?.success){
         console.log(type)
         if(type === "Tutorial"){
-
+          router.push("/admin-dashboard/seller-video/seller-dashboard")
         }else if(type === "Digital photography"){
           router.push("/admin-dashboard/seller-photography/photography-dashboard")
         }

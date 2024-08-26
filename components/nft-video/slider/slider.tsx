@@ -14,7 +14,7 @@ interface Course {
 const Slider: React.FC = () => {
 //   const darkModeEnable = useSelector(selectDarkMode);
   const courseData: Course[] = useSelector((state: any) => state?.user?.playlist) || [];
-    // console.log(courseData)
+    console.log(courseData)
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const Images = courseData.map((course: any) => course.thumbnail).filter((thumbnail: string | undefined) => thumbnail);
