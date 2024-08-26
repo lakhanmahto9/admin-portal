@@ -7,6 +7,8 @@ import openModal from "../slice/openModal";
 import darkModeSlice from "../slice/darkModeSlice";
 import userSlice from "../../redux/slice/fetchAllUsersDetailSlice"
 import { apiSlice } from "../api/apiSlice";
+import sidebarNavColorSlice from "../slice/sidebarNavColorSlice";
+import navfix from "../slice/headerNavFixSlice";
 
 const persistConfig = {
   key: "root",
@@ -24,6 +26,8 @@ const darkTheme = persistReducer(
 );
 
 const persistUser = persistReducer({ ...persistConfig, key: "user" }, userSlice);
+const nevSideColor = persistReducer({ ...persistConfig, key: "sidebarbg" }, sidebarNavColorSlice);
+const headerFix = persistReducer({ ...persistConfig, key: "fix" }, navfix);
 
 const store = configureStore({
   reducer: {
@@ -32,6 +36,8 @@ const store = configureStore({
     modal: openmodal,
     darkmode: darkTheme,
     user:persistUser,
+    sidebarbg:nevSideColor,
+    fix:headerFix,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

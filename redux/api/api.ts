@@ -22,7 +22,7 @@ export const fetchSalesCourseApi= () => {
 export const fetchAllUserDeatilsApi = () => {
     return axios.get(`${BASE_URL}/admin/total-user-details`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     });
   };

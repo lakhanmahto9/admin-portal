@@ -16,6 +16,7 @@ interface VideoLayoutProps {
 const VideoLayout: React.FC<VideoLayoutProps> = ({ children }) => {
   const dispatch = useDispatch();
   const modal = useSelector((state: any) => state.modal.open);
+  const fix = useSelector((state: any) => state.fix?.fix);
   const setingModal = (data: any) => {
     dispatch(setModal({ open: true, type: "setting" }));
   };
@@ -26,7 +27,7 @@ const VideoLayout: React.FC<VideoLayoutProps> = ({ children }) => {
       <div
         className="fixed top-0 left-0 w-full"
         style={{
-          backgroundColor:colors.topBackground,
+          backgroundColor: colors.topBackground,
           height: "43vh",
           zIndex: 0,
         }}
@@ -43,12 +44,15 @@ const VideoLayout: React.FC<VideoLayoutProps> = ({ children }) => {
         <SallerSidebar />
       </div>
       <div className="w-full px-4 lg:w-4/5 z-10 ml-auto">
-        <div>
+        <div className={fix ? "mb-28" : ""}>
           <SellerHeader />
         </div>
         {children}
       </div>
-      <div onClick={setingModal} className="fixed bottom-4 right-8 z-20 w-14 h-14 rounded-full bg-slate-200 shadow-2xl flex justify-center items-center">
+      <div
+        onClick={setingModal}
+        className="fixed bottom-4 right-8 z-20 w-14 h-14 rounded-full bg-slate-200 shadow-2xl flex justify-center items-center"
+      >
         <SettingIcon color="" width="24" height="24" />
       </div>
       <div>{modal && <OpenModal />}</div>

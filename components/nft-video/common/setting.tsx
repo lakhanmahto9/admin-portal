@@ -1,8 +1,9 @@
 import { removeDark, setDark } from "../../../redux/slice/darkModeSlice";
-// import { setNavColor } from "@/redux/slice/sideBarNavColorSlice";
+import { setNavColor } from "@/redux/slice/sidebarNavColorSlice";
 import { Stack, Switch, styled } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setFix } from "@/redux/slice/headerNavFixSlice";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 44,
@@ -51,6 +52,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 export const SettingModal: React.FC = () => {
   const dispatch = useDispatch();
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
+  const fix = useSelector((state:any) => state.fix?.fix);
 
   const handleDarkMode = () => {
     dispatch(setDark());
@@ -84,27 +86,27 @@ export const SettingModal: React.FC = () => {
         <div className="flex gap-2">
           <p
             className="w-6 h-6 rounded-full cursor-pointer bg-[#6a6be4] border transition-transform transform hover:scale-110 hover:border-black"
-            // onClick={() => dispatch(setNavColor("#eaedfc"))}
+            onClick={() => dispatch(setNavColor("#eaedfc"))}
           ></p>
           <p
             className="w-6 h-6 rounded-full cursor-pointer bg-[#212329] border transition-transform transform hover:scale-110 hover:border-black"
-            // onClick={() => dispatch(setNavColor("#212329"))}
+            onClick={() => dispatch(setNavColor("#212329"))}
           ></p>
           <p
             className="w-6 h-6 rounded-full cursor-pointer bg-[#1194ef] border transition-transform transform hover:scale-110 hover:border-black"
-            // onClick={() => dispatch(setNavColor("#1194ef"))}
+            onClick={() => dispatch(setNavColor("#1194ef"))}
           ></p>
           <p
             className="w-6 h-6 rounded-full cursor-pointer bg-[#2dceb6] border transition-transform transform hover:scale-110 hover:border-black"
-            // onClick={() => dispatch(setNavColor("#2dceb6"))}
+            onClick={() => dispatch(setNavColor("#2dceb6"))}
           ></p>
           <p
             className="w-6 h-6 rounded-full cursor-pointer bg-[#fb7c40] border transition-transform transform hover:scale-110 hover:border-black"
-            // onClick={() => dispatch(setNavColor("#fb7c40"))}
+            onClick={() => dispatch(setNavColor("#fb7c40"))}
           ></p>
           <p
             className="w-6 h-6 rounded-full cursor-pointer bg-[#f54b48] border transition-transform transform hover:scale-110 hover:border-black"
-            // onClick={() => dispatch(setNavColor("#f54b48"))}
+            onClick={() => dispatch(setNavColor("#f54b48"))}
           ></p>
         </div>
         <div className="">
@@ -127,9 +129,9 @@ export const SettingModal: React.FC = () => {
               <p>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <AntSwitch
-                    checked={false}
+                    checked={fix}
                     inputProps={{ "aria-label": "ant design" }}
-                    // onClick={navfix ? haneleRemoveNev : handleSetNev}
+                    onChange={()=>dispatch(setFix(fix))}
                   />
                 </Stack>
               </p>

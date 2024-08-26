@@ -20,6 +20,7 @@ const VideoSidebar: React.FC = () => {
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
   const [total, setTotal] = useState(0);
+  const sidenavcolor = useSelector((state:any) => state.sidebarbg.color)
 
   // const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
   const [info, setInfo] = useState({
@@ -116,8 +117,8 @@ const VideoSidebar: React.FC = () => {
               className={`${
                 item.href === router.pathname
                   ? darkModeEnable
-                    ? "bg-[#192555] shadow-inner"
-                    : `bg-[#a2c4eb] shadow-inner`
+                    ? `bg-[#192555] shadow-inner`
+                    : `bg-[${sidenavcolor}] shadow-inner`
                   : ""
               }
                h-12 rounded-xl px-2 flex justify-between items-center cursor-pointer mb-1`}
