@@ -67,7 +67,7 @@ export const Home: React.FC = () => {
           <div
             // id="bg-div"
             className="w-20 h-10 rounded-full"
-            onClick={() => dispatch(openCredential())}
+            onClick={() => dispatch(openCredential(activeTab))}
           >
             <p className="flex justify-center items-center border border-[#ddba4c] rounded-full text-slate-100 py-1  cursor-pointer">
               Login
@@ -92,14 +92,14 @@ export const Home: React.FC = () => {
           <div className="flex w-full">
             <div className="flex flex-col gap-3 w-1/2">
               <div
-                onClick={() => dispatch(openCredential())}
+                onClick={() => dispatch(openCredential("Tutorial"))}
                 // id="bg-div"
                 className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">Tutorial</p>
               </div>
               <div
-                onClick={() => dispatch(openCredential())}
+                onClick={() => dispatch(openCredential("Digital Art and Music"))}
                 // id="bg-div"
                 className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
@@ -109,7 +109,7 @@ export const Home: React.FC = () => {
                 </p>
               </div>
               <div
-                onClick={() => dispatch(openCredential())}
+                onClick={() => dispatch(openCredential("Digital photography"))}
                 // id="bg-div"
                 className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
@@ -118,7 +118,7 @@ export const Home: React.FC = () => {
                 </p>
               </div>
               <div
-                onClick={() => dispatch(openCredential())}
+                onClick={() => dispatch(openCredential("E-Commerce"))}
                 // id="bg-div"
                 className="w-96 h-16 rounded-full bg-[#9bd4f2] flex justify-center items-center cursor-pointer"
               >

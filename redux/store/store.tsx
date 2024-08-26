@@ -5,7 +5,8 @@ import storage from "redux-persist/lib/storage";
 import openSlice from "../slice/creadentialSlice";
 import openModal from "../slice/openModal";
 import darkModeSlice from "../slice/darkModeSlice";
-import userSlice from "../../redux/slice/fetchAllUsersDetailSlice"
+import userSlice from "../../redux/slice/fetchAllUsersDetailSlice";
+import adminLogin from "../../redux/slice/adminloginSlice";
 import { apiSlice } from "../api/apiSlice";
 import sidebarNavColorSlice from "../slice/sidebarNavColorSlice";
 import navfix from "../slice/headerNavFixSlice";
@@ -20,6 +21,7 @@ const openCredentialSlice = persistReducer(
   openSlice
 );
 const openmodal = persistReducer({ ...persistConfig, key: "modal" }, openModal);
+const auth = persistReducer({ ...persistConfig, key: "auth" }, adminLogin);
 const darkTheme = persistReducer(
   { ...persistConfig, key: "darkmode" },
   darkModeSlice
@@ -34,6 +36,7 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     open: openCredentialSlice,
     modal: openmodal,
+    auth:auth,
     darkmode: darkTheme,
     user:persistUser,
     sidebarbg:nevSideColor,

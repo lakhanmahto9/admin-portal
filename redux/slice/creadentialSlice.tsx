@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    open:false
+    open:false,
+    type:"Tutorial"
 }
 
 const openSlice = createSlice({
     name:"open",
     initialState,
     reducers:{
-        openCredential(state){
-            state.open = true
+        openCredential(state,actions){
+            state.open = true,
+            state.type = actions.payload
         },
         closeCredential(state){
             state.open = false

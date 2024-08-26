@@ -3,28 +3,29 @@ import { Card } from "../card/card";
 import { Graph } from "../video-graph/graph";
 import { useDispatch } from "react-redux";
 import { fetchTotalUserPlaylistCreatorCount } from "@/redux/slice/fetchTotalUserPlaylistCreaterSlice";
-import { SalesDataItem} from "./data-types";
+import { SalesDataItem } from "./data-types";
 import { fetchSalesCourse } from "../../../redux/slice/fetchSalesCourseSlice";
 import Slider from "../slider/slider";
 import DashboardTable from "./dashboard-table";
 import Categories from "./categories";
+import { userInformation } from "@/redux/slice/fetchAllUsersDetailSlice";
+
 // import { FetchAllPhotographyBySellerSide } from "@/redux/slice/FetchAllPhotographyBySellerSildeSlice";
 export interface DashboardCardData {
-    totalCreatorCount: number;
-    totalPlaylistCount: number;
-    totalUserCount: number;
-    totalRevenue: number;
-    todayRevenue: number;
-    todayUserCount: number;
-    todayCreatorCount: number;
-    todayPlaylistCount: number;
-    todaySellerCount: number;
-    todayBuyerCount: number;
-    totalSellerCount: number;
-    totalBuyerCount: number;
-  }
-  
-  
+  totalCreatorCount: number;
+  totalPlaylistCount: number;
+  totalUserCount: number;
+  totalRevenue: number;
+  todayRevenue: number;
+  todayUserCount: number;
+  todayCreatorCount: number;
+  todayPlaylistCount: number;
+  todaySellerCount: number;
+  todayBuyerCount: number;
+  totalSellerCount: number;
+  totalBuyerCount: number;
+}
+
 export const VideoDashboard: React.FC = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("access_token");
@@ -45,10 +46,11 @@ export const VideoDashboard: React.FC = () => {
   });
   useEffect(() => {
     // if (token) {
-      callApiToAllSales();
-      callApiToFetchSalesCourses();
-      getApiToFetchTotalUserPlaylistCreator();
-      //   dispatch<any>(FetchAllPhotographyBySellerSide());
+    callApiToAllSales();
+    callApiToFetchSalesCourses();
+    getApiToFetchTotalUserPlaylistCreator();
+    getAllPlaylistForSlider();
+    //   dispatch<any>(FetchAllPhotographyBySellerSide());
     // }
   }, []);
 
@@ -59,11 +61,18 @@ export const VideoDashboard: React.FC = () => {
       console.log(error);
     }
   };
+  const getAllPlaylistForSlider = async () => {
+    try {
+      await dispatch<any>(userInformation());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getApiToFetchTotalUserPlaylistCreator = async () => {
     try {
       const result = await dispatch<any>(fetchTotalUserPlaylistCreatorCount());
-    //   console.log(result.payload)
+      //   console.log(result.payload)
       if (result.payload && result.payload.data) {
         const {
           totalCreatorCount,
@@ -114,10 +123,11 @@ export const VideoDashboard: React.FC = () => {
       <Card data={cardData} />
       <div className="w-full flex flex-col justify-center lg:flex-row gap-6 mt-10 pb-10">
         <div className="w-full mt-5 lg:w-3/5">
-        <Graph salesData={salesCourse} />
-
+          <Graph salesData={salesCourse} />
         </div>
-        <div className="w-full lg:w-2/5"><Slider/></div>
+        <div className="w-full lg:w-2/5">
+          <Slider />
+        </div>
       </div>
 
       <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
