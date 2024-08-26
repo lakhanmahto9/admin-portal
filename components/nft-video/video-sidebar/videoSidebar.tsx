@@ -6,7 +6,8 @@ import {
   ProfileIcon,
   SqureIcon,
   Users,
-  MyPlaylist
+  MyPlaylist,
+  MorePeople
 } from "../../utils/icons";
 import React, { useEffect, useState } from "react";
 import getConfig from "next/config";
@@ -53,6 +54,28 @@ const VideoSidebar: React.FC = () => {
       icon: <MyPlaylist color="green" height="18" width="18" />,
       link: "Playlist",
       href: publicRuntimeConfig?.playlist,
+    },
+    {
+      icon: (
+        <MorePeople
+          width="24"
+          height="24"
+          color={darkModeEnable ? "#9eaaef" : "black"}
+        />
+      ),
+      link: "Top Sellers By  Sale",
+      href: publicRuntimeConfig?.SellersByTotalSale,
+    },
+    {
+      icon: (
+        <MorePeople
+          width="24"
+          height="24"
+          color={darkModeEnable ? "#9eaaef" : "black"}
+        />
+      ),
+      link: "Top Sellers By Revenue",
+      href: publicRuntimeConfig?.topSellersByRevenue,
     },
     {
       icon: <LogoutIcon color="red" height="18" width="18" />,

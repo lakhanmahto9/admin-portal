@@ -8,6 +8,7 @@ import { BellIcon, SettingIcon } from "../../utils/icons";
 const VideoHeader: React.FC = () => {
   const [navfix, setNavFix] = useState(false);
   const fix = useSelector((state: any) => state.fix?.fix);
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const dispatch = useDispatch();
   // const auth = useSelector((state: any) => state.auth.data?.data?.phSeller);
   const setingModal = (data: any) => {
@@ -24,9 +25,12 @@ const VideoHeader: React.FC = () => {
       <div
         className={`${
           navfix
-            ? "fixed z-50 bg-[#070a68] border rounded-2xl px-2 w-[92%] lg:w-[78%]"
+            ? `fixed z-50 ${
+                darkModeEnable ? 'bg-[#0e1a49]' : 'bg-[#070a68]'
+              } border rounded-2xl px-2 w-[92%] lg:w-[78%]`
             : "w-full"
-        }  flex justify-between items-center h-20 mt-5`}
+        } flex justify-between items-center h-20 mt-5`}
+        
       >
         <div className="text-[#fff]">
           <p>Welcome To</p>

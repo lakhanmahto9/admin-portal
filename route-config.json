@@ -6,6 +6,8 @@
     "creater": "/admin-dashboard/seller-video/creater",
     "subscribers": "/admin-dashboard/seller-video/subscribers",
     "playlist":"/admin-dashboard/seller-video/playlist",
+    "SellersByTotalSale": "/admin-dashboard/seller-video/sellers-by-total-sales",
+    "topSellersByRevenue": "/admin-dashboard/seller-video/top-sellers-by-revenues",
     "coupon":"/nft-admin/create-coupon",
     "paidUsers":"/nft-admin/paid-users",
     "sellers": "/nft-admin/sellers",
@@ -15,8 +17,7 @@
     "music": "/nft-admin/musics",
     "photograph": "/nft-admin/photography",
     "purchaseArtOrMusic": "/nft-admin/purchase-art-or-music",
-    "SellersByTotalSale": "/nft-admin/sellers-by-total-sales",
-    "topSellersByRevenue": "/nft-admin/top-sellers-by-revenues",
+    
     "topCreatorsByRevenue": "/nft-admin/top-creators-by-revenues",
     "topCreatorsByTotalSale": "/nft-admin/top-creators-by-total-sales",
     "purchasePhotography":"/nft-admin/purchase-photography",
