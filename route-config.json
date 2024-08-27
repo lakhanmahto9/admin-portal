@@ -11,17 +11,19 @@
     "artDashboard": "/admin-dashboard/seller-art/art-dashboard",
     "arts": "/admin-dashboard/seller-art/arts",
     "music": "/admin-dashboard/seller-art/musics",
+    "topCreatersByRevenue": "/admin-dashboard/seller-art/top-creaters-by-revenue",
+    "topCreatersByTotalSale": "/admin-dashboard/seller-art/top-creater-by-total-sales",
+    "buyers": "/admin-dashboard/seller-art/buyers",
+    "sellers": "/admin-dashboard/seller-art/sellers",
+    
     "coupon":"/nft-admin/create-coupon",
     "paidUsers":"/nft-admin/paid-users",
-    "sellers": "/nft-admin/sellers",
     "phsellers": "/nft-admin/photographsellers",
     "phbuyers": "/nft-admin/photographbuyers",
 
     "photograph": "/nft-admin/photography",
     "purchaseArtOrMusic": "/nft-admin/purchase-art-or-music",
     
-    "topCreatorsByRevenue": "/nft-admin/top-creators-by-revenues",
-    "topCreatorsByTotalSale": "/nft-admin/top-creators-by-total-sales",
     "purchasePhotography":"/nft-admin/purchase-photography",
     "topPhotographCreatorsBySale":"/nft-admin/top-photograph-creators-by-sales",
     "topPhotographCreatorsByRevenue":"/nft-admin/top-photograph-creators-by-revenues",

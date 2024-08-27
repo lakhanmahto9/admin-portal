@@ -11,6 +11,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import BASE_URL from "@/baseUrl";
 import { CopyRightIcon, RupeesIcon } from "@/components/utils/icons";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface ContentType {
   artName: string;
@@ -35,6 +36,7 @@ const Card: React.FC<CardProps> = ({ item }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(darkModeEnable);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -107,23 +109,32 @@ const Card: React.FC<CardProps> = ({ item }) => {
         darkModeEnable ? "bg-[#0E1A49] text-white" : "bg-white text-black"
       }`}
     >
-      {/* <IconButton
-        className="absolute top-2 right-2 z-10"
-        onClick={openModal}
-        color="error"
-      >
-        <AiOutlineDelete />
-      </IconButton> */}
       <img
         src={item.musicThumbnail}
         alt={item.artName}
         className="w-full h-[58%]"
       />
       <div className="flex flex-col mt-2">
-        <p className="font-semibold text-xl text-gray-600">{item.artName}</p>
-        <p className="font-semibold text-lg text-gray-500">{item.name}</p>
-        <span className="flex justify-between ">
-          <p className="flex items-center text-red-500">
+        <div className="flex items-center justify-between">
+          <p className="font-semibold text-xl " style={{ color: colors.text }}>
+            {item.artName}
+          </p>
+          <span className="">
+            {" "}
+            <IconButton
+              className="absolute top-2 right-2 z-10"
+              onClick={openModal}
+              color="error"
+            >
+              <AiOutlineDelete />
+            </IconButton>
+          </span>
+        </div>
+        <p className="font-semibold text-lg " style={{ color: colors.text }}>
+          By: {item.name}
+        </p>
+        <span className="flex justify-between mt-1 ">
+          <p className="flex items-center text-yellow-500">
             <RupeesIcon width="18" height="18" color="gray" />
             {item.price}
           </p>
@@ -136,7 +147,7 @@ const Card: React.FC<CardProps> = ({ item }) => {
             {item.copyright ? "Yes" : "No"}
           </p>
         </span>
-        <span className="flex gap-2">
+        {/* <span className="flex gap-2">
           <p className="font-semibold text-gray-600">Bidding</p>
           <p
             className={`ml-1 ${
@@ -145,13 +156,21 @@ const Card: React.FC<CardProps> = ({ item }) => {
           >
             {item.bidding ? "Yes" : "No"}
           </p>
-        </span>
-        <span className="flex">
-          <audio ref={audioRef} controls controlsList="nodownload">
+        </span> */}
+        <span className="flex mt-2">
+          <audio
+            ref={audioRef}
+            controls
+            controlsList="nodownload"
+            className="h-8" // This sets the width to 12rem (48 * 0.25rem)
+          >
             <source src={item.music} type="audio/mpeg" />
           </audio>
         </span>
-        <p className="text-gray-600 mt-2">{item.description}</p>
+
+        <p className="mt-2" style={{ color: colors.text }}>
+          {item.description}
+        </p>
       </div>
 
       <Modal

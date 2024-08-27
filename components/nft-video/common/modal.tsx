@@ -22,17 +22,17 @@ export const OpenModal: React.FC = () => {
           <div className="flex justify-center items-center gap-2">
             <div className="w-16 h-16 rounded-full">
               <img
-                src="/image/art.jpg"
+                src="/clogo.png"
                 alt=""
                 className="object-cover w-full h-full rounded-full"
               />
             </div>
             <div className="">
               <p className="font-semibold text-[#311f93] text-sm">
-                Lakhan Mahto
+                Admin
               </p>
               <p className="font-semibold text-[#311f93] text-sm">
-                lakhan@gmail.com
+                worldcentum@gmail.com
               </p>
             </div>
           </div>

@@ -59,7 +59,7 @@ const Music: React.FC = () => {
           filteredContents.map((item:any) => <Card item={item} key={item._id} />)
         ) : (
           <div className="w-full flex justify-center items-center mt-20">
-            <div className={`card m-4 w-72 h-72 flex flex-col rounded-lg shadow-lg overflow-hidden border relative p-2 ${darkModeEnable ? "bg-[#0E1A49] text-white" : "bg-white text-black"}`}>
+            <div className={`card m-4 w-72 h-72 flex flex-col rounded-lg shadow-lg overflow-hidden relative p-2 ${darkModeEnable ? "bg-[#0E1A49] text-white" : "bg-white text-black"}`}>
               <img src="/NoData.png" alt="No Data Found" className="w-full h-48 object-cover" />
               <div className="p-4 text-center">
                 <p className="text-xl font-semibold">No Data Found</p>

@@ -112,7 +112,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Total Seller</p>
-            <p className="text-xl font-bold">{data.totalCreatorCount}</p>
+            <p className="text-xl font-bold">{data.totalSellerCount}</p>
           </div>
           <div></div>
         </div>
@@ -129,7 +129,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Today&apos;s Seller</p>
-            <p className="text-xl font-bold">{data.todayCreatorCount}</p>
+            <p className="text-xl font-bold">{data.todaySellerCount}</p>
           </div>
           <div></div>
         </div>

@@ -1,12 +1,13 @@
+
 import React from "react";
 import ArtLayout from "@/components/nft-art-music/art-layout/art-layout";
-import { ArtMusicTransaction } from "@/components/nft-art-music/transaction/transaction";
+import TopCreatorsByTotalSale from "@/components/nft-art-music/top-creater-by-total-sales/topCreaterByTotalSales";
 
 
 const ArtDashboard: React.FC = () => {
   return (
     <ArtLayout>
-      <ArtMusicTransaction />
+      <TopCreatorsByTotalSale />
     </ArtLayout>
   );
 };

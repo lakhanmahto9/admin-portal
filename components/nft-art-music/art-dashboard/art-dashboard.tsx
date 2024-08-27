@@ -72,7 +72,7 @@ export const ArtMusicDashboard: React.FC = () => {
   const getApiToFetchTotalUserPlaylistCreator = async () => {
     try {
       const result = await dispatch<any>(fetchTotalUserPlaylistCreatorCount());
-      //   console.log(result.payload)
+        console.log(result.payload)
       if (result.payload && result.payload.data) {
         const {
           totalCreatorCount,
