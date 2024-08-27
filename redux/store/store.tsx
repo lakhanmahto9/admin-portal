@@ -10,6 +10,8 @@ import adminLogin from "../../redux/slice/adminloginSlice";
 import { apiSlice } from "../api/apiSlice";
 import sidebarNavColorSlice from "../slice/sidebarNavColorSlice";
 import navfix from "../slice/headerNavFixSlice";
+import allPhSellerSlice from "../slice/photography/AllPhSellerSlice";
+import perticularPhPhotographySellerSlice from "../slice/photography/AllPhotographySlice";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +29,15 @@ const darkTheme = persistReducer(
   darkModeSlice
 );
 
+const phseller = persistReducer(
+  { ...persistConfig, key: "phseller" },
+  allPhSellerSlice
+);
+const photography = persistReducer(
+  { ...persistConfig, key: "photography" },
+  perticularPhPhotographySellerSlice
+);
+
 const persistUser = persistReducer({ ...persistConfig, key: "user" }, userSlice);
 const nevSideColor = persistReducer({ ...persistConfig, key: "sidebarbg" }, sidebarNavColorSlice);
 const headerFix = persistReducer({ ...persistConfig, key: "fix" }, navfix);
@@ -41,6 +52,8 @@ const store = configureStore({
     user:persistUser,
     sidebarbg:nevSideColor,
     fix:headerFix,
+    phseller:phseller,
+    photography:photography,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
