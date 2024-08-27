@@ -8,6 +8,8 @@ import darkModeSlice from "../slice/darkModeSlice";
 import userSlice from "../../redux/slice/fetchAllUsersDetailSlice";
 import adminLogin from "../../redux/slice/adminloginSlice";
 import { apiSlice } from "../api/apiSlice";
+import allPhSellerSlice from "../slice/photography/AllPhSellerSlice";
+import perticularPhPhotographySellerSlice from "../slice/photography/AllPhotographySlice";
 
 const persistConfig = {
   key: "root",
@@ -25,6 +27,15 @@ const darkTheme = persistReducer(
   darkModeSlice
 );
 
+const phseller = persistReducer(
+  { ...persistConfig, key: "phseller" },
+  allPhSellerSlice
+);
+const photography = persistReducer(
+  { ...persistConfig, key: "photography" },
+  perticularPhPhotographySellerSlice
+);
+
 const persistUser = persistReducer({ ...persistConfig, key: "user" }, userSlice);
 
 const store = configureStore({
@@ -35,6 +46,8 @@ const store = configureStore({
     auth:auth,
     darkmode: darkTheme,
     user:persistUser,
+    phseller:phseller,
+    photography:photography,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

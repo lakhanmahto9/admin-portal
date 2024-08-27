@@ -85,7 +85,6 @@ export const DollerIcon: React.FC<IconData> = ({ color, width, height }) => (
   </svg>
 );
 
-
 export const AngleIcon: React.FC<IconData> = ({ width, height, color }) => {
   return (
     <svg
@@ -347,8 +346,6 @@ export const FacebookIcon: React.FC<IconData> = ({ color, height, width }) => (
   </svg>
 );
 
-
-
 export const MoonIcon: React.FC<IconData> = ({ color, height, width }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -467,7 +464,6 @@ export const EmailIcon: React.FC<IconData> = ({ color, height, width }) => (
     <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
   </svg>
 );
-
 
 export const LeftIcon: React.FC<IconData> = ({ color, height, width }) => (
   <svg
@@ -673,11 +669,7 @@ export const PinIcon: React.FC<IconData> = ({ color, height, width }) => (
   </svg>
 );
 
-export const RightAeroIcon: React.FC<IconData> = ({
-  color,
-  height,
-  width,
-}) => (
+export const RightAeroIcon: React.FC<IconData> = ({ color, height, width }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill={color}
@@ -706,4 +698,29 @@ export const PhotoIcon: React.FC<IconData> = ({ color, height, width }) => (
   </svg>
 );
 
+export const VerifyIcon: React.FC<IconData> = ({ color, height, width }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill={color}
+    width={width}
+    height={height}
+    className="bi bi-patch-check-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708" />
+  </svg>
+);
 
+export const DownloadIcon: React.FC<IconData> = ({ color, height, width }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill={color}
+    width={width}
+    height={height}
+    className="bi bi-download"
+    viewBox="0 0 16 16"
+  >
+    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+  </svg>
+);
