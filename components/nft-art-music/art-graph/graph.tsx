@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Chart } from "./chart";
-import { SalesDataItem } from "../art-dashboard/data-types";
+import { SalesDataItemTwo } from "../art-dashboard/data-types";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface GraphProps {
-    salesData: SalesDataItem[];  // Changed to an array of SalesDataItem
+    salesData: SalesDataItemTwo[];  // Changed to an array of SalesDataItem
 }
 
 export const Graph: React.FC<GraphProps> = ({ salesData }) => {

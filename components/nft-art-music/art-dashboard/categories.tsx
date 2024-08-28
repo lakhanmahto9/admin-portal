@@ -1,40 +1,48 @@
 import React from "react";
 import CategoriesTransaction from '../art-dashboard/categories-transaction'
-import { SalesDataItem } from "./data-types";
+import { SalesDataItemTwo } from "./data-types";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RightGo } from "../../utils/icons";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface Props {
-  dashboardSalesData: SalesDataItem[];
+  artSalesData: SalesDataItemTwo[];
 }
 
-const Categories: React.FC<Props> = ({ dashboardSalesData }) => {
+const Categories: React.FC<Props> = ({ artSalesData }) => {
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
   const router = useRouter();
-
+ 
   const serializeObjectToQueryString = (obj: any) => {
     return new URLSearchParams(obj).toString();
   };
 
-  const gotoTransaction = (item: SalesDataItem) => {
+  const gotoTransaction = (item: SalesDataItemTwo) => {
     const queryString = serializeObjectToQueryString(item);
-    router.push(`/seller-video/transaction?${queryString}`);
+    router.push(`/admin-dashboard/seller-art/transaction?${queryString}`);
   };
+
+  if (!Array.isArray(artSalesData)) {
+    console.error(
+      "Expected dashboardSalesData to be an array, but got:",
+      artSalesData
+    );
+    return null;
+  }
 
   return (
     <div
       className={`overflow-y-auto p-3 rounded-lg ${darkModeEnable ? "" : "shadow-lg shadow-gray-300 "}`}
       style={{ maxHeight: "400px",background:colors.cardBg,color:colors.text }}
     >
-      <h3 className={``}>
-        Categories
+      <h3 className={`font-bold`}>
+        Transaction
       </h3>
       <div>
         <div className="">
-          {dashboardSalesData.map((el, ind) => (
+          {artSalesData.map((el, ind) => (
             <div
               key={ind}
               className="flex flex-start space-y-4 mt-2 justify-between"

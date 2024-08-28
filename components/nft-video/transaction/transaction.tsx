@@ -33,7 +33,7 @@ export const TransactionAdmin: React.FC = () => {
   }, [router.isReady, router.query]);
 
   const gotoDashboard = () => {
-    router.push("/seller-video/seller-dashboard");
+    router.push("/admin-dashboard/seller-video/seller-dashboard");
   };
 
   return (

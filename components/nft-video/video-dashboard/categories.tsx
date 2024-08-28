@@ -21,7 +21,7 @@ const Categories: React.FC<Props> = ({ dashboardSalesData }) => {
 
   const gotoTransaction = (item: SalesDataItem) => {
     const queryString = serializeObjectToQueryString(item);
-    router.push(`/seller-video/transaction?${queryString}`);
+    router.push(`/admin-dashboard/seller-video/transaction?${queryString}`);
   };
 
   return (

@@ -21,6 +21,8 @@ const Art: React.FC = () => {
     refetchOnMountOrArgChange: true,
   });
 
+  console.log(data)
+
   const [visibleCardsCount, setVisibleCardsCount] = useState(20);
   const [searchQuery, setSearchQuery] = useState("");
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
