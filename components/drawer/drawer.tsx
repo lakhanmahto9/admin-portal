@@ -1,7 +1,6 @@
 import { MenuIcon } from "@/components/utils/icons";
 import { Box, Drawer } from "@mui/material";
 import React from "react";
-// import SallerSidebar from "../sidebar/saller-sidebar";
 import ArtSidebar from "../nft-art-music/art-sidebar/artSidebar";
 
 
