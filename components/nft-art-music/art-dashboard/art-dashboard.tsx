@@ -3,12 +3,13 @@ import { Card } from "../card/card";
 import { Graph } from "../art-graph/graph";
 import { useDispatch } from "react-redux";
 import { fetchTotalUserPlaylistCreatorCount } from "@/redux/slice/fetchTotalUserPlaylistCreaterSlice";
-import { SalesDataItem } from "./data-types";
+import { SalesDataItem,SalesDataItemTwo } from "./data-types";
 import { fetchSalesCourse } from "../../../redux/slice/fetchSalesCourseSlice";
 import Slider from "../slider/slider";
 import DashboardTable from "./dashboard-table";
 import Categories from "./categories";
 import { userInformation } from "@/redux/slice/fetchAllUsersDetailSlice";
+import { useGetAllArtAndMusicSalesHistoryQuery } from "@/redux/api/adminApiSlice";
 
 // import { FetchAllPhotographyBySellerSide } from "@/redux/slice/FetchAllPhotographyBySellerSildeSlice";
 export interface DashboardCardData {
@@ -30,6 +31,7 @@ export const ArtMusicDashboard: React.FC = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("access_token");
   const [salesCourse, setSalesCourse] = useState<SalesDataItem[]>([]);
+  const [salesArt, setSalesArt] = useState<SalesDataItemTwo[]>([]);
   const [cardData, setCardData] = useState<DashboardCardData>({
     totalCreatorCount: 0,
     totalPlaylistCount: 0,
@@ -118,12 +120,20 @@ export const ArtMusicDashboard: React.FC = () => {
     }
   };
 
+  const { data } = useGetAllArtAndMusicSalesHistoryQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  console.log(data?.salesData)
+  // setSalesArt(data?.salesData)
+  // console.log(salesArt)
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Card data={cardData} />
       <div className="w-full flex flex-col justify-center lg:flex-row gap-6 mt-10 pb-10">
         <div className="w-full mt-5 lg:w-3/5">
-          <Graph salesData={salesCourse} />
+          <Graph salesData={data?.salesData} />
         </div>
         <div className="w-full lg:w-2/5">
           <Slider />
@@ -132,10 +142,10 @@ export const ArtMusicDashboard: React.FC = () => {
 
       <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
         <div className="w-full lg:w-3/5">
-          <DashboardTable dashboardSalesData={salesCourse} />
+          <DashboardTable artSalesData={data?.salesData} />
         </div>
         <div className="w-[95%] lg:w-2/5">
-          <Categories dashboardSalesData={salesCourse} />
+          <Categories artSalesData={data?.salesData} />
         </div>
       </div>
     </div>

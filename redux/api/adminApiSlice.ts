@@ -232,6 +232,26 @@ export const userApiSlice = apiSlice.injectEndpoints({
         },
       }),
     }),
+
+    getAllArtAndMusic:builder.query({
+      query:() => ({
+        url: `${ADMIN_URL}/admin-fetch-all-music-and-art`,
+        method:"GET",
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+
+    getAllArtAndMusicSalesHistory:builder.query({
+      query:() => ({
+        url: `${ADMIN_URL}/admin-fetch-all-art-music-sales-history`,
+        method:"GET",
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
     
   }),
 });
@@ -261,4 +281,6 @@ export const {
   useGetPhotographyBuyersQuery,
   usePhotographyBuyersBlockUnblockMutation,
   usePurchaseHistoryOfPhotographyQuery,
+  useGetAllArtAndMusicQuery,
+  useGetAllArtAndMusicSalesHistoryQuery,
 } = userApiSlice;

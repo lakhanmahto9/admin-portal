@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {BackArrow,NextArrow} from "../../utils/icons"
+import { useGetAllArtAndMusicQuery } from "@/redux/api/adminApiSlice";
 
 interface Course {
   _id: string;
@@ -11,15 +12,38 @@ interface Course {
   thumbnail?: string; // Assuming this is the property name for the thumbnail
 }
 
+interface ArtContent {
+  _id: string;
+  artThumbnail: string;
+  musicThumbnail?: string;
+  artName: string;
+  name: string;
+  price: number;
+  description: string;
+  bidding: boolean;
+  copyright: boolean;
+}
+
 const Slider: React.FC = () => {
-//   const darkModeEnable = useSelector(selectDarkMode);
-  const courseData: Course[] = useSelector((state: any) => state?.user?.playlist) || [];
-    console.log(courseData)
+
+  const { data } = useGetAllArtAndMusicQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const arts: ArtContent[] = data?.data || [];
   const [currentIndex, setCurrentIndex] = useState(0);
-  
-  const Images = courseData.map((course: any) => course.thumbnail).filter((thumbnail: string | undefined) => thumbnail);
+
+
+  // Collect both artThumbnail and musicThumbnail
+  const Images = arts.flatMap((item: ArtContent) => {
+    const thumbnails = [];
+    if (item.artThumbnail) thumbnails.push(item.artThumbnail);
+    if (item.musicThumbnail) thumbnails.push(item.musicThumbnail);
+    return thumbnails;
+  });
+
   const totalImages = Images.length;
-  const autoAdvanceInterval = 5000; // Change this to adjust auto-advance speed
+  const autoAdvanceInterval = 5000; // Adjust auto-advance speed
 
   useEffect(() => { 
     const interval = setInterval(() => {

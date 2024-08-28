@@ -11,12 +11,12 @@ import {
 } from "recharts";
 import moment from "moment";
 import { useSelector } from "react-redux";
-import { SalesDataItem } from "../art-dashboard/data-types";
+import { SalesDataItemTwo } from "../art-dashboard/data-types";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface ChartProps {
   year: number;
-  salesData: SalesDataItem[]; // Accepting salesData as a prop
+  salesData: SalesDataItemTwo[]; // Accepting salesData as a prop
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -57,6 +57,7 @@ const CustomDot = (props: any) => {
 };
 
 export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
+  // console.log(salesData)
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
   const [filteredData, setFilteredData] = useState<any[]>([]);
@@ -108,7 +109,7 @@ export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
         <Line
           type="monotone"
           dataKey="courses"
-          name="Courses"
+          name="Art/Music"
           stroke={colors.graphDraw}
           strokeWidth={3}
           dot={<CustomDot />}
