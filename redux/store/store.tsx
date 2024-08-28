@@ -12,6 +12,8 @@ import sidebarNavColorSlice from "../slice/sidebarNavColorSlice";
 import navfix from "../slice/headerNavFixSlice";
 import allPhSellerSlice from "../slice/photography/AllPhSellerSlice";
 import perticularPhPhotographySellerSlice from "../slice/photography/AllPhotographySlice";
+import PhSellerProfileSlice from "../slice/photography/PhSellerProfile";
+import OpenModalSlice from "../slice/photography/OpenModalSlice";
 
 const persistConfig = {
   key: "root",
@@ -32,6 +34,14 @@ const darkTheme = persistReducer(
 const phseller = persistReducer(
   { ...persistConfig, key: "phseller" },
   allPhSellerSlice
+);
+const phprofile = persistReducer(
+  { ...persistConfig, key: "phprofile" },
+  PhSellerProfileSlice
+);
+const openDialog = persistReducer(
+  { ...persistConfig, key: "dialog" },
+  OpenModalSlice
 );
 const photography = persistReducer(
   { ...persistConfig, key: "photography" },
@@ -54,6 +64,8 @@ const store = configureStore({
     fix:headerFix,
     phseller:phseller,
     photography:photography,
+    phprofile:phprofile,
+    dialog:openDialog,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
