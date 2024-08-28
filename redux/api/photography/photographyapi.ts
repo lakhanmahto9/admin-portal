@@ -16,3 +16,27 @@ export const allphotographyapi = (payload:any) => {
     },
   });
 };
+
+export const phsellerprofileapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/perticular-phseller-profile`,payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const phsellerverifyapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/perticular-phseller-verify`,payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const phsellerblockapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/perticular-phseller-block`, payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
