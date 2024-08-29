@@ -15,7 +15,7 @@ export const Home: React.FC = () => {
       router.push("/seller-art/seller-dashboard");
     }
   };
-  
+
   return (
     <div className="w-full h-screen bg-[#20364b] pl-10 pr-5 py-7">
       <div className="flex justify-between">
@@ -82,13 +82,14 @@ export const Home: React.FC = () => {
             CENTUMO NFT Marketplace
           </p>
           <p className="text-slate-100">
-            "Non-Fungible Tokens (NFTs) are revolutionizing the way digital
+            &quot;Non-Fungible Tokens (NFTs) are revolutionizing the way digital
             assets like photography, educational content, and e-commerce
             products are created, owned, and traded. In the realm of digital
             photography, NFTs empower photographers to authenticate and sell
             their work in a secure, decentralized marketplace, ensuring that
-            each piece is unique and verifiably owned.
+            each piece is unique and verifiably owned.&quot;
           </p>
+
           <div className="flex w-full">
             <div className="flex flex-col gap-3 w-1/2">
               <div
@@ -99,7 +100,9 @@ export const Home: React.FC = () => {
                 <p className="text-lg font-semibold text-[#fff]">Tutorial</p>
               </div>
               <div
-                onClick={() => dispatch(openCredential("Digital Art and Music"))}
+                onClick={() =>
+                  dispatch(openCredential("Digital Art and Music"))
+                }
                 // id="bg-div"
                 className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
@@ -128,7 +131,9 @@ export const Home: React.FC = () => {
             <div className="w-1/2 flex flex-col justify-center items-center">
               <div>
                 <p className="text-lg text-slate-100">Total Amount</p>
-                <p className="text-6xl font-bold text-[#fff]" id="textshadow">$99,990</p>
+                <p className="text-6xl font-bold text-[#fff]" id="textshadow">
+                  $99,990
+                </p>
               </div>
             </div>
           </div>

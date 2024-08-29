@@ -1,5 +1,5 @@
 {
-    "login": "/nft-admin/signin",
+    "login": "/",
     "dashboard": "/admin-dashboard/seller-video/seller-dashboard",
     "profile": "nft-admin/profile",
     "users": "/admin-dashboard/seller-video/users",

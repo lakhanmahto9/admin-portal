@@ -57,7 +57,7 @@ export const PhotographList: React.FC = () => {
       </div>
       <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
         {photography.map((item: any, index: number) => (
-          <div className="w-[32%] h-96 rounded-2xl border border-[#ccc]">
+          <div key={item._id || index} className="w-[32%] h-96 rounded-2xl border border-[#ccc]">
             <div className="w-full h-[16%] bg-[#025f92] rounded-t-2xl flex justify-start items-center gap-2 px-2 py-1">
               <div>
                 <img
