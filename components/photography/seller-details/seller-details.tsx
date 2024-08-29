@@ -39,6 +39,10 @@ export const PhotographySellerDetails: React.FC = () => {
   const sellerProfile = (item: any) => {
     router.push(`/admin-dashboard/seller-photography/profile/${item._id}`);
   };
+
+  const phbuyer = (item: any) => {
+    router.push(`/admin-dashboard/seller-photography/phbuyer/${item._id}`);
+  };
   return (
     <>
       <div className={`w-full h-[83vh]  bg-[#fff] rounded-xl`}>
@@ -92,7 +96,7 @@ export const PhotographySellerDetails: React.FC = () => {
                   >
                     <p className="text-[#fff]">Photography</p>
                   </div>
-                  <div className="w-1/2 bg-[#025f92] cursor-pointer rounded-lg flex justify-center items-center">
+                  <div onClick={()=> phbuyer(item)} className="w-1/2 bg-[#025f92] cursor-pointer rounded-lg flex justify-center items-center">
                     <p className="text-[#fff]">Buyer</p>
                   </div>
                 </div>
