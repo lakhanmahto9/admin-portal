@@ -12,11 +12,11 @@ const Music: React.FC = () => {
   const router = useRouter();
 
   if (isLoading) {
-    return <div className={`mt-20 ml-3  ${darkModeEnable ? "text-white" : "text-black"}`}>Loading...</div>;
+    return <div className={`mt-20 ml-3  ${darkModeEnable ? "text-white" : "text-white"}`}>Loading...</div>;
   }
 
   if (error) {
-    return <div className={`mt-20 ml-3 ${darkModeEnable ? "text-white" : "text-black"}`}>Error fetching data</div>;
+    return <div className={`mt-20 ml-3 ${darkModeEnable ? "text-white" : "text-white"}`}>Error fetching data</div>;
   }
 
   const contents = data?.data?.musics || [];

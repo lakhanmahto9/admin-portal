@@ -22,7 +22,7 @@ const PlaylistVideosPage: React.FC = () => {
     console.log("Data has changed:", data);
   }, [id]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p className="">Loading...</p>;
   if (error) return <p>Error loading playlist</p>;
 
   return (

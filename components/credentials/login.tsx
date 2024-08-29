@@ -44,6 +44,9 @@ export const Login: React.FC = () => {
         }else if(type === "Digital photography"){
           router.push("/admin-dashboard/seller-photography/photography-dashboard")
         }
+        else if(type === "Digital Art and Music"){
+          router.push("/admin-dashboard/seller-art/art-dashboard")
+        }
        }
     } catch (error) {
       console.log(error)

@@ -110,7 +110,7 @@ export const ArtMusicDashboard: React.FC = () => {
   const callApiToFetchSalesCourses = async () => {
     try {
       const result = await dispatch<any>(fetchSalesCourse({}));
-      console.log(result.payload.data);
+      // console.log(result.payload.data);
       if (result.payload && result.payload.data) {
         const salesData: SalesDataItem[] = result.payload.data.courses; // Assuming the courses are in result.payload.data.courses
         setSalesCourse(salesData);
@@ -124,9 +124,17 @@ export const ArtMusicDashboard: React.FC = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  console.log(data?.salesData)
+  // console.log(data?.salesData)
   // setSalesArt(data?.salesData)
   // console.log(salesArt)
+
+  if (!Array.isArray(data?.salesData)) {
+    console.error(
+      "Expected dashboardSalesData to be an array, but got:",
+      data?.salesData
+    );
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center">

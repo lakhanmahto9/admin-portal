@@ -174,7 +174,7 @@ export const BackArrow: React.FC<StarProps> = ({ color, width, height }) => (
     viewBox="0 0 16 16"
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
     />
   </svg>
@@ -190,7 +190,7 @@ export const NextArrow: React.FC<StarProps> = ({ color, width, height }) => (
     viewBox="0 0 16 16"
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
     />
   </svg>
@@ -230,7 +230,7 @@ export const ArrowLeftIcon: React.FC<StarProps> = ({
     viewBox="0 0 16 16"
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
     />
   </svg>
@@ -316,7 +316,7 @@ export const MusicIcon: React.FC<StarProps> = ({ color, width, height }) => (
     viewBox="0 0 16 16"
   >
     <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13s1.12-2 2.5-2 2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2" />
-    <path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z" />
+    <path fillRule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z" />
     <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z" />
   </svg>
 );

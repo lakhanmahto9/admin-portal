@@ -59,7 +59,7 @@ const TopCreatorsByTotalSale: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-white">Loading...</div>;
   }
 
   const handleNavigate = () => {
