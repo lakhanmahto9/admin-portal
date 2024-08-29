@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { DisabledNotification } from "@/redux/slice/disabledNotificationSlice";
 import { fetchSalesCourse } from "@/redux/slice/fetchSalesCourseSlice";
+import moment from 'moment';
 
 interface SaleCourse {
   seen: boolean;
@@ -18,18 +19,31 @@ interface SaleCourse {
 
 export const AdminNotification: React.FC = () => {
   const saleData = useSelector((state: any) => state?.user?.sale) || [];
+  const artAndMusicSalesData =
+    useSelector((state: any) => state?.user?.artAndMusicSales) || [];
+  const type = useSelector((state: any) => state.open.type);
+  console.log(artAndMusicSalesData);
   const darkModeEnabled = useSelector((state: any) => state.darkmode.dark);
   //   const sidebarMode = useSelector((state: any) => state.sidebarMode.isEnabled);
   const [saleNumber, setSaleNumber] = useState(0);
+  const [saleArtMusicNumber, setSaleArtMusicNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (saleData?.length > 0) {
+    if (type === "Tutorial" && saleData?.length > 0) {
       const data = saleData.filter((item: any) => item.seen === true);
       setSaleNumber(data.length);
+    } else if (
+      type === "Digital Art and Music" &&
+      artAndMusicSalesData?.length > 0
+    ) {
+      const data = artAndMusicSalesData.filter(
+        (item: any) => item.seen === true
+      );
+      setSaleNumber(data.length);
     }
-  }, [saleData]);
+  }, [type, saleData, artAndMusicSalesData]);
 
   const openNotificationModal = () => {
     setOpen(!open);
@@ -42,13 +56,13 @@ export const AdminNotification: React.FC = () => {
         !modalRef.current.contains(event.target as Node)
       ) {
         setOpen(false);
-        const result = await dispatch<any>(DisabledNotification());
-        if (result?.payload?.status) {
-          let data = {
-            id: localStorage.getItem("creatorId"),
-          };
-          const result = await dispatch<any>(fetchSalesCourse(data));
-        }
+        // const result = await dispatch<any>(DisabledNotification());
+        // if (result?.payload?.status) {
+        //   let data = {
+        //     id: localStorage.getItem("creatorId"),
+        //   };
+        //   const result = await dispatch<any>(fetchSalesCourse(data));
+        // }
       }
     } catch (error) {
       console.log(error);
@@ -66,7 +80,7 @@ export const AdminNotification: React.FC = () => {
     <div>
       <Tooltip title="Notification">
         <Badge
-          badgeContent={saleNumber}
+          // badgeContent={saleNumber}
           color="secondary"
           onClick={openNotificationModal}
         >
@@ -96,8 +110,8 @@ export const AdminNotification: React.FC = () => {
                 </p>
               </div>
               <div className="overflow-y-auto h-[calc(100%-3.5rem)]">
-                {saleData
-                  .slice()
+                {(type === "Tutorial" ? saleData : artAndMusicSalesData)
+                  ?.slice()
                   .reverse()
                   .map((item: any, index: number) => (
                     <div
@@ -105,7 +119,7 @@ export const AdminNotification: React.FC = () => {
                         darkModeEnabled
                           ? "hover:bg-[#051139]"
                           : "hover:bg-[#f0f0f0]"
-                      }  ${item.seen ? "bg-green-700" : ""}`}
+                      }  ${item.seen ? "" : ""}`}
                       key={index}
                     >
                       <div className="flex gap-1 w-full">
@@ -114,11 +128,25 @@ export const AdminNotification: React.FC = () => {
                             darkModeEnabled ? "text-white" : "text-black"
                           }`}
                         >
-                          {item.title} is purchased by {item.userName}
+                          {type === "Tutorial" ? (
+                            <>
+                              <strong>{item.title}</strong> is purchased by{" "}
+                              {item.userName}
+                            </>
+                          ) : (
+                            <>
+                              <strong>{item.artName}</strong> is purchased by{" "}
+                              {item.name}
+                            </>
+                          )}
                         </p>
                         <div className="w-1/4">
                           <img
-                            src={item.thumbnail}
+                            src={
+                              type === "Tutorial"
+                                ? item.thumbnail
+                                : item.artThumbnail || item.musicThumbnail
+                            }
                             alt=""
                             className="rounded-lg"
                           />
@@ -135,10 +163,10 @@ export const AdminNotification: React.FC = () => {
                         </p>
                         <p
                           className={
-                            darkModeEnabled ? "text-gray-400" : "text-gray-600"
+                            darkModeEnabled ? "text-gray-400" : "text-orange-500"
                           }
                         >
-                          {/* <TimeAgo dateString={item.createdAt} /> */}
+                         {moment(item.createdAt).format("DD MMM YYYY, HH:mm")}
                         </p>
                       </div>
                     </div>

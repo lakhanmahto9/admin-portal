@@ -129,81 +129,86 @@ const Subscribers: React.FC = () => {
             </tr>
           </thead>
           {filteredUsers.length > 0 ? (
-          <tbody>
-            {currentUsers.map((user) => (
-              <tr
-                key={user._id}
-                className={`border-b dark:border-gray-700 ${
-                  darkModeEnabled ? "bg-[#0E1A49]" : "bg-gray-100 text-gray-700"
-                }`}
-              >
-                <td
-                  className={`px-6 py-4 font-medium whitespace-nowrap ${
-                    darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+            <tbody>
+              {currentUsers.map((user) => (
+                <tr
+                  key={user._id}
+                  className={`border-b dark:border-gray-700 ${
+                    darkModeEnabled
+                      ? "bg-[#0E1A49]"
+                      : "bg-gray-100 text-gray-700"
                   }`}
                 >
-                  {user.name}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.email}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.courseName}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.purchaseDate
-                    ? new Date(user.purchaseDate).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })
-                    : "-"}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                  }`}
-                >
-                  {user.price
-                    ? user.price.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "INR",
-                      })
-                    : "-"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        ) : (
+                  <td
+                    className={`px-6 py-4 font-medium whitespace-nowrap ${
+                      darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.name}
+                  </td>
+                  <td
+                    className={`px-6 py-4 ${
+                      darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.email}
+                  </td>
+                  <td
+                    className={`px-6 py-4 ${
+                      darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.courseName}
+                  </td>
+                  <td
+                    className={`px-6 py-4 ${
+                      darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.purchaseDate
+                      ? new Date(user.purchaseDate).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )
+                      : "-"}
+                  </td>
+                  <td
+                    className={`px-6 py-4 ${
+                      darkModeEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                    }`}
+                  >
+                    {user.price
+                      ? user.price.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "INR",
+                        })
+                      : "-"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          ) : (
             <tr>
-            <td colSpan={9} className="text-center py-6">
-              <img
-                src={NoDataImage.src}
-                alt="No Data Found"
-                className="mx-auto mb-4"
-                style={{ width: "300px", height: "300px" }}
-              />
-              <p
-                className={`text-lg ${
-                  darkModeEnabled ? "text-gray-300" : "text-gray-500"
-                }`}
-              >
-                No data found
-              </p>
-            </td>
-          </tr>
+              <td colSpan={9} className="text-center py-6">
+                <img
+                  src={NoDataImage.src}
+                  alt="No Data Found"
+                  className="mx-auto mb-4"
+                  style={{ width: "300px", height: "300px" }}
+                />
+                <p
+                  className={`text-lg ${
+                    darkModeEnabled ? "text-gray-300" : "text-gray-500"
+                  }`}
+                >
+                  No data found
+                </p>
+              </td>
+            </tr>
           )}
         </table>
         <nav
@@ -241,7 +246,7 @@ const Subscribers: React.FC = () => {
                 className={`flex items-center justify-center px-3 h-8 leading-tight ${
                   darkModeEnabled
                     ? "text-white bg-[#423FD3] hover:bg-[#280f96]"
-                    : "text-blue-600  hover:bg-blue-100 hover:text-blue-700"
+                    : "text-blue-600 hover:bg-blue-100 hover:text-blue-700"
                 }`}
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
@@ -256,10 +261,10 @@ const Subscribers: React.FC = () => {
                     currentPage === index + 1
                       ? darkModeEnabled
                         ? "text-white bg-[#423FD3] hover:bg-[#280f96]"
-                        : "text-blue-600  hover:bg-blue-100 hover:text-blue-700"
+                        : "text-blue-600 hover:bg-blue-100 hover:text-blue-700"
                       : darkModeEnabled
                       ? "text-gray-400 bg-blue-800 hover:bg-[#280f96] hover:text-white"
-                      : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                      : "text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   }`}
                   onClick={() => paginate(index + 1)}
                 >
@@ -272,7 +277,7 @@ const Subscribers: React.FC = () => {
                 className={`flex items-center justify-center px-3 h-8 leading-tight ${
                   darkModeEnabled
                     ? "text-white bg-[#423FD3] hover:bg-[#280f96]"
-                    : "text-blue-600  hover:bg-blue-100 hover:text-blue-700"
+                    : "text-blue-600 hover:bg-blue-100 hover:text-blue-700"
                 }`}
                 onClick={() =>
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))

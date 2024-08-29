@@ -38,7 +38,7 @@ const ArtHeader: React.FC = () => {
           <p>Art & Music Portal</p>
         </div>
         <div className="flex gap-4">
-          <div className="block lg:hidden"> <Drawerpage /></div>
+          <div className="block lg:hidden cursor-pointer"> <Drawerpage /></div>
           <div onClick={setingModal}>
             {" "}
             <SettingIcon color="white" height="20" width="20" />

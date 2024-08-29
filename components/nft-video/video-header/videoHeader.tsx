@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { Drawerpage } from "../drawer/drawer";
+import { Drawerpage } from "../../drawer/drawer";
 import { setModal } from "../../../redux/slice/openModal";
 import { useDispatch } from "react-redux";
 import { BellIcon, SettingIcon } from "../../utils/icons";
+import { AdminNotification } from "@/components/notification/admin-notification";
 
 const VideoHeader: React.FC = () => {
   const [navfix, setNavFix] = useState(false);
@@ -14,9 +15,9 @@ const VideoHeader: React.FC = () => {
   const setingModal = (data: any) => {
     dispatch(setModal({ open: true, type: "setting" }));
   };
-  const openNotificaion = () => {
-    // dispatch(setModal({ open: true, type: "notification" }));
-  };
+  // const openNotificaion = () => {
+  //   dispatch(setModal({ open: true, type: "notification" }));
+  // };
   useEffect(() => {
     setNavFix(fix);
   }, [fix]);
@@ -37,14 +38,14 @@ const VideoHeader: React.FC = () => {
           <p>Tutorial Portal</p>
         </div>
         <div className="flex gap-4">
-          <div className="block lg:hidden">{/* <Drawerpage /> */}</div>
+          <div className="block lg:hidden cursor-pointer"><Drawerpage /></div>
           <div onClick={setingModal}>
             {" "}
             <SettingIcon color="white" height="20" width="20" />
           </div>
-          <div onClick={openNotificaion}>
-            <BellIcon color="#fff" height="20" width="20" />
-          </div>
+          <div className="cursor-pointer">
+          <AdminNotification/>
+        </div>
         </div>
       </div>
     </div>

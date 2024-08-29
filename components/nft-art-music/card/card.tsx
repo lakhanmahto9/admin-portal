@@ -1,20 +1,28 @@
 import { PhotoIcon } from "../../utils/icons";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { DashboardCardData } from "../art-dashboard/art-dashboard";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import { fetchCountTotalTodaysArtAndMusic } from "@/redux/slice/fetchTotalTodaysArtAndMusicSlice";
 
 interface CardProps {
   data: DashboardCardData;
 }
 
+interface ArtAndMusicCount {
+  totalArtMusic: number;
+  todayArtMusic: number;
+}
+
 export const Card: React.FC<CardProps> = ({ data }) => {
+  const [countArtAndMusic, setCountArtAndMusic] = useState<ArtAndMusicCount>({
+    totalArtMusic: 0,
+    todayArtMusic: 0,
+  });
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
-  //   const data = useSelector(
-  //     (state: any) => state.sellerphotography?.data?.photography || []
-  //   );
-  //   const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
+  const dispatch = useDispatch();
+ 
   const [info, setInfo] = useState({
     totalPhotography: 0,
     totalBuyer: 0,
@@ -23,37 +31,14 @@ export const Card: React.FC<CardProps> = ({ data }) => {
   });
 
   useEffect(() => {
-    // callFilterFunction();
+    callToFetchCountOfTotalTodaysArtAndMusic();
   }, []);
 
-  //   const callFilterFunction = () => {
-  //     if (mysale.length > 0) {
-  //       const totalRev = mysale.reduce((total: number, data: any) => {
-  //         return total + data.price;
-  //       }, 0);
+  const callToFetchCountOfTotalTodaysArtAndMusic = async () => {
+    const result = await dispatch<any>(fetchCountTotalTodaysArtAndMusic({}));
+    setCountArtAndMusic(result?.payload);
+  };
 
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         totalRevenue: totalRev,
-  //       }));
-  //       const currentDate = new Date();
-  //       const filterSale = mysale.filter((item: any) => {
-  //         const itemDate = new Date(item.createdAt);
-  //         return (
-  //           itemDate.getFullYear() === currentDate.getFullYear() &&
-  //           itemDate.getMonth() === currentDate.getMonth() &&
-  //           itemDate.getDate() === currentDate.getDate()
-  //         );
-  //       });
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         todayRevenue: filterSale.reduce(
-  //           (acc: number, data: any) => (acc = acc + data.price),
-  //           0
-  //         ),
-  //       }));
-  //     }
-  //   };
   const cardStyle = {
     backgroundColor: colors.cardBg,
     // border: `1px solid ${darkModeEnable ? "#3C4E6D" : "gray"}`,
@@ -146,7 +131,9 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Today&apos;s Art & Music</p>
-            <p className="text-xl font-bold">{data.todayPlaylistCount}</p>
+            <p className="text-xl font-bold">
+              {countArtAndMusic.todayArtMusic}
+            </p>
           </div>
           <div></div>
         </div>
@@ -162,7 +149,9 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Total Art & Music</p>
-            <p className="text-xl font-bold">{data.totalPlaylistCount}</p>
+            <p className="text-xl font-bold">
+              {countArtAndMusic.totalArtMusic}
+            </p>
           </div>
           <div></div>
         </div>

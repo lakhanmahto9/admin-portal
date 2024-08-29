@@ -21,6 +21,7 @@ const initialState = {
   user: null as any,
   creator: null as any,
   sale: null as any,
+  artAndMusicSales:null as any,
   playlist : null as any,
   buyer : null as any,
   seller : null as any,
@@ -44,6 +45,7 @@ const userInformationSlice = createSlice({
         state.creator = action.payload.totalCrator;
         state.user = action.payload.totalUser;
         state.sale = action.payload.sale;
+        state.artAndMusicSales = action?.payload?.artAndMusicSales;
         state.playlist = action.payload.totalPlaylist;
         state.seller = action.payload.totalSeller;
         state.buyer = action.payload.totalBuyer

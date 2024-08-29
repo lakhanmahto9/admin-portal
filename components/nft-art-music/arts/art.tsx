@@ -21,7 +21,7 @@ const Art: React.FC = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  console.log(data)
+  // console.log(data)
 
   const [visibleCardsCount, setVisibleCardsCount] = useState(20);
   const [searchQuery, setSearchQuery] = useState("");
