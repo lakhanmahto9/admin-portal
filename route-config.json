@@ -28,7 +28,8 @@
     "topPhotographCreatorsBySale":"/nft-admin/top-photograph-creators-by-sales",
     "topPhotographCreatorsByRevenue":"/nft-admin/top-photograph-creators-by-revenues",
     "disgitalphotographydashboard":"/admin-dashboard/seller-photography/photography-dashboard",
-    "photographysellerdetails":"/admin-dashboard/seller-photography/photography-seller-details"
+    "photographysellerdetails":"/admin-dashboard/seller-photography/photography-seller-details",
+    "photographybuyerdetails":"/admin-dashboard/seller-photography/photography-buyer-details"
 
   }
   

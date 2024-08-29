@@ -38,6 +38,11 @@ import {
         href: publicRuntimeConfig?.photographysellerdetails,
       },
       {
+        icon: <UserIcon color="red" height="18" width="18" />,
+        link: "Buyer Details",
+        href: publicRuntimeConfig?.photographybuyerdetails,
+      },
+      {
         icon: <LogoutIcon color="red" height="18" width="18" />,
         link: "Logout",
         href: publicRuntimeConfig?.login,
