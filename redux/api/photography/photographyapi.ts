@@ -40,3 +40,18 @@ export const phsellerblockapi = (payload:any) => {
     },
   });
 };
+export const allphbuyeapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/all-ph-buyer`, payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const buyerprofileapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/buyer-profile`, payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
