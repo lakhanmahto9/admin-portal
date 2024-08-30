@@ -136,9 +136,9 @@ export const BuyerProfile: React.FC = () => {
             </div>
             <div
               onClick={() =>
-                dispatch(setDialog({ open: true, type: "veryfy", id: profile1?._id }))
+                dispatch(setDialog({ open: true, type: "buyerverify", id: id }))
               }
-              className="mt-8 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2"
+              className="mt-4 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2"
             >
               <p className="text-white">Verify</p>
             </div>

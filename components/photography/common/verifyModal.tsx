@@ -18,6 +18,9 @@ export const VerifyModal: React.FC = () => {
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
         await dispatch<any>(phsellerProile({ sellerId:  open.id }));
+      }else{
+        dispatch(removeDialog({ open: false, type: ""}));
+        toast.warn("User not found!")
       }
     } catch (error) {
       console.log(error);

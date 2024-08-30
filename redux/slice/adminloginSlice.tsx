@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { adminloginapi } from "../api/adminlogin";
 import { toast } from "react-toastify";
+import { adminloginapi } from "../api/adminLogin";
 
 export const adminLogin = createAsyncThunk(
   "auth",
