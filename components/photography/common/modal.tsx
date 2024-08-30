@@ -3,6 +3,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { VerifyModal } from "./verifyModal";
 import { BlockModal } from "./block";
+import { UserblockModal } from "./UserblockModal";
+import { BuyerVerifyModal } from "./buyerVerifyModal";
 
 export const DialogModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
@@ -15,6 +17,8 @@ export const DialogModal: React.FC = () => {
       <div>
         {open.type === "veryfy"&&<VerifyModal />}
         {open.type === "block"&&<BlockModal />}
+        {open.type === "userblock"&&<UserblockModal />}
+        {open.type === "buyerverify"&&<BuyerVerifyModal />}
         
       </div>
     </Dialog>

@@ -16,6 +16,7 @@ import PhSellerProfileSlice from "../slice/photography/PhSellerProfile";
 import OpenModalSlice from "../slice/photography/OpenModalSlice";
 import allPhBuyerSlice from "../slice/photography/AllPhBuyerSlice";
 import BuyerProfileSlice from "../slice/photography/BuyerProfileSlice";
+import allBuyerSlice from "../slice/photography/AllBuyerSlice";
 
 const persistConfig = {
   key: "root",
@@ -55,6 +56,11 @@ const phbuyer = persistReducer(
   allPhBuyerSlice
 );
 
+const buyer = persistReducer(
+  { ...persistConfig, key: "buyer" },
+  allBuyerSlice
+);
+
 const buyerprofile = persistReducer(
   { ...persistConfig, key: "buyerprofile" },
   BuyerProfileSlice
@@ -80,6 +86,7 @@ const store = configureStore({
     dialog:openDialog,
     phbuyer:phbuyer,
     buyerprofile:buyerprofile,
+    buyer:buyer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

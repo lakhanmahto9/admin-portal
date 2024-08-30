@@ -55,3 +55,27 @@ export const buyerprofileapi = (payload:any) => {
     },
   });
 };
+
+export const allbuyerapi = () => {
+  return axios.get(`${BASE_URL}/admin/all-buyer`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const phbuyerblockapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/perticular-phbuyer-block`, payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const phbuyerverifyapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/perticular-phbuyer-verify`,payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
