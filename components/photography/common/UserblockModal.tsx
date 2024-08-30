@@ -1,25 +1,29 @@
 import { CrossIcon } from "@/public/icons/icons";
-import { getAllSeller } from "@/redux/slice/photography/AllPhSellerSlice";
+import { AllBuyer } from "@/redux/slice/photography/AllBuyerSlice";
 import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
-import { phsellerBlockProile } from "@/redux/slice/photography/blockSlice";
-import React from "react";
+import { phbuyerBlockProile } from "@/redux/slice/photography/userBlockSlice";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-export const BlockModal: React.FC = () => {
+export const UserblockModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
+  const [spin, setSpin] = useState(false);
   const dispatch = useDispatch();
   const handleBlock = async () => {
     try {
+    setSpin(true);
       const result = await dispatch<any>(
-        phsellerBlockProile({ sellerId: open.id })
+        phbuyerBlockProile({ buyerId: open.id })
       );
       if (result.payload?.success) {
+        setSpin(false);
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
-        await dispatch<any>(getAllSeller());
+        await dispatch<any>(AllBuyer());
       }
     } catch (error) {
+        setSpin(false);
       console.log(error);
     }
   };
@@ -37,7 +41,7 @@ export const BlockModal: React.FC = () => {
         </p>
       </div>
       <div className="mt-5 px-5">
-        <p className="text-md text-[#fff]">
+        <p className=" text-[#fff]">
           Are you sure, want to {open.block? "unblock":"block"} this user?
         </p>
       </div>
@@ -46,7 +50,8 @@ export const BlockModal: React.FC = () => {
           onClick={handleBlock}
           className="flex justify-center items-center cursor-pointer text-white w-28 h-12 border rounded-md"
         >
-         {open.block?"Unblock":"Block"}
+            {spin?"Wait...":open.block?"Unblock":"Block"}
+         
         </div>
       </div>
     </div>
