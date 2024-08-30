@@ -29,7 +29,7 @@ const DashboardTable: React.FC<Props> = ({ dashboardSalesData }) => {
       <h2
         className={`p-4 font-bold text-base `}
       >
-        Sales by Country
+        Sales
       </h2>
       <table className="min-w-full divide-y divide-gray-200">
         <thead

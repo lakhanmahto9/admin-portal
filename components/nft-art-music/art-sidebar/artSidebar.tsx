@@ -14,18 +14,29 @@ import {
 import React, { useEffect, useState } from "react";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import { artMusicAndVideoRevenue } from "@/redux/slice/fetchArtMusicAndVideoRevenueSlice";
+
+interface artMusicAndVideoData {
+  totalRevenueforArtMusic: number;
+  totalRevenue: number;
+}
 
 const { publicRuntimeConfig } = getConfig();
 const ArtSidebar: React.FC = () => {
+  const [artMusicAndVideoRevenueData, SetArtMusicAndVideoRevenueData] =
+    useState<artMusicAndVideoData>({
+      totalRevenueforArtMusic: 0,
+      totalRevenue: 0,
+    });
   const router = useRouter();
+  const dispatch = useDispatch();
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
   const [total, setTotal] = useState(0);
   const sidenavcolor = useSelector((state: any) => state.sidebarbg.color);
-
-  // const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
+  
   const [info, setInfo] = useState({
     totalRevenue: 0,
   });
@@ -94,21 +105,14 @@ const ArtSidebar: React.FC = () => {
   };
 
   useEffect(() => {
-    // callFilterFunction();
+    callToFetchArtMusicAndVideoRevenue();
   }, []);
 
-  // const callFilterFunction = () => {
-  //   if (mysale.length > 0) {
-  //     const totalRev = mysale.reduce((total: number, data: any) => {
-  //       return total + data.price;
-  //     }, 0);
-
-  //     setInfo((prev) => ({
-  //       ...prev,
-  //       totalRevenue: totalRev,
-  //     }));
-  //   }
-  // };
+  const callToFetchArtMusicAndVideoRevenue = async () => {
+    const result = await dispatch<any>(artMusicAndVideoRevenue());
+    console.log(result.payload.totalRevenue);
+    SetArtMusicAndVideoRevenueData(result?.payload);
+  };
 
   return (
     <div className="w-full h-full px-5 py-3 lg:py-5">
@@ -173,14 +177,14 @@ const ArtSidebar: React.FC = () => {
           <div className="flex flex-col justify-center items-center">
             <img src="/wallet.svg" alt="wallet" className="w-12 h-12" />
             <p
-              className={`text-sm font-semibold ${
+              className={` font-bold ${
                 darkModeEnable ? "text-[#5E72E4]" : "text-[#140e69]"
               }`}
             >
-              ₹{info.totalRevenue}
+              ₹{artMusicAndVideoRevenueData.totalRevenueforArtMusic}
             </p>
             <p className="text-sm font-semibold" style={{ color: colors.text }}>
-              Wallet Amount
+              Total Revenue
             </p>
           </div>
           <div className="w-full flex flex-col gap-2">

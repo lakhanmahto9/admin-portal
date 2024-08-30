@@ -29,8 +29,8 @@ const Categories: React.FC<Props> = ({ dashboardSalesData }) => {
       className={`overflow-y-auto p-3 rounded-lg ${darkModeEnable ? "" : "shadow-lg shadow-gray-300 "}`}
       style={{ maxHeight: "400px",background:colors.cardBg,color:colors.text }}
     >
-      <h3 className={``}>
-        Categories
+      <h3 className={`font-bold`}>
+        Transaction
       </h3>
       <div>
         <div className="">

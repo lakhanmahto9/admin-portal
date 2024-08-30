@@ -33,3 +33,11 @@ export const fetchTotalTodaysArtAndMusicApi = () => {
     },
   });
 };
+
+export const fetchArtMusicAndVideoRevenueApi = () => {
+  return axios.get(`${BASE_URL}/admin/total-revenue-of-video-and-art-music`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
