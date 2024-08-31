@@ -60,7 +60,7 @@ export const Login: React.FC = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <div className="w-96 h-96 bg-[#20364b] p-4 rounded-sm">
+        <div className="w-[80vw] md:w-96 h-96 bg-[#20364b] p-4 rounded-sm">
           <div className="">
             <div className="flex justify-between items-baseline">
               <p className="text-2xl text-[#ddba4c]">Sign In</p>
