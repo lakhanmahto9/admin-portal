@@ -87,3 +87,25 @@
     #220d91 100%
   );
 }
+#bg-round {
+  background: #ce2e0b;
+  background: -moz-linear-gradient(left, #ce2e0b 0%, #49a41f 50%, #3925c5 100%);
+  background: -webkit-linear-gradient(
+    left,
+    #ce2e0b 0%,
+    #49a41f 50%,
+    #3925c5 100%
+  );
+  background: linear-gradient(to right, #ce2e0b 0%, #49a41f 50%, #3925c5 100%);
+  animation: rotateBackground 1s linear infinite;
+  box-shadow:0 0 2px 3px;
+}
+
+@keyframes rotateBackground {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

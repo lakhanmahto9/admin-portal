@@ -17,13 +17,13 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-[#20364b] pl-10 pr-5 py-7">
-      <div className="flex justify-between">
+    <div className="w-full h-auto sm:h-screen bg-[#20364b] p-4 sm:pl-10 sm:pr-5 sm:py-7">
+      <div className="flex justify-between h-[10%]">
         <div className="">
-          <p className="text-slate-100 text-2xl">Creative</p>
-          <p className="text-[#ddba4c] font-semibold text-2xl">Marketing</p>
+          <p className="text-slate-100 text-xl sm:text-2xl">Creative</p>
+          <p className="text-[#ddba4c] font-semibold text-xl sm:text-2xl">Marketing</p>
         </div>
-        <div className="flex gap-2 h-10">
+        <div className="gap-2 h-10 hidden sm:flex ">
           <p
             onClick={() => setActiveTab("Tutorial")}
             className={`px-4 py-2 cursor-pointer ${
@@ -65,7 +65,6 @@ export const Home: React.FC = () => {
             E-Commerce
           </p>
           <div
-            // id="bg-div"
             className="w-20 h-10 rounded-full"
             onClick={() => dispatch(openCredential(activeTab))}
           >
@@ -74,11 +73,19 @@ export const Home: React.FC = () => {
             </p>
           </div>
         </div>
+        <div
+            className="w-20 h-10 rounded-full block sm:hidden"
+            onClick={() => dispatch(openCredential(activeTab))}
+          >
+            <p className="flex justify-center items-center border border-[#ddba4c] rounded-full text-slate-100 py-1  cursor-pointer">
+              Login
+            </p>
+          </div>
       </div>
-      <div className="flex justify-between mt-20">
-        <div className="w-1/2 flex flex-col gap-2">
-          <p className="text-5xl font-bold text-[#ddba4c]">Welcome to our</p>
-          <p className="text-5xl font-bold text-slate-100">
+      <div className="w-full h-[90%] flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 flex flex-col gap-2 mt-10 order-2 md:order-1">
+          <p className="text-3xl md:text-5xl font-bold text-[#ddba4c]">Welcome to our</p>
+          <p className="text-3xl md:text-5xl font-bold text-slate-100">
             CENTUMO NFT Marketplace
           </p>
           <p className="text-slate-100">
@@ -90,12 +97,11 @@ export const Home: React.FC = () => {
             each piece is unique and verifiably owned.&quot;
           </p>
 
-          <div className="flex w-full">
-            <div className="flex flex-col gap-3 w-1/2">
+          <div className=" flex flex-col md:flex-row w-full">
+            <div className="flex flex-col gap-3 w-full md:w-1/2">
               <div
                 onClick={() => dispatch(openCredential("Tutorial"))}
-                // id="bg-div"
-                className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
+                className="w-full md:w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">Tutorial</p>
               </div>
@@ -103,8 +109,7 @@ export const Home: React.FC = () => {
                 onClick={() =>
                   dispatch(openCredential("Digital Art and Music"))
                 }
-                // id="bg-div"
-                className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
+                className="w-full md:w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">
                   {" "}
@@ -113,8 +118,7 @@ export const Home: React.FC = () => {
               </div>
               <div
                 onClick={() => dispatch(openCredential("Digital photography"))}
-                // id="bg-div"
-                className="w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
+                className="w-full md:w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">
                   Digital photography
@@ -122,13 +126,12 @@ export const Home: React.FC = () => {
               </div>
               <div
                 onClick={() => dispatch(openCredential("E-Commerce"))}
-                // id="bg-div"
-                className="w-96 h-16 rounded-full bg-[#9bd4f2] flex justify-center items-center cursor-pointer"
+                className="w-full md:w-96 h-16 rounded-full bg-[#9bd4f2] flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">E-Commerce</p>
               </div>
             </div>
-            <div className="w-1/2 flex flex-col justify-center items-center">
+            <div className="w-full md:w-1/2 flex flex-col justify-center items-center">
               <div>
                 <p className="text-lg text-slate-100">Total Amount</p>
                 <p className="text-6xl font-bold text-[#fff]" id="textshadow">
@@ -138,8 +141,8 @@ export const Home: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/2">
-          <img src="/nft4.png" alt="" />
+        <div className="w-full md:w-1/2 h-full order-1 md:order-2">
+          <img src="/image/nftgif-unscreen.gif" alt="" className="w-full h-full object-cover" />
         </div>
       </div>
       <Login />

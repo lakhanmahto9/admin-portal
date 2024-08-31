@@ -79,3 +79,12 @@ export const phbuyerverifyapi = (payload:any) => {
     },
   });
 };
+
+
+export const sellsapi = () => {
+  return axios.get(`${BASE_URL}/admin/totalsales-digitalphotography`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
