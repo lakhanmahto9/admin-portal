@@ -42,13 +42,13 @@ const userInformationSlice = createSlice({
       .addCase(userInformation.fulfilled, (state, action) => {
         console.log(action.payload)
         state.status = "succeess";
-        state.creator = action.payload.totalCrator;
-        state.user = action.payload.totalUser;
-        state.sale = action.payload.sale;
+        state.creator = action.payload?.totalCrator;
+        state.user = action.payload?.totalUser;
+        state.sale = action.payload?.sale;
         state.artAndMusicSales = action?.payload?.artAndMusicSales;
-        state.playlist = action.payload.totalPlaylist;
-        state.seller = action.payload.totalSeller;
-        state.buyer = action.payload.totalBuyer
+        state.playlist = action.payload?.totalPlaylist;
+        state.seller = action.payload?.totalSeller;
+        state.buyer = action.payload?.totalBuyer
       })
       .addCase(userInformation.rejected, (state, action) => {
         state.status = "failed";

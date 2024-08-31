@@ -17,6 +17,10 @@ import OpenModalSlice from "../slice/photography/OpenModalSlice";
 import allPhBuyerSlice from "../slice/photography/AllPhBuyerSlice";
 import BuyerProfileSlice from "../slice/photography/BuyerProfileSlice";
 import allBuyerSlice from "../slice/photography/AllBuyerSlice";
+import artMusicBuyerProfileSlice from "../slice/artMusicBuyerProfileSlice";
+import ArtMusicBuyerPurchaseListSlice from "../slice/ArtMusicBuyerPurchaseListSlice";
+import artMusicSellerProfileSlice from "../slice/artMusicSellerProfileSlice";
+import particularSellerArtMusicSlice from "../slice/particularSellerArtMusicSlice";
 
 const persistConfig = {
   key: "root",
@@ -65,6 +69,25 @@ const buyerprofile = persistReducer(
   { ...persistConfig, key: "buyerprofile" },
   BuyerProfileSlice
 );
+const artMusicBuyerProfile = persistReducer(
+  { ...persistConfig, key: "artmusicbuyerprofile" },
+  artMusicBuyerProfileSlice
+);
+
+const artMusicBuyerPurchaseList = persistReducer(
+  { ...persistConfig, key: "artmusicbuyerpurchaseList" },
+  ArtMusicBuyerPurchaseListSlice
+);
+
+const artMusicSellerProfile = persistReducer(
+  { ...persistConfig, key: "artmusicsellerprofile" },
+  artMusicSellerProfileSlice
+);
+
+const particularSellerArtMusic = persistReducer(
+  { ...persistConfig, key: "particularsellersartmusic" },
+  particularSellerArtMusicSlice
+);
 
 const persistUser = persistReducer({ ...persistConfig, key: "user" }, userSlice);
 const nevSideColor = persistReducer({ ...persistConfig, key: "sidebarbg" }, sidebarNavColorSlice);
@@ -86,7 +109,11 @@ const store = configureStore({
     dialog:openDialog,
     phbuyer:phbuyer,
     buyerprofile:buyerprofile,
-    buyer:buyer
+    buyer:buyer,
+    artMusicBuyerProfile:artMusicBuyerProfile,
+    artmusicbuyerpurchaseList:artMusicBuyerPurchaseList,
+    artmusicsellerprofile:artMusicSellerProfile,
+    particularsellersartmusic:particularSellerArtMusic
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
