@@ -88,3 +88,11 @@ export const sellsapi = () => {
     },
   });
 };
+
+export const buyerphotographyapi = (payload:any) => {
+  return axios.post(`${BASE_URL}/admin/buyer-photography`,payload,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};

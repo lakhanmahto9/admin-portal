@@ -44,10 +44,10 @@ export const Profile: React.FC = () => {
             <p className={`text-lg font-semibold text-[#192555]`}>Profile</p>
           </div>
         </div>
-        <div className="w-full h-[88%] overflow-y-scroll flex p-7 gap-4">
-          <div className="w-[40%] flex flex-col gap-4">
-            <div className="w-full h-1/2 border rounded-lg bg-[#ebf6fd] flex flex-col gap-2 justify-center items-center">
-              <div className="w-40 h-40 border rounded-full">
+        <div className="w-full h-[88%] overflow-y-scroll flex flex-col md:flex-row p-2 md:p-7 gap-4">
+          <div className="w-full md:w-[40%] flex flex-col gap-4">
+            <div className="w-full h-1/2 border rounded-lg p-2 bg-[#ebf6fd] flex flex-col gap-2 justify-center items-center">
+              <div className="w-28 md:w-40 h-28  md:h-40 border rounded-full">
                 <img
                   src={profile1?.profile_pic || "/image/profile.png"}
                   alt=""
@@ -58,7 +58,7 @@ export const Profile: React.FC = () => {
                 {profile1?.name}
               </p>
             </div>
-            <div className="relative w-full h-1/2 border rounded-lg bg-[#ebf6fd] px-16 py-2">
+            <div className="relative w-full p-2 h-1/2 border rounded-lg bg-[#ebf6fd] px-16 py-2">
               {!profile?.idCard ? (
                 <div className="w-full h-full border-2 border-dashed border-indigo-600 flex justify-center items-center">
                   <p className="text-xl font-bold text-[#2b4348]">ID Card</p>
@@ -79,9 +79,9 @@ export const Profile: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="w-[60%] bg-[#ebf6fd] rounded-lg px-8 py-4">
+          <div className="w-full md:w-[60%] bg-[#ebf6fd] rounded-lg px-8 py-4">
             <p className="text-lg font-bold">Information</p>
-            <div className="w-full h-16 border bg-[#025f92] rounded-md p-2 mb-4">
+            <div className="w-full h-auto md:h-16 border bg-[#025f92] rounded-md p-2 mb-4">
               <p className="text-white">
                 {profile1?.isApproved
                   ? "This profile has verified on our NFT marketplace."
@@ -98,35 +98,35 @@ export const Profile: React.FC = () => {
                 </span>
               </p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">Name</p>
               <p className="text-lg text-[#6a6a6b]">{profile1?.name}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">Email</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.email}</p>
+              <p className="text-lg text-[#6a6a6b] break-all">{profile1?.email}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">Mobile Number</p>
               <p className="text-lg text-[#6a6a6b]">{profile1?.phone}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">Address</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.address}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">State</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.state}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">Gender</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.gender}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">Country</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.country}</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-between md:justify-start">
               <p className="text-lg font-semibold">PIN</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.pin}</p>
             </div>

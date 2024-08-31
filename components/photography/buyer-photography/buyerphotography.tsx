@@ -2,20 +2,21 @@ import { LeftIcon, SearchIcon } from "@/public/icons/icons";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { getPerticularSellerPhotography } from "@/redux/slice/photography/AllPhotographySlice";
 import moment from "moment";
+import { buyerPhotography } from "@/redux/slice/photography/AllBuyerPhotography";
 
-export const PhotographList: React.FC = () => {
+
+export const BuyerPhotography: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
   const photography = useSelector(
-    (state: any) => state.photography?.data?.photography || []
+    (state: any) => state.buyerphotography?.data?.buyerphotography || []
   );
   const image = localStorage.getItem("image");
   const back = () => {
     router.push(
-      "/admin-dashboard/seller-photography/photography-seller-details"
+      "/admin-dashboard/seller-photography/photography-buyer-details"
     );
   };
   useEffect(() => {
@@ -25,7 +26,7 @@ export const PhotographList: React.FC = () => {
   }, [id]);
   const callApiToPhotography = async () => {
     try {
-      await dispatch<any>(getPerticularSellerPhotography({ phsellerId: id }));
+      await dispatch<any>(buyerPhotography({ buyerId: id }));
     } catch (error) {
       console.log(error);
     }

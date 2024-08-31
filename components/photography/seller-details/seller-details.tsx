@@ -71,7 +71,7 @@ export const PhotographySellerDetails: React.FC = () => {
         </div>
         <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
           {phseller.map((item: any, index: number) => (
-            <div className="relative w-[32%] h-72" key={index}>
+            <div className="relative w-full md:w-[32%] h-72" key={index}>
               <div className="h-2/3 rounded-t-2xl bg-[#025f92] flex justify-center items-center">
                 <div className="relative w-28 h-28 rounded-full border">
                   <img

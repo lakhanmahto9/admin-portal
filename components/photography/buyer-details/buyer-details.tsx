@@ -30,10 +30,10 @@ import { AllBuyer } from "@/redux/slice/photography/AllBuyerSlice";
         console.log(error);
       }
     };
-    const sellerPhotography = (item: any) => {
-      localStorage.setItem("image", item.profile_pic);
+    const buyerPhotography = (item: any) => {
+      // localStorage.setItem("image", item.profile_pic);
       router.push(
-        `/admin-dashboard/seller-photography/photography-list/${item._id}`
+        `/admin-dashboard/seller-photography/buyerphotography/${item._id}`
       );
     };
   
@@ -68,7 +68,7 @@ import { AllBuyer } from "@/redux/slice/photography/AllBuyerSlice";
           </div>
           <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
             {phseller.map((item: any, index: number) => (
-              <div className="relative w-[32%] h-72" key={index}>
+              <div className="relative w-full md:w-[32%] h-72" key={index}>
                 <div className="h-2/3 rounded-t-2xl bg-[#025f92] flex justify-center items-center">
                   <div className="relative w-28 h-28 rounded-full border">
                     <img
@@ -88,7 +88,7 @@ import { AllBuyer } from "@/redux/slice/photography/AllBuyerSlice";
                 <div className="h-1/3 bg-[#084363] rounded-b-2xl py-5">
                   <div className="flex gap-2 h-14 px-2">
                     <div
-                      onClick={() => sellerPhotography(item)}
+                      onClick={() => buyerPhotography(item)}
                       className="w-1/2 bg-[#025f92] cursor-pointer rounded-lg flex justify-center items-center"
                     >
                       <p className="text-[#fff]">Photography</p>

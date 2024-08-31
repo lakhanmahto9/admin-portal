@@ -129,7 +129,7 @@ export const PhotographySidebar: React.FC = () => {
             />
           </div>
         </div>
-        <div className="h-[55%] py-2">
+        <div className="h-[50%] py-2">
           {sideBarLink.map((item, index) => (
             <div
               className={`${
@@ -161,7 +161,7 @@ export const PhotographySidebar: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="h-[35%] flex flex-col justify-center items-center">
+        <div className="h-[40%] flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center">
             <img src="/image/wallet.svg" alt="wallet" className="w-12 h-12" />
             <p
