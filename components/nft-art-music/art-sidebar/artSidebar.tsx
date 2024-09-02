@@ -127,6 +127,7 @@ const ArtSidebar: React.FC = () => {
         tutorial: !value,
       }));
       dispatch(openCredential("Tutorial"));
+      router.push("//admin-dashboard/seller-video/seller-dashboard")
       
     }else if(type === "photograhy"){
       setSwitchTab((prev) => ({
@@ -134,6 +135,7 @@ const ArtSidebar: React.FC = () => {
         photograhy: !value,
       }));
       dispatch(openCredential("Digital photography"))
+      router.push("/admin-dashboard/seller-photography/photography-dashboard")
     }else if(type === "ecommerce"){
       setSwitchTab((prev) => ({
         ...prev,
@@ -169,7 +171,7 @@ const ArtSidebar: React.FC = () => {
             />
           </div>
         </div>
-        <div className="h-3/5 py-2">
+        <div className="h-[50%] py-2  overflow-y-auto scroller">
           {sideBarLink.map((item, index) => (
             <div
               className={`${
@@ -202,7 +204,7 @@ const ArtSidebar: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="h-[30%] flex flex-col justify-center items-center">
+        <div className="h-[40%] flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center">
             <img src="/wallet.svg" alt="wallet" className="w-12 h-12" />
             <p

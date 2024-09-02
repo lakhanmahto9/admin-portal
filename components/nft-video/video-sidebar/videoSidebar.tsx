@@ -119,12 +119,14 @@ const VideoSidebar: React.FC = () => {
         art: !value,
       }));
       dispatch(openCredential("Digital Art and Music"))
+      router.push("/admin-dashboard/seller-art/art-dashboard")
     }else if (type === "photography") {
       setSwitchTab((prev) => ({
         ...prev,
         photography: !value,
       }));
       dispatch(openCredential("Digital photography"));
+      router.push("/admin-dashboard/seller-photography/photography-dashboard")
       
     }
     else if(type === "ecommerce"){
@@ -168,7 +170,7 @@ const VideoSidebar: React.FC = () => {
             />
           </div>
         </div>
-        <div className="h-3/5 py-2">
+        <div className="h-[50%] py-2  overflow-y-auto scroller ">
           {sideBarLink.map((item, index) => (
             <div
               className={`${
@@ -201,7 +203,7 @@ const VideoSidebar: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="h-[30%] flex flex-col justify-center items-center">
+        <div className="h-[40%] flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center">
             <img src="/wallet.svg" alt="wallet" className="w-12 h-12" />
             <p
