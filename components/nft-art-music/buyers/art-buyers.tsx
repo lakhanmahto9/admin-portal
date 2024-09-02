@@ -4,14 +4,12 @@ import {
   ThreedotIcon,
   VerifyIcon,
 } from "@/public/icons/icons";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
-import {
-  useGetBuyersQuery,
-} from "../../../redux/api/adminApiSlice";
+import { useGetBuyersQuery } from "../../../redux/api/adminApiSlice";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface Address {
@@ -31,7 +29,7 @@ interface Buyer {
 }
 
 export const AllBuyerDetails: React.FC = () => {
-  const isDarkModeEnable = useSelector((state:any) => state.darkmode.dark);
+  const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkModeEnable);
   const [buyers, setBuyers] = useState<Buyer[]>([]);
   const router = useRouter();
@@ -41,24 +39,23 @@ export const AllBuyerDetails: React.FC = () => {
     refetchOnMountOrArgChange: true,
   });
 
-
   useEffect(() => {
     if (data) {
       setBuyers(data.data.buyers);
     }
   }, [data]);
- 
+
   const sellerPhotography = (item: any) => {
     localStorage.setItem("image", item.profile_pic);
-    router.push(
-      `/admin-dashboard/seller-art/buyer-purchase/${item._id}`
-    );
+    router.push(`/admin-dashboard/seller-art/buyer-purchase/${item._id}`);
   };
 
   const profile = (item: any) => {
-    router.push(
-      `/admin-dashboard/seller-art/buyer-profile/${item?._id}`
-    );
+    router.push(`/admin-dashboard/seller-art/buyer-profile/${item?._id}`);
+  };
+
+  const backToDashboard = () => {
+    router.push("/admin-dashboard/seller-art/art-dashboard");
   };
   return (
     <>
@@ -67,7 +64,10 @@ export const AllBuyerDetails: React.FC = () => {
           className={`h-[12%] bg-[#dae2ff] rounded-t-xl flex justify-between`}
         >
           <div className="flex items-center gap-4 px-2">
-            <div className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer">
+            <div
+              className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer"
+              onClick={backToDashboard}
+            >
               <LeftIcon color="#fff" width="20" height="20" />
             </div>
             <p className={`text-lg font-semibold text-[#192555]`}>All Buyer</p>
@@ -90,7 +90,13 @@ export const AllBuyerDetails: React.FC = () => {
           {buyers.map((item: any, index: number) => (
             <div className="relative w-[32%] h-72" key={index}>
               <div className="h-2/3 rounded-t-2xl bg-[#025f92] flex flex-col justify-center items-center">
-              <p className={`font-semibold ${isDarkModeEnable ? "text-[#D3D3D3]" : "text-[#D3D3D3]"} ` }>{item.name}</p>
+                <p
+                  className={`font-semibold ${
+                    isDarkModeEnable ? "text-[#D3D3D3]" : "text-[#D3D3D3]"
+                  } `}
+                >
+                  {item.name}
+                </p>
                 <div className="relative w-28 h-28 rounded-full border">
                   <img
                     src={item.profile_pic || "/image/profile.png"}

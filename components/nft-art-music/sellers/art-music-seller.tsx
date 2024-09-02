@@ -28,7 +28,7 @@ interface Buyer {
 }
 
 export const ArtMusicSeller: React.FC = () => {
-  const isDarkModeEnable = useSelector((state:any) => state.darkmode.dark);
+  const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const [buyers, setBuyers] = useState<Buyer[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -51,6 +51,10 @@ export const ArtMusicSeller: React.FC = () => {
   const profile = (item: any) => {
     router.push(`/admin-dashboard/seller-art/seller-profile/${item?._id}`);
   };
+
+  const backToDashboard = () => {
+    router.push("/admin-dashboard/seller-art/art-dashboard");
+  };
   return (
     <>
       <div className={`w-full h-[83vh]  bg-[#fff] rounded-xl`}>
@@ -58,7 +62,10 @@ export const ArtMusicSeller: React.FC = () => {
           className={`h-[12%] bg-[#dae2ff] rounded-t-xl flex justify-between`}
         >
           <div className="flex items-center gap-4 px-2">
-            <div className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer">
+            <div
+              className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer"
+              onClick={backToDashboard}
+            >
               <LeftIcon color="#fff" width="20" height="20" />
             </div>
             <p className={`text-lg font-semibold text-[#192555]`}>All Seller</p>
@@ -81,7 +88,13 @@ export const ArtMusicSeller: React.FC = () => {
           {buyers.map((item: any, index: number) => (
             <div className="relative w-[32%] h-72" key={index}>
               <div className="h-2/3 rounded-t-2xl bg-[#025f92] flex flex-col justify-center items-center">
-              <p className={`font-semibold ${isDarkModeEnable ? "text-[#D3D3D3]" : "text-[#D3D3D3]"} ` }>{item.name}</p>
+                <p
+                  className={`font-semibold ${
+                    isDarkModeEnable ? "text-[#D3D3D3]" : "text-[#D3D3D3]"
+                  } `}
+                >
+                  {item.name}
+                </p>
                 <div className="relative w-28 h-28 rounded-full border">
                   <img
                     src={item.profile_pic || "/image/profile.png"}
