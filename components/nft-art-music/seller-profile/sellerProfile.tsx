@@ -155,7 +155,7 @@ export const SellerProfile: React.FC = () => {
             </div>
             <button
               onClick={() =>
-                dispatch(setDialog({ open: true, type: "buyerverify", id: id }))
+                dispatch(setDialog({ open: true, type: "verify", id: id }))
               }
               disabled={profile?.isApproved}
               className={`mt-4 w-40 h-12 rounded-md py-1 flex justify-center items-center gap-2 ${

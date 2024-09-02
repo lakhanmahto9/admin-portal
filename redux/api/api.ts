@@ -115,3 +115,15 @@ export const particularSellerArtMusicApi = (payload: any) => {
     }
   );
 };
+
+export const artMusicSellerVerifyApi = (payload: any) => {
+  return axios.post(
+    `${BASE_URL}/admin/perticular-art-music-seller-verify`,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+};

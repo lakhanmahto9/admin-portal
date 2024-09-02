@@ -6,7 +6,7 @@ export const particularSellerArtMusicList = createAsyncThunk(
   async (payload: any) => {
     try {
       const result = await particularSellerArtMusicApi(payload);
-      console.log(result)
+      // console.log(result)
       return result.data;
     } catch (error) {
       console.log(error);

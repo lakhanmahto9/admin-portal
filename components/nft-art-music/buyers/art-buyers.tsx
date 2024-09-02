@@ -11,8 +11,8 @@ import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
 import {
   useGetBuyersQuery,
-  useBuyerBlockUnblockMutation,
 } from "../../../redux/api/adminApiSlice";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 interface Address {
   aboutMe: string;
@@ -31,6 +31,8 @@ interface Buyer {
 }
 
 export const AllBuyerDetails: React.FC = () => {
+  const isDarkModeEnable = useSelector((state:any) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkModeEnable);
   const [buyers, setBuyers] = useState<Buyer[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -87,7 +89,8 @@ export const AllBuyerDetails: React.FC = () => {
         <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
           {buyers.map((item: any, index: number) => (
             <div className="relative w-[32%] h-72" key={index}>
-              <div className="h-2/3 rounded-t-2xl bg-[#025f92] flex justify-center items-center">
+              <div className="h-2/3 rounded-t-2xl bg-[#025f92] flex flex-col justify-center items-center">
+              <p className={`font-semibold ${isDarkModeEnable ? "text-[#D3D3D3]" : "text-[#D3D3D3]"} ` }>{item.name}</p>
                 <div className="relative w-28 h-28 rounded-full border">
                   <img
                     src={item.profile_pic || "/image/profile.png"}

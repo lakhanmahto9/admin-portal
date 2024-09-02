@@ -1,10 +1,11 @@
-import { CrossIcon } from "@/public/icons/icons";
-import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
-import { phsellerProile } from "@/redux/slice/photography/PhSellerProfile";
-import { phsellerVerifyProile } from "@/redux/slice/photography/PhSellerVerify";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { CrossIcon } from "@/public/icons/icons";
+import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
+import { artMusicSellerVerifyProile } from "@/redux/slice/ArtMusicSellerVerifyProfileSlice";
+import { artMusicSellerProile } from "@/redux/slice/artMusicSellerProfileSlice";
+
 
 export const VerifyModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
@@ -12,15 +13,15 @@ export const VerifyModal: React.FC = () => {
   const handleVerify = async () => {
     try {
       const result = await dispatch<any>(
-        phsellerVerifyProile({ sellerId: open.id })
+        artMusicSellerVerifyProile({ sellerId: open.id })
       );
       if (result.payload?.success) {
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
-        await dispatch<any>(phsellerProile({ sellerId:  open.id }));
+        await dispatch<any>(artMusicSellerProile({ sellerId:  open.id }));
       }else{
         dispatch(removeDialog({ open: false, type: ""}));
-        toast.warn("User not found!")
+        toast.warn("Seller not found!")
       }
     } catch (error) {
       console.log(error);

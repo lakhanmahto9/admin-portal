@@ -14,9 +14,9 @@ export const SellerArtMusicList: React.FC = () => {
   const dispatch = useDispatch();
   const photography = useSelector(
     (state: any) =>
-      state.particularsellerartmusic?.data?.particularSellerArtMusicList || []
+      state.particularsellersartmusic?.data?.particularSellerArtMusicList || []
   );
-  console.log(photography)
+  // console.log(photography)
   const image = localStorage.getItem("image");
 
   const back = () => {
