@@ -7,6 +7,7 @@ import moment from "moment";
 
 export const PhotographList: React.FC = () => {
   const router = useRouter();
+  const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const { id } = router.query;
   const dispatch = useDispatch();
   const photography = useSelector(
@@ -31,16 +32,28 @@ export const PhotographList: React.FC = () => {
     }
   };
   return (
-    <div className={`w-full h-[83vh]  bg-[#fff] rounded-xl`}>
-      <div className={`h-[12%] bg-[#dae2ff] rounded-t-xl flex justify-between`}>
-        <div onClick={back} className="flex items-center gap-2 px-2">
-          <div className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer">
-            <LeftIcon color="#fff" width="20" height="20" />
+    <div
+      className={`w-full h-[83vh] rounded-xl ${
+        isDarkEnabled ? "bg-[#101c44]" : "bg-[#fff]"
+      }`}
+    >
+      <div
+        className={`h-[12%] ${
+          isDarkEnabled ? "bg-[#101c44]" : "bg-[#dae2ff]"
+        } rounded-t-xl flex justify-between`}
+      >
+        <div className="flex items-center gap-4 px-2">
+            <div onClick={back} className={`w-10 h-10 ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"} flex items-center justify-center rounded-full  cursor-pointer`}>
+              <LeftIcon color="#fff" width="20" height="20" />
+            </div>
+            <p
+              className={`text-lg font-semibold  ${
+                isDarkEnabled ? "text-[#fff]" : "text-[#192555]"
+              }`}
+            >
+              Photography
+            </p>
           </div>
-          <p className={`text-lg font-semibold text-[#192555]`}>
-            Photography
-          </p>
-        </div>
         <div className="flex px-2 gap-2 items-center">
           <div className="relative">
             <input
@@ -57,8 +70,11 @@ export const PhotographList: React.FC = () => {
       </div>
       <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
         {photography.map((item: any, index: number) => (
-          <div key={item._id || index} className="w-full md:w-[32%] h-96 rounded-2xl border border-[#ccc]">
-            <div className="w-full h-[16%] bg-[#025f92] rounded-t-2xl flex justify-start items-center gap-2 px-2 py-1">
+          <div
+            key={item._id || index}
+            className="w-full md:w-[32%] h-96 rounded-2xl border border-[#ccc]"
+          >
+            <div className={`w-full h-[16%] ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"}  rounded-t-2xl flex justify-start items-center gap-2 px-2 py-1`}>
               <div>
                 <img
                   src={image || "/image/profile.png"}
@@ -67,10 +83,10 @@ export const PhotographList: React.FC = () => {
                 />
               </div>
               <div>
-                <p className="text-lg font-semibold text-white">
-                  {item.title}
+                <p className="text-lg font-semibold text-white">{item.title}</p>
+                <p className="text-sm text-[#e0dfdf]">
+                  {moment(item.createdAt).format("MMMM D, YYYY")}
                 </p>
-                <p className="text-sm text-[#e0dfdf]">{moment(item.createdAt).format('MMMM D, YYYY')}</p>
               </div>
             </div>
             <div className="h-[60%]">
@@ -80,13 +96,17 @@ export const PhotographList: React.FC = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="h-[24%] bg-[#084363] rounded-b-2xl px-4 py-2">
+            <div className={`h-[24%] ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"}  rounded-b-2xl px-4 py-2`}>
               <div>
                 <p className="text-lg font-semibold text-white">
                   {item.description}
                 </p>
-                <p className="text-sm font-semibold text-white">${item.price}</p>
-                <p className="text-sm font-semibold text-white">©{" : "} {item.copyright?"Yes":"No"}</p>
+                <p className="text-sm font-semibold text-white">
+                  ${item.price}
+                </p>
+                <p className="text-sm font-semibold text-white">
+                  ©{" : "} {item.copyright ? "Yes" : "No"}
+                </p>
               </div>
             </div>
           </div>
