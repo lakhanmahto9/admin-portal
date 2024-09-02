@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useSelector,useDispatch } from "react-redux";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import { artMusicAndVideoRevenue } from "@/redux/slice/fetchArtMusicAndVideoRevenueSlice";
+import { openCredential } from "@/redux/slice/creadentialSlice";
 
 interface artMusicAndVideoData {
   totalRevenueforArtMusic: number;
@@ -25,6 +26,11 @@ interface artMusicAndVideoData {
 
 const { publicRuntimeConfig } = getConfig();
 const ArtSidebar: React.FC = () => {
+  const [switchTab, setSwitchTab] = useState({
+    tutorial: false,
+    photograhy: false,
+    ecommerce: false,
+  });
   const [artMusicAndVideoRevenueData, SetArtMusicAndVideoRevenueData] =
     useState<artMusicAndVideoData>({
       totalRevenueforArtMusic: 0,
@@ -114,6 +120,29 @@ const ArtSidebar: React.FC = () => {
     SetArtMusicAndVideoRevenueData(result?.payload);
   };
 
+  const changeSwitch = (type: string, value: boolean) => {
+    if (type === "tutorial") {
+      setSwitchTab((prev) => ({
+        ...prev,
+        tutorial: !value,
+      }));
+      dispatch(openCredential("Tutorial"));
+      
+    }else if(type === "photograhy"){
+      setSwitchTab((prev) => ({
+        ...prev,
+        photograhy: !value,
+      }));
+      dispatch(openCredential("Digital photography"))
+    }else if(type === "ecommerce"){
+      setSwitchTab((prev) => ({
+        ...prev,
+        ecommerce: !value,
+      }));
+      dispatch(openCredential("E-Commerce"))
+    }
+  };
+
   return (
     <div className="w-full h-full px-5 py-3 lg:py-5">
       <div
@@ -188,11 +217,44 @@ const ArtSidebar: React.FC = () => {
             </p>
           </div>
           <div className="w-full flex flex-col gap-2">
-            <div className="w-full h-10 bg-[#344767] text-[#fff] rounded-lg flex justify-center items-center">
-              Dashboard
+            <div className="w-full h-10 px-4 bg-[#025f92] text-[#fff] rounded-lg flex justify-between items-center">
+              <p>Turorial</p>
+              <div
+                onClick={() => changeSwitch("tutorial", switchTab.tutorial)}
+                className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                  switchTab.tutorial
+                    ? "justify-end bg-[#084363]"
+                    : "justify-start bg-[#c2c2c2]"
+                } items-center`}
+              >
+                <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+              </div>
             </div>
-            <div className="w-full h-10 bg-[#070a68] text-[#fff] rounded-lg flex justify-center items-center">
-              View Profile
+            <div className="w-full h-10 bg-[#084363] text-[#fff] rounded-lg flex justify-between px-4 items-center">
+              <p>Photography</p>
+              <div
+                onClick={() => changeSwitch("art", switchTab.photograhy)}
+                className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                  switchTab.photograhy
+                    ? "justify-end bg-[#025f92]"
+                    : "justify-start bg-[#c2c2c2]"
+                } items-center`}
+              >
+                <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+              </div>
+            </div>
+            <div className="w-full h-10 px-4 bg-[#02364f] text-[#fff] rounded-lg flex justify-between items-center">
+              <p>Ecommerce</p>
+              <div
+                onClick={() => changeSwitch("ecommerce", switchTab.ecommerce)}
+                className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                  switchTab.ecommerce
+                    ? "justify-end bg-[#025f92]"
+                    : "justify-start bg-[#c2c2c2]"
+                } items-center`}
+              >
+                <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+              </div>
             </div>
           </div>
         </div>

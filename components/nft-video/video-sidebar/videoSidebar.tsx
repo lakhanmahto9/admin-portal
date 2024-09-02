@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import { artMusicAndVideoRevenue } from "@/redux/slice/fetchArtMusicAndVideoRevenueSlice";
+import { openCredential } from "@/redux/slice/creadentialSlice";
 
 interface artMusicAndVideoData {
   totalRevenueforArtMusic: number;
@@ -23,6 +24,11 @@ interface artMusicAndVideoData {
 
 const { publicRuntimeConfig } = getConfig();
 const VideoSidebar: React.FC = () => {
+  const [switchTab, setSwitchTab] = useState({
+    photography: false,
+    art: false,
+    ecommerce: false,
+  });
   const [artMusicAndVideoRevenueData, SetArtMusicAndVideoRevenueData] =
     useState<artMusicAndVideoData>({
       totalRevenueforArtMusic: 0,
@@ -106,6 +112,29 @@ const VideoSidebar: React.FC = () => {
   useEffect(() => {
     callToFetchArtMusicAndVideoRevenue();
   }, []);
+  const changeSwitch = (type: string, value: boolean) => {
+    if(type === "art"){
+      setSwitchTab((prev) => ({
+        ...prev,
+        art: !value,
+      }));
+      dispatch(openCredential("Digital Art and Music"))
+    }else if (type === "photography") {
+      setSwitchTab((prev) => ({
+        ...prev,
+        photography: !value,
+      }));
+      dispatch(openCredential("Digital photography"));
+      
+    }
+    else if(type === "ecommerce"){
+      setSwitchTab((prev) => ({
+        ...prev,
+        ecommerce: !value,
+      }));
+      dispatch(openCredential("E-Commerce"))
+    }
+  };
 
   const callToFetchArtMusicAndVideoRevenue = async () => {
     const result = await dispatch<any>(artMusicAndVideoRevenue());
@@ -187,11 +216,44 @@ const VideoSidebar: React.FC = () => {
             </p>
           </div>
           <div className="w-full flex flex-col gap-2">
-            <div className="w-full h-10 bg-[#344767] text-[#fff] rounded-lg flex justify-center items-center">
-              Dashboard
+            <div className="w-full h-10 px-4 bg-[#025f92] text-[#fff] rounded-lg flex justify-between items-center">
+              <p>Photography</p>
+              <div
+                onClick={() => changeSwitch("photography", switchTab.photography)}
+                className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                  switchTab.photography
+                    ? "justify-end bg-[#084363]"
+                    : "justify-start bg-[#c2c2c2]"
+                } items-center`}
+              >
+                <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+              </div>
             </div>
-            <div className="w-full h-10 bg-[#070a68] text-[#fff] rounded-lg flex justify-center items-center">
-              View Profile
+            <div className="w-full h-10 bg-[#084363] text-[#fff] rounded-lg flex justify-between px-4 items-center">
+              <p>Art & Music</p>
+              <div
+                onClick={() => changeSwitch("art", switchTab.art)}
+                className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                  switchTab.art
+                    ? "justify-end bg-[#025f92]"
+                    : "justify-start bg-[#c2c2c2]"
+                } items-center`}
+              >
+                <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+              </div>
+            </div>
+            <div className="w-full h-10 px-4 bg-[#02364f] text-[#fff] rounded-lg flex justify-between items-center">
+              <p>Ecommerce</p>
+              <div
+                onClick={() => changeSwitch("ecommerce", switchTab.ecommerce)}
+                className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                  switchTab.ecommerce
+                    ? "justify-end bg-[#025f92]"
+                    : "justify-start bg-[#c2c2c2]"
+                } items-center`}
+              >
+                <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+              </div>
             </div>
           </div>
         </div>

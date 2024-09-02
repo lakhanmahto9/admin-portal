@@ -88,7 +88,7 @@ export const PhotographySidebar: React.FC = () => {
         tutorial: !value,
       }));
       dispatch(openCredential("Tutorial"));
-
+      
     }else if(type === "art"){
       setSwitchTab((prev) => ({
         ...prev,
