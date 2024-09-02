@@ -88,19 +88,21 @@ export const PhotographySidebar: React.FC = () => {
         tutorial: !value,
       }));
       dispatch(openCredential("Tutorial"));
-      
+      router.push("/admin-dashboard/seller-video/seller-dashboard")
     }else if(type === "art"){
       setSwitchTab((prev) => ({
         ...prev,
         art: !value,
       }));
       dispatch(openCredential("Digital Art and Music"))
+      router.push("/admin-dashboard/seller-art/art-dashboard")
     }else if(type === "ecommerce"){
       setSwitchTab((prev) => ({
         ...prev,
         ecommerce: !value,
       }));
       dispatch(openCredential("E-Commerce"))
+      
     }
   };
 
