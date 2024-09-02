@@ -133,11 +133,11 @@ export const Profile: React.FC = () => {
             </div>
             <div
                onClick={() => {
-                if (!profile1.isApproved) {
+                if (!profile1?.isApproved) {
                   dispatch(setDialog({ open: true, type: "verify", id: profile1?._id }));
                 }
               }}
-              className={`${profile1.isApproved?"disabled":""} mt-8 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2`}
+              className={`${profile1?.isApproved?"disabled":""} mt-8 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2`}
             >
               <p className="text-white">Verify</p>
             </div>
