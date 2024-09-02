@@ -4,23 +4,25 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
-// import { buyerProile } from "@/redux/slice/photography/BuyerProfileSlice";
 import { artMusicBuyerProile } from "@/redux/slice/artMusicBuyerProfileSlice";
-
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 export const BuyerProfile: React.FC = () => {
-  const profile = useSelector((state: any) => state.artMusicBuyerProfile?.data?.buyer);
-  console.log(profile)
-  const profile1 = useSelector((state: any) => state.artMusicBuyerProfile?.data?.buyerAdress);
-  console.log(profile1)
+  const profile = useSelector(
+    (state: any) => state.artMusicBuyerProfile?.data?.buyer
+  );
+
+  const profile1 = useSelector(
+    (state: any) => state.artMusicBuyerProfile?.data?.buyerAdress
+  );
+  const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkModeEnable);
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
- 
+
   const back = () => {
-    router.push(
-      "/admin-dashboard/seller-art/buyers"
-    );
+    router.push("/admin-dashboard/seller-art/buyers");
   };
   useEffect(() => {
     if (id) {
@@ -36,24 +38,41 @@ export const BuyerProfile: React.FC = () => {
     }
   };
 
-
-
   return (
     <>
-      <div className={`w-full h-[83vh]  bg-[#fff] rounded-xl`}>
+      <div
+        className={`w-full h-[83vh] rounded-xl`}
+        style={{ background: colors.cardBg }}
+      >
         <div
-          className={`h-[12%] bg-[#dae2ff] rounded-t-xl flex justify-between`}
+          className={`h-[12%] rounded-t-xl flex justify-between`}
+          style={{ background: colors.sidebarBg }}
         >
           <div onClick={back} className="flex items-center gap-4 px-2">
-            <div className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer">
+            <div
+              className={`w-10 h-10 flex items-center justify-center rounded-full  cursor-pointer ${
+                isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
+              }`}
+            >
               <LeftIcon color="#fff" width="20" height="20" />
             </div>
-            <p className={`text-lg font-semibold text-[#192555]`}>Buyer profile</p>
+            <p
+              className={`text-lg font-semibold `}
+              style={{ color: colors.text }}
+            >
+              Buyer profile
+            </p>
           </div>
         </div>
         <div className="w-full h-[88%] overflow-y-scroll flex p-7 gap-4">
           <div className="w-[40%] flex flex-col gap-4">
-            <div className="w-full h-1/2 border rounded-lg bg-[#ebf6fd] flex flex-col gap-2 justify-center items-center">
+            <div
+              className={`w-full h-1/2 rounded-lg flex flex-col gap-2 justify-center items-center ${
+                isDarkModeEnable
+                  ? "bg-[#051139] border border-gray-600"
+                  : "bg-[#ebf6fd] border"
+              }`}
+            >
               <div className="w-40 h-40 border rounded-full">
                 <img
                   src={profile?.profile_pic || "/image/profile.png"}
@@ -61,11 +80,11 @@ export const BuyerProfile: React.FC = () => {
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <p className="text-xl font-bold text-[#2b4348]">
+              <p className="text-xl font-bold " style={{color:colors.text}}>
                 {profile?.name || "NA"}
               </p>
             </div>
-            <div className="relative w-full h-1/2 border rounded-lg bg-[#ebf6fd] px-16 py-2">
+            <div className={`relative w-full h-1/2 rounded-lg px-16 py-2 ${isDarkModeEnable ? "bg-[#051139] border border-gray-600" : "bg-[#ebf6fd] border "}`}>
               {!profile1?.idCard ? (
                 <div className="w-full h-full border-2 border-dashed border-indigo-600 flex justify-center items-center">
                   <p className="text-xl font-bold text-[#2b4348]">ID Card</p>
@@ -86,9 +105,9 @@ export const BuyerProfile: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="w-[60%] bg-[#ebf6fd] rounded-lg px-8 py-4">
-            <p className="text-lg font-bold">Information</p>
-            <div className="w-full h-16 border bg-[#025f92] rounded-md p-2 mb-4">
+          <div className={`w-[60%] rounded-lg px-8 py-4 ${isDarkModeEnable ? "bg-[#051139]" : "bg-[#ebf6fd] "}`}>
+            <p className="text-lg font-bold" style={{color:colors.text}}>Information</p>
+            <div className="w-full h-16  rounded-md p-2 mb-4" style={{background:colors.dialogBackground}}>
               <p className="text-white">
                 {profile?.isApproved
                   ? "This profile has verified on our NFT marketplace."
@@ -106,40 +125,52 @@ export const BuyerProfile: React.FC = () => {
               </p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">Name</p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.name}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>Name</p>
+              <p className="text-lg "style={{color:colors.text}}>{profile?.name}</p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">Email</p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.email}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>Email</p>
+              <p className="text-lg "style={{color:colors.text}}>{profile?.email}</p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">Mobile Number</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.phone || "NA"}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>Mobile Number</p>
+              <p className="text-lg "style={{color:colors.text}}>
+                {profile1?.phone || "NA"}
+              </p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">Address</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.address || "NA"}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>Address</p>
+              <p className="text-lg "style={{color:colors.text}}>
+                {profile1?.address || "NA"}
+              </p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">City</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.city || "NA"}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>City</p>
+              <p className="text-lg "style={{color:colors.text}}>{profile1?.city || "NA"}</p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">State</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.state || "NA"}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>State</p>
+              <p className="text-lg "style={{color:colors.text}}>
+                {profile1?.state || "NA"}
+              </p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">Country</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.country || "NA"}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>Country</p>
+              <p className="text-lg "style={{color:colors.text}}>
+                {profile1?.country || "NA"}
+              </p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">PIN</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.postalCode || "NA"}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>PIN</p>
+              <p className="text-lg "style={{color:colors.text}}>
+                {profile1?.postalCode || "NA"}
+              </p>
             </div>
             <div className="flex gap-4">
-              <p className="text-lg font-semibold">Aboyt Me</p>
-              <p className="text-lg text-[#6a6a6b]">{profile1?.aboutMe || "NA"}</p>
+              <p className="text-lg font-semibold" style={{color:colors.text}}>Aboyt Me</p>
+              <p className="text-lg "style={{color:colors.text}}>
+                {profile1?.aboutMe || "NA"}
+              </p>
             </div>
             <button
               onClick={() =>
@@ -152,7 +183,9 @@ export const BuyerProfile: React.FC = () => {
                   : "bg-[#025f92] cursor-pointer"
               }`}
             >
-              <p className="text-white">{profile?.isApproved ? "Verified" : "Verify"}</p>
+              <p className="text-white">
+                {profile?.isApproved ? "Verified" : "Verify"}
+              </p>
             </button>
           </div>
         </div>

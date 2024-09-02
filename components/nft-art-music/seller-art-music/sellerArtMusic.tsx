@@ -7,8 +7,8 @@ import moment from "moment";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 
 export const SellerArtMusicList: React.FC = () => {
-  const isDarkEnable = useSelector((state: any) => state.darkmode.dark);
-  const colors = useThemeColors(isDarkEnable);
+  const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkModeEnable);
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
@@ -41,14 +41,24 @@ export const SellerArtMusicList: React.FC = () => {
   };
 
   return (
-    <div className={`w-full h-[83vh] bg-[#fff] rounded-xl`}>
-      <div className={`h-[12%] bg-[#dae2ff] rounded-t-xl flex justify-between`}>
+    <div
+      className={`w-full h-[83vh] rounded-xl`}
+      style={{ background: colors.cardBg }}
+    >
+      <div
+        className={`h-[12%] rounded-t-xl flex justify-between`}
+        style={{ background: colors.sidebarBg }}
+      >
         <div onClick={back} className="flex items-center gap-4 px-2">
-          <div className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full cursor-pointer">
+          <div
+            className={`w-10 h-10 flex items-center justify-center rounded-full  cursor-pointer ${
+              isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
+            }`}
+          >
             <LeftIcon color="#fff" width="20" height="20" />
           </div>
-          <p className={`text-lg font-semibold text-[#192555]`}>
-            Purchased Art/Music
+          <p className={`text-lg font-semibold`} style={{ color: colors.text }}>
+            Seller Art/Music
           </p>
         </div>
         <div className="flex px-2 gap-2 items-center">
@@ -58,6 +68,7 @@ export const SellerArtMusicList: React.FC = () => {
               //   onChange={handleSearch}
               placeholder="Search..."
               className="w-40 h-10 rounded-full pl-10 focus:outline-none"
+              style={{background:colors.background,color:colors.text}}
             />
             <div className="absolute top-3 left-2">
               <SearchIcon color="#2e10dc" width="20" height="20" />
@@ -73,15 +84,26 @@ export const SellerArtMusicList: React.FC = () => {
               alt="No data"
               className="w-3/4 h-3/4 object-contain"
             />
-            <p className="text-lg font-bold mt-4" style={{color:colors.text}}>No data</p>
+            <p
+              className="text-lg font-bold mt-4"
+              style={{ color: colors.text }}
+            >
+              No data
+            </p>
           </div>
         ) : (
           photography.map((item: any, index: number) => (
             <div
               key={item._id || index}
-              className="w-[32%] h-96 rounded-2xl border border-[#ccc]"
+              className={`w-[32%] h-96 rounded-2xl border ${
+                isDarkModeEnable ? "border-gray-600" : "border[#ccc]"
+              }`}
             >
-              <div className="w-full h-[16%] bg-[#025f92] rounded-t-2xl flex justify-start items-center gap-2 px-2 py-1">
+              <div
+                className={`w-full h-[16%] rounded-t-2xl flex justify-start items-center gap-2 px-2 py-1 ${
+                  isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92] "
+                }`}
+              >
                 <div>
                   <img
                     src={image || "/image/profile.png"}
@@ -105,7 +127,11 @@ export const SellerArtMusicList: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="h-[24%] bg-[#084363] rounded-b-2xl px-4 py-2">
+              <div
+                className={`h-[24%] rounded-b-2xl px-4 py-2 ${
+                  isDarkModeEnable ? "bg-[#051139]" : "bg-[#084363] "
+                }`}
+              >
                 <div>
                   <p className="text-lg font-semibold text-white">
                     {item.description}

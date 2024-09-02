@@ -5,9 +5,12 @@ import { artMusicBuyerVerifyProile } from "@/redux/slice/ArtMusicBuyerVerifySlic
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 export const BuyerVerifyModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
+  const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkModeEnable);
   const dispatch = useDispatch();
   const handleVerify = async () => {
     try {
@@ -15,19 +18,22 @@ export const BuyerVerifyModal: React.FC = () => {
         artMusicBuyerVerifyProile({ buyerId: open.id })
       );
       if (result.payload?.success) {
-        dispatch(removeDialog({ open: false, type: ""}));
+        dispatch(removeDialog({ open: false, type: "" }));
         toast.success(result.payload?.message);
-        await dispatch<any>(artMusicBuyerProile({ buyerId:  open.id }));
-      }else{
-        dispatch(removeDialog({ open: false, type: ""}));
-        toast.warn("User not found!")
+        await dispatch<any>(artMusicBuyerProile({ buyerId: open.id }));
+      } else {
+        dispatch(removeDialog({ open: false, type: "" }));
+        toast.warn("User not found!");
       }
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="w-full h-auto sm:w-96 sm:h-40 bg-[#025f92] py-2 px-4">
+    <div
+      className="w-full h-auto sm:w-96 sm:h-40 py-2 px-4"
+      style={{ background: colors.dialogBackground }}
+    >
       <div className="flex justify-between">
         <p className="text-xl text-white font-bold">Verify</p>
         <p

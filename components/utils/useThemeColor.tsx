@@ -12,6 +12,7 @@ export const useThemeColors = (isDarkEnabled: boolean) => {
       borderColor: isDarkEnabled ? "#1f2937" : "#e5e7eb", // Adjust as needed
       cardBg: isDarkEnabled ? "#0e1a49" : "#FFFFFF", // Adjust as needed
       inputBackground: isDarkEnabled ? "#EEEFF2" : "#B4DBF9", 
+      dialogBackground: isDarkEnabled ? "#0e1a49" : "#025f92", 
     };
   };
   

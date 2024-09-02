@@ -6,8 +6,10 @@ import { BlockModal } from "./block";
 import { UserblockModal } from "./userblockmodal";
 import { BuyerVerifyModal } from "./buyerVerifyModal";
 
+
 export const DialogModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
+  
   return (
     <Dialog
       open={open.open}
