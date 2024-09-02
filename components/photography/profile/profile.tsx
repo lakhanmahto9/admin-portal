@@ -7,6 +7,7 @@ import { setDialog } from "@/redux/slice/photography/OpenModalSlice";
 import { DialogModal } from "../common/modal";
 
 export const Profile: React.FC = () => {
+  const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const profile = useSelector((state: any) => state.phprofile?.data?.profile);
   const profile1 = useSelector((state: any) => state.phprofile?.data?.profile1);
   const router = useRouter();
@@ -33,20 +34,20 @@ export const Profile: React.FC = () => {
 
   return (
     <>
-      <div className={`w-full h-[83vh]  bg-[#fff] rounded-xl`}>
+      <div className={`w-full h-[83vh]  ${isDarkEnabled ? "bg-[#101c44]" : "bg-[#fff]"} rounded-xl`}>
         <div
-          className={`h-[12%] bg-[#dae2ff] rounded-t-xl flex justify-between`}
+          className={`h-[12%] ${isDarkEnabled ? "bg-[#101c44]" : "bg-[#dae2ff]"} rounded-t-xl flex justify-between`}
         >
           <div onClick={back} className="flex items-center gap-4 px-2">
-            <div className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer">
+            <div className={`w-10 h-10 ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"} flex items-center justify-center rounded-full  cursor-pointer`}>
               <LeftIcon color="#fff" width="20" height="20" />
             </div>
-            <p className={`text-lg font-semibold text-[#192555]`}>Profile</p>
+            <p className={`text-lg font-semibold   ${isDarkEnabled ? "text-[#fff]" : "text-[#192555]"}`}>Profile</p>
           </div>
         </div>
         <div className="w-full h-[88%] overflow-y-scroll flex flex-col md:flex-row p-2 md:p-7 gap-4">
           <div className="w-full md:w-[40%] flex flex-col gap-4">
-            <div className="w-full h-1/2 border rounded-lg p-2 bg-[#ebf6fd] flex flex-col gap-2 justify-center items-center">
+            <div className={`w-full h-1/2 border rounded-lg p-2 ${isDarkEnabled?"bg-[#040836]":"bg-[#ebf6fd]"}  flex flex-col gap-2 justify-center items-center`}>
               <div className="w-28 md:w-40 h-28  md:h-40 border rounded-full">
                 <img
                   src={profile1?.profile_pic || "/image/profile.png"}
@@ -54,11 +55,11 @@ export const Profile: React.FC = () => {
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <p className="text-xl font-bold text-[#2b4348]">
+              <p className={`text-xl font-bold ${isDarkEnabled?"text-[#fff]":"text-[#2b4348]"}`}>
                 {profile1?.name}
               </p>
             </div>
-            <div className="relative w-full p-2 h-1/2 border rounded-lg bg-[#ebf6fd] px-16 py-2">
+            <div className={`relative w-full p-2 h-1/2 border rounded-lg ${isDarkEnabled?"bg-[#040836]":"bg-[#ebf6fd]"} px-16 py-2`}>
               {!profile?.idCard ? (
                 <div className="w-full h-full border-2 border-dashed border-indigo-600 flex justify-center items-center">
                   <p className="text-xl font-bold text-[#2b4348]">ID Card</p>
@@ -79,8 +80,8 @@ export const Profile: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="w-full md:w-[60%] bg-[#ebf6fd] rounded-lg px-8 py-4">
-            <p className="text-lg font-bold">Information</p>
+          <div className={`w-full md:w-[60%] ${isDarkEnabled?"bg-[#040836] border":"bg-[#ebf6fd]"} rounded-lg px-8 py-4`}>
+            <p className={`text-lg font-bold ${isDarkEnabled?"text-[#fff]":""}`}>Information</p>
             <div className="w-full h-auto md:h-16 border bg-[#025f92] rounded-md p-2 mb-4">
               <p className="text-white">
                 {profile1?.isApproved
@@ -99,42 +100,44 @@ export const Profile: React.FC = () => {
               </p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">Name</p>
+              <p className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>Name</p>
               <p className="text-lg text-[#6a6a6b]">{profile1?.name}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">Email</p>
+              <p  className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>Email</p>
               <p className="text-lg text-[#6a6a6b] break-all">{profile1?.email}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">Mobile Number</p>
+              <p  className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>Mobile Number</p>
               <p className="text-lg text-[#6a6a6b]">{profile1?.phone}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">Address</p>
+              <p  className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>Address</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.address}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">State</p>
+              <p  className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>State</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.state}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">Gender</p>
+              <p  className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>Gender</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.gender}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">Country</p>
+              <p  className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>Country</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.country}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
-              <p className="text-lg font-semibold">PIN</p>
+              <p  className={`text-lg font-semibold ${isDarkEnabled?"text-[#fff]":""}`}>PIN</p>
               <p className="text-lg text-[#6a6a6b]">{profile?.pin}</p>
             </div>
             <div
-              onClick={() =>
-                dispatch(setDialog({ open: true, type: "veryfy", id: profile1?._id }))
-              }
-              className="mt-8 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2"
+               onClick={() => {
+                if (!profile1.isApproved) {
+                  dispatch(setDialog({ open: true, type: "verify", id: profile1?._id }));
+                }
+              }}
+              className={`${profile1.isApproved?"disabled":""} mt-8 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2`}
             >
               <p className="text-white">Verify</p>
             </div>

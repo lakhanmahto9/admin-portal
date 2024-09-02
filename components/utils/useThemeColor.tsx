@@ -13,6 +13,11 @@ export const useThemeColors = (isDarkEnabled: boolean) => {
       cardBg: isDarkEnabled ? "#0e1a49" : "#FFFFFF", // Adjust as needed
       inputBackground: isDarkEnabled ? "#EEEFF2" : "#B4DBF9", 
       dialogBackground: isDarkEnabled ? "#0e1a49" : "#025f92", 
+      headerbg:isDarkEnabled ? "#0e1a49":"#0e1a49", 
+      layoutbg:isDarkEnabled?"#040836":"#025f92",
+      layoutbottombg: isDarkEnabled ? "#040836" : "#f4f6f8",
+      pagebg:isDarkEnabled ? "#0e1a49":"",
+      pageheader: isDarkEnabled ? "#fff":"#dae2ff",
     };
   };
   

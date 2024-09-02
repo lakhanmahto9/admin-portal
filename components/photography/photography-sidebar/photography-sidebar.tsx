@@ -12,10 +12,13 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import { openCredential } from "@/redux/slice/creadentialSlice";
+import { useDispatch } from "react-redux";
 //   import { useSellerThemeColors } from "@/components/utils/sellerThemeColor";
 
 export const PhotographySidebar: React.FC = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [switchTab, setSwitchTab] = useState({
     tutorial: false,
     art: false,
@@ -24,7 +27,7 @@ export const PhotographySidebar: React.FC = () => {
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   // const bg = useSellerThemeColors(isDarkEnabled);
   const [total, setTotal] = useState(0);
-  // const sidenavcolor = useSelector((state:any) => state.sidebarbg.color)
+  const sidenavcolor = useSelector((state:any) => state.sidebarbg.color)
 
   const mysale = useSelector((state: any) => state.sale.data?.sells || []);
   const [info, setInfo] = useState({
@@ -84,16 +87,20 @@ export const PhotographySidebar: React.FC = () => {
         ...prev,
         tutorial: !value,
       }));
+      dispatch(openCredential("Tutorial"));
+
     }else if(type === "art"){
       setSwitchTab((prev) => ({
         ...prev,
         art: !value,
       }));
+      dispatch(openCredential("Digital Art and Music"))
     }else if(type === "ecommerce"){
       setSwitchTab((prev) => ({
         ...prev,
         ecommerce: !value,
       }));
+      dispatch(openCredential("E-Commerce"))
     }
   };
 
@@ -136,7 +143,7 @@ export const PhotographySidebar: React.FC = () => {
                 item.href === router.pathname
                   ? isDarkEnabled
                     ? `bg-[#192555] shadow-inner`
-                    : `bg-[#ffff] shadow-inner`
+                    : `bg-[${sidenavcolor}] shadow-inner`
                   : ""
               } h-12 rounded-xl px-2 flex justify-between items-center cursor-pointer mb-1`}
               key={index}

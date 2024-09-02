@@ -15,6 +15,7 @@ export const PhBuyer: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
+  const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const photography = useSelector(
     (state: any) => state.phbuyer?.data?.phbuyer || []
   );
@@ -40,13 +41,31 @@ export const PhBuyer: React.FC = () => {
     }
   };
   return (
-    <div className={`w-full h-[83vh]  bg-[#fff] rounded-xl`}>
-      <div className={`h-[12%] bg-[#dae2ff] rounded-t-xl flex justify-between`}>
+    <div
+      className={`w-full h-[83vh] rounded-xl ${
+        isDarkEnabled ? "bg-[#101c44]" : "bg-[#fff]"
+      }`}
+    >
+      <div
+        className={`h-[12%] ${
+          isDarkEnabled ? "bg-[#101c44]" : "bg-[#dae2ff]"
+        } rounded-t-xl flex justify-between`}
+      >
         <div onClick={back} className="flex items-center gap-4 px-2">
-          <div className="w-10 h-10 bg-[#025f92] flex items-center justify-center rounded-full  cursor-pointer">
+          <div
+            className={`w-10 h-10 ${
+              isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+            } flex items-center justify-center rounded-full  cursor-pointer`}
+          >
             <LeftIcon color="#fff" width="20" height="20" />
           </div>
-          <p className={`text-lg font-semibold text-[#192555]`}>All Buyer</p>
+          <p
+            className={`text-lg font-semibold  ${
+              isDarkEnabled ? "text-[#fff]" : "text-[#192555]"
+            }`}
+          >
+            All Buyer
+          </p>
         </div>
         <div className="flex px-2 gap-2 items-center">
           <div className="relative">
@@ -68,7 +87,7 @@ export const PhBuyer: React.FC = () => {
             className="w-full md:w-[32%] h-96 rounded-2xl border border-[#ccc]"
             key={index}
           >
-            <div className="w-full h-[16%] bg-[#025f92] rounded-t-2xl flex justify-between items-center gap-2 px-2 py-1">
+            <div className={`w-full h-[16%] ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"} rounded-t-2xl flex justify-between items-center gap-2 px-2 py-1`}>
               <div className="flex gap-1">
                 <div className="">
                   <img
@@ -100,7 +119,7 @@ export const PhBuyer: React.FC = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="h-[24%] bg-[#084363] rounded-b-2xl px-4 py-2">
+            <div className={`h-[24%] ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"} rounded-b-2xl px-4 py-2`}>
               <div>
                 <p className="text-lg font-semibold text-white">
                   {item.description}

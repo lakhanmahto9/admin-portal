@@ -24,6 +24,7 @@ import particularSellerArtMusicSlice from "../slice/particularSellerArtMusicSlic
 import salePhotographySlice from "../slice/photography/PhotographySaleSlice";
 import BuyerPhotograhySlice from "../slice/photography/AllBuyerPhotography";
 
+
 const persistConfig = {
   key: "root",
   storage,
