@@ -76,7 +76,7 @@ const ArtSidebar: React.FC = () => {
           color={darkModeEnable ? "#9eaaef" : "black"}
         />
       ),
-      link: "Top Creaters By Sale",
+      link: "Top Sellers By Sale",
       href: publicRuntimeConfig?.topCreatersByTotalSale,
     },
     {
@@ -87,7 +87,7 @@ const ArtSidebar: React.FC = () => {
           color={darkModeEnable ? "#9eaaef" : "black"}
         />
       ),
-      link: "Top Creaters By Revenue",
+      link: "Top Sellers By Revenue",
       href: publicRuntimeConfig?.topCreatersByRevenue,
     },
     {
@@ -110,7 +110,7 @@ const ArtSidebar: React.FC = () => {
 
   const callToFetchArtMusicAndVideoRevenue = async () => {
     const result = await dispatch<any>(artMusicAndVideoRevenue());
-    console.log(result.payload.totalRevenue);
+    console.log(result?.payload?.totalRevenue);
     SetArtMusicAndVideoRevenueData(result?.payload);
   };
 
@@ -181,7 +181,7 @@ const ArtSidebar: React.FC = () => {
                 darkModeEnable ? "text-[#5E72E4]" : "text-[#140e69]"
               }`}
             >
-              ₹{artMusicAndVideoRevenueData.totalRevenueforArtMusic}
+              ₹{artMusicAndVideoRevenueData?.totalRevenueforArtMusic}
             </p>
             <p className="text-sm font-semibold" style={{ color: colors.text }}>
               Total Revenue
