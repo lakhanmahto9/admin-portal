@@ -1,5 +1,5 @@
 import { LeftIcon, SearchIcon } from "@/public/icons/icons";
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -13,6 +13,9 @@ export const BuyerPhotography: React.FC = () => {
   const photography = useSelector(
     (state: any) => state.buyerphotography?.data?.buyerphotography || []
   );
+  const [search, setSearch] = useState("");
+  const [buyerph, setBuyerph] = useState(photography);
+
   const image = localStorage.getItem("image");
   const back = () => {
     router.push(
@@ -31,6 +34,18 @@ export const BuyerPhotography: React.FC = () => {
       console.log(error);
     }
   };
+
+  const handleSearch = (e:ChangeEvent<HTMLInputElement>) =>{
+    const query = e.target.value.toLowerCase();
+    if (query) {
+      const filtered = buyerph.filter((item: any) =>
+        item.title.toLowerCase().includes(query)
+      );
+      setBuyerph(filtered);
+    } else {
+      setBuyerph(photography);
+    }
+  }
   return (
     <div
       className={`w-full h-[83vh] rounded-xl ${
@@ -62,7 +77,7 @@ export const BuyerPhotography: React.FC = () => {
           <div className="relative">
             <input
               type="text"
-              //   onChange={handleSearch}
+              onChange={handleSearch}
               placeholder="Search..."
               className="w-40 h-10 rounded-full pl-10 focus:outline-none"
             />
@@ -73,48 +88,67 @@ export const BuyerPhotography: React.FC = () => {
         </div>
       </div>
       <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
-        {photography.map((item: any, index: number) => (
-          <div
-            key={item._id || index}
-            className="w-full md:w-[32%] h-96 rounded-2xl border border-[#ccc]"
-          >
-            <div className={`w-full h-[16%] ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"} rounded-t-2xl flex justify-start items-center gap-2 px-2 py-1`}>
-              <div>
+        {buyerph.length > 0 ? (
+          buyerph.map((item: any, index: number) => (
+            <div
+              key={item._id || index}
+              className="w-full md:w-[32%] h-96 rounded-2xl border border-[#ccc]"
+            >
+              <div
+                className={`w-full h-[16%] ${
+                  isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                } rounded-t-2xl flex justify-start items-center gap-2 px-2 py-1`}
+              >
+                <div>
+                  <img
+                    src={image || "/image/profile.png"}
+                    alt=""
+                    className="w-12 h-12 object-cover rounded-full"
+                  />
+                </div>
+                <div>
+                  <p className="text-lg font-semibold text-white">
+                    {item.title}
+                  </p>
+                  <p className="text-sm text-[#e0dfdf]">
+                    {moment(item.createdAt).format("MMMM D, YYYY")}
+                  </p>
+                </div>
+              </div>
+              <div className="h-[60%]">
                 <img
-                  src={image || "/image/profile.png"}
+                  src={item.thumbnail}
                   alt=""
-                  className="w-12 h-12 object-cover rounded-full"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div>
-                <p className="text-lg font-semibold text-white">{item.title}</p>
-                <p className="text-sm text-[#e0dfdf]">
-                  {moment(item.createdAt).format("MMMM D, YYYY")}
-                </p>
+              <div
+                className={`h-[24%] ${
+                  isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                } rounded-b-2xl px-4 py-2`}
+              >
+                <div>
+                  <p className="text-lg font-semibold text-white">
+                    {item.description}
+                  </p>
+                  <p className="text-sm font-semibold text-white">
+                    ${item.price}
+                  </p>
+                  <p className="text-sm font-semibold text-white">
+                    ©{" : "} {item.copyright ? "Yes" : "No"}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="h-[60%]">
-              <img
-                src={item.thumbnail}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className={`h-[24%] ${isDarkEnabled?"bg-[#040836]":"bg-[#025f92]"} rounded-b-2xl px-4 py-2`}>
-              <div>
-                <p className="text-lg font-semibold text-white">
-                  {item.description}
-                </p>
-                <p className="text-sm font-semibold text-white">
-                  ${item.price}
-                </p>
-                <p className="text-sm font-semibold text-white">
-                  ©{" : "} {item.copyright ? "Yes" : "No"}
-                </p>
-              </div>
+          ))
+        ) : (
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="w-96 h-96 p-4 flex flex-col justify-center items-center">
+              <img src="/image/not-found.png" alt="" />
+              <p className="text-lg font-semibold">Not available</p>
             </div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

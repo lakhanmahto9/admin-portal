@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 
 export const Login: React.FC = () => {
   const [seen, setSeen] = useState(false);
+  const [spin, setSpin] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const open = useSelector((state: any) => state.open.open);
@@ -35,10 +36,12 @@ export const Login: React.FC = () => {
   const handleSubmitData = async (e:FormEvent<HTMLFormElement>) =>{
     try {
       e.preventDefault();
+      setSpin(true);
        const result = await dispatch<any>(adminLogin(login));
        console.log(result.payload);
        if(result.payload?.success){
-        console.log(type)
+        dispatch(closeCredential());
+        setSpin(false);
         if(type === "Tutorial"){
           router.push("/admin-dashboard/seller-video/seller-dashboard")
         }else if(type === "Digital photography"){
@@ -47,8 +50,11 @@ export const Login: React.FC = () => {
         else if(type === "Digital Art and Music"){
           router.push("/admin-dashboard/seller-art/art-dashboard")
         }
+       }else{
+        setSpin(false);
        }
     } catch (error) {
+      setSpin(false);
       console.log(error)
     }
   }
@@ -115,7 +121,7 @@ export const Login: React.FC = () => {
                 className="bg-[#ddba4c] my-3 h-12 rounded-full text-xl font-semibold"
               >
                 {" "}
-                Submit
+                {spin?"Waiting...":"Submit"}
               </button>
             </form>
           </div>

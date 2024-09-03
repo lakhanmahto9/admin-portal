@@ -1,6 +1,7 @@
 import { removeDark, setDark } from "@/redux/slice/darkModeSlice";
 import { setFix } from "@/redux/slice/headerNavFixSlice";
 import { setNavColor } from "@/redux/slice/sidebarNavColorSlice";
+import { useRouter } from "next/router";
 
 import { Stack, Switch, styled } from "@mui/material";
 import React from "react";
@@ -51,6 +52,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const SettingModal: React.FC = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const fix = useSelector((state:any) => state.fix?.fix);
@@ -61,6 +63,12 @@ export const SettingModal: React.FC = () => {
   const removeDarkMode = () => {
     dispatch(removeDark());
   };
+  const gotosale = () =>{
+    router.push("/admin-dashboard/seller-photography/photography-seller-details")
+  }
+  const gotodashboard = () =>{
+    router.push("/admin-dashboard/seller-photography/photography-dashboard")
+  }
   return (
     <div className="w-full h-full p-4 overflow-y-scroll">
       <div className="flex flex-col">
@@ -139,11 +147,11 @@ export const SettingModal: React.FC = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5 mt-8">
-            <div className="flex justify-center items-center cursor-pointer w-full h-10 bg-black text-white rounded-md">
+            <div onClick={gotodashboard} className="flex justify-center items-center cursor-pointer w-full h-10 bg-black text-white rounded-md">
               <p className="text-white font-semibold">Dashboard</p>
             </div>
-            <div className="flex justify-center items-center cursor-pointer w-full h-10 border border-[black] text-white rounded-md">
-              <p className="text-[#384b6a] font-semibold">View Profile</p>
+            <div onClick={gotosale} className="flex justify-center items-center cursor-pointer w-full h-10 border border-[black] text-white rounded-md">
+              <p className="text-[#384b6a] font-semibold">Sales</p>
             </div>
           </div>
         </div>

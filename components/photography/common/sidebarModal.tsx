@@ -14,7 +14,7 @@ export const OpenModal: React.FC = () => {
     dispatch(removeModal({ open: false, type: "" }));
   };
   return (
-    <div className="absolute z-50  w-96 h-screen top-0 right-0 bg-[#dae2ff] shadow-inner">
+    <div className="fixed z-50  w-96 h-screen top-0 right-0 bg-[#dae2ff] shadow-inner">
       <div className="h-[14%] p-4 border-b border-[#bbb9b9]">
         <div className="flex justify-between items-center">
           <div className="flex justify-center items-center gap-2">

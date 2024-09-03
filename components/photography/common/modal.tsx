@@ -15,7 +15,7 @@ export const DialogModal: React.FC = () => {
       aria-describedby="alert-dialog-description"
     >
       <div>
-        {open.type === "veryfy"&&<VerifyModal />}
+        {open.type === "verify"&&<VerifyModal />}
         {open.type === "block"&&<BlockModal />}
         {open.type === "userblock"&&<UserblockModal />}
         {open.type === "buyerverify"&&<BuyerVerifyModal />}
