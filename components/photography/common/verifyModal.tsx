@@ -1,28 +1,35 @@
 import { CrossIcon } from "@/public/icons/icons";
+import { getAllSeller } from "@/redux/slice/photography/AllPhSellerSlice";
 import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
 import { phsellerProile } from "@/redux/slice/photography/PhSellerProfile";
 import { phsellerVerifyProile } from "@/redux/slice/photography/PhSellerVerify";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export const VerifyModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
+  const [spin, setSpin] = useState(false);
   const dispatch = useDispatch();
   const handleVerify = async () => {
     try {
+      setSpin(true);
       const result = await dispatch<any>(
         phsellerVerifyProile({ sellerId: open.id })
       );
       if (result.payload?.success) {
+        setSpin(false);
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
         await dispatch<any>(phsellerProile({ sellerId:  open.id }));
+        await dispatch<any>(getAllSeller());
       }else{
+        setSpin(false)
         dispatch(removeDialog({ open: false, type: ""}));
         toast.warn("User not found!")
       }
     } catch (error) {
+      setSpin(false);
       console.log(error);
     }
   };
@@ -49,7 +56,7 @@ export const VerifyModal: React.FC = () => {
           onClick={handleVerify}
           className="flex justify-center items-center cursor-pointer text-white w-28 h-12 border rounded-md"
         >
-          Verify
+          {spin?"Wait...":"Verify"}
         </div>
       </div>
     </div>
