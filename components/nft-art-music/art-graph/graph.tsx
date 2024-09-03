@@ -26,13 +26,7 @@ export const Graph: React.FC<GraphProps> = ({ salesData }) => {
     setSelectedYear(Number(event.target.value));
   };
 
-  if (!Array.isArray(salesData)) {
-    console.error(
-      "Expected dashboardSalesData to be an array, but got:",
-      salesData
-    );
-    return null;
-  }
+  
 
   return (
     <div

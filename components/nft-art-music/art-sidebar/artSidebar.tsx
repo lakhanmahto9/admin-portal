@@ -127,15 +127,16 @@ const ArtSidebar: React.FC = () => {
         tutorial: !value,
       }));
       dispatch(openCredential("Tutorial"));
-      router.push("//admin-dashboard/seller-video/seller-dashboard")
+      router.push("/admin-dashboard/seller-video/seller-dashboard")
       
-    }else if(type === "photograhy"){
+    }else if (type === "photography") {
       setSwitchTab((prev) => ({
         ...prev,
-        photograhy: !value,
+        photography: !value,
       }));
-      dispatch(openCredential("Digital photography"))
+      dispatch(openCredential("Digital photography"));
       router.push("/admin-dashboard/seller-photography/photography-dashboard")
+      
     }else if(type === "ecommerce"){
       setSwitchTab((prev) => ({
         ...prev,
@@ -235,7 +236,7 @@ const ArtSidebar: React.FC = () => {
             <div className="w-full h-10 bg-[#084363] text-[#fff] rounded-lg flex justify-between px-4 items-center">
               <p>Photography</p>
               <div
-                onClick={() => changeSwitch("art", switchTab.photograhy)}
+                onClick={() => changeSwitch("photography", switchTab.photograhy)}
                 className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
                   switchTab.photograhy
                     ? "justify-end bg-[#025f92]"

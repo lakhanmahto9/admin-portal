@@ -65,7 +65,7 @@ const Slider: React.FC = () => {
   return (
     <div
       className={`relative p-8 my-8 ml-4 rounded-md h-[95%] `}
-    //   style={{ height: "425px" }}
+      style={{ height: "425px" }}
     >
       {Images.map((image, index) => (
         <img

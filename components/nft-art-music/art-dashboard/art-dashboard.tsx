@@ -3,13 +3,14 @@ import { Card } from "../card/card";
 import { Graph } from "../art-graph/graph";
 import { useDispatch } from "react-redux";
 import { fetchTotalUserPlaylistCreatorCount } from "@/redux/slice/fetchTotalUserPlaylistCreaterSlice";
-import { SalesDataItem,SalesDataItemTwo } from "./data-types";
+import { SalesDataItem, SalesDataItemTwo } from "./data-types";
 import { fetchSalesCourse } from "../../../redux/slice/fetchSalesCourseSlice";
 import Slider from "../slider/slider";
 import DashboardTable from "./dashboard-table";
 import Categories from "./categories";
 import { userInformation } from "@/redux/slice/fetchAllUsersDetailSlice";
 import { useGetAllArtAndMusicSalesHistoryQuery } from "@/redux/api/adminApiSlice";
+import { fetchAllArtMusicSalesHistory } from "@/redux/slice/fetchAllArtMusicSalesHistorySlice";
 
 // import { FetchAllPhotographyBySellerSide } from "@/redux/slice/FetchAllPhotographyBySellerSildeSlice";
 export interface DashboardCardData {
@@ -46,15 +47,6 @@ export const ArtMusicDashboard: React.FC = () => {
     totalBuyerCount: 0,
     totalSellerCount: 0,
   });
-  useEffect(() => {
-    // if (token) {
-    callApiToAllSales();
-    callApiToFetchSalesCourses();
-    getApiToFetchTotalUserPlaylistCreator();
-    getAllPlaylistForSlider();
-    //   dispatch<any>(FetchAllPhotographyBySellerSide());
-    // }
-  }, []);
 
   const callApiToAllSales = async () => {
     try {
@@ -74,7 +66,7 @@ export const ArtMusicDashboard: React.FC = () => {
   const getApiToFetchTotalUserPlaylistCreator = async () => {
     try {
       const result = await dispatch<any>(fetchTotalUserPlaylistCreatorCount());
-        console.log(result.payload)
+      console.log(result.payload);
       if (result.payload && result.payload.data) {
         const {
           totalCreatorCount,
@@ -120,28 +112,36 @@ export const ArtMusicDashboard: React.FC = () => {
     }
   };
 
-  const { data } = useGetAllArtAndMusicSalesHistoryQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const callApiToFetchAllArtMusicSalesHistory = async () => {
+    try {
+      const result = await dispatch<any>(fetchAllArtMusicSalesHistory());
+      if (result.payload && result.payload.salesData) {
+        console.log(result.payload?.salesData); // Logs the fetched data
+        setSalesArt(result.payload?.salesData); // Storing data in state
+      }
 
-  // console.log(data?.salesData)
-  // setSalesArt(data?.salesData)
-  // console.log(salesArt)
+    } catch (error) {}
+  };
 
-  if (!Array.isArray(data?.salesData)) {
-    console.error(
-      "Expected dashboardSalesData to be an array, but got:",
-      data?.salesData
-    );
-    return null;
-  }
+  useEffect(() => {
+    callApiToAllSales();
+    callApiToFetchSalesCourses();
+    getApiToFetchTotalUserPlaylistCreator();
+    getAllPlaylistForSlider();
+    callApiToFetchAllArtMusicSalesHistory();
+  }, []);
+
+  // const { data } = useGetAllArtAndMusicSalesHistoryQuery(undefined, {
+  //   refetchOnMountOrArgChange: true,
+  // });
+
 
   return (
     <div className="flex flex-col items-center justify-center">
       <Card data={cardData} />
       <div className="w-full flex flex-col justify-center lg:flex-row gap-6 mt-10 pb-10">
         <div className="w-full mt-5 lg:w-3/5">
-          <Graph salesData={data?.salesData} />
+          <Graph salesData={salesArt} />
         </div>
         <div className="w-full lg:w-2/5">
           <Slider />
@@ -150,10 +150,10 @@ export const ArtMusicDashboard: React.FC = () => {
 
       <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
         <div className="w-full lg:w-3/5">
-          <DashboardTable artSalesData={data?.salesData} />
+          <DashboardTable artSalesData={salesArt} />
         </div>
         <div className="w-[95%] lg:w-2/5">
-          <Categories artSalesData={data?.salesData} />
+          <Categories artSalesData={salesArt} />
         </div>
       </div>
     </div>

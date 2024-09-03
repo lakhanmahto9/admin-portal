@@ -14,13 +14,7 @@ const DashboardTable: React.FC<Props> = ({ artSalesData }) => {
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
 
-  if (!Array.isArray(artSalesData)) {
-    console.error(
-      "Expected dashboardSalesData to be an array, but got:",
-      artSalesData
-    );
-    return null;
-  }
+ 
 
   return (
     <div

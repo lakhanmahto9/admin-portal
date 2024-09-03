@@ -127,3 +127,11 @@ export const artMusicSellerVerifyApi = (payload: any) => {
     }
   );
 };
+
+export const fetchAllArtMusicSalesHistoryApi = () => {
+  return axios.get(`${BASE_URL}/admin/admin-fetch-all-art-music-sales-history`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
