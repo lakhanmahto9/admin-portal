@@ -122,6 +122,7 @@ export const ArtMusicDashboard: React.FC = () => {
 
     } catch (error) {}
   };
+  
 
   useEffect(() => {
     callApiToAllSales();

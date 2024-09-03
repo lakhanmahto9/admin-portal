@@ -135,3 +135,35 @@ export const fetchAllArtMusicSalesHistoryApi = () => {
     },
   });
 };
+
+export const fetchAllArtAndMusicApi = () => {
+  return axios.get(`${BASE_URL}/admin/admin-fetch-all-music-and-art`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const fetchAllArtMusicBuyersApi = () => {
+  return axios.get(`${BASE_URL}/admin/get-buyers`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const fetchAllArtMusicSellersApi = () => {
+  return axios.get(`${BASE_URL}/admin/get-sellers`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const getAllArtMusicByCategoryApi = () => {
+  return axios.get(`${BASE_URL}/admin/get-all-arts-and-musics`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};

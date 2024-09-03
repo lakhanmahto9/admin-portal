@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import {BackArrow,NextArrow} from "../../utils/icons"
+import { useSelector, useDispatch } from "react-redux";
+import { BackArrow, NextArrow } from "../../utils/icons";
 import { useGetAllArtAndMusicQuery } from "@/redux/api/adminApiSlice";
+import { fetchAllArtAndMusic } from "@/redux/slice/fetchAllArtAndMusicSlice";
 
 interface Course {
   _id: string;
@@ -25,17 +26,17 @@ interface ArtContent {
 }
 
 const Slider: React.FC = () => {
+  const dispatch = useDispatch();
 
-  const { data } = useGetAllArtAndMusicQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-
-  const arts: ArtContent[] = data?.data || [];
+  // const { data, isLoading, isError } = useGetAllArtAndMusicQuery(undefined, {
+  //   refetchOnMountOrArgChange: true,
+  // });
+  // const arts: ArtContent[] = data?.data || [];
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [sliderData, setSliderData] = useState<ArtContent[]>([]);
 
   // Collect both artThumbnail and musicThumbnail
-  const Images = arts.flatMap((item: ArtContent) => {
+  const Images = sliderData.flatMap((item: ArtContent) => {
     const thumbnails = [];
     if (item.artThumbnail) thumbnails.push(item.artThumbnail);
     if (item.musicThumbnail) thumbnails.push(item.musicThumbnail);
@@ -44,8 +45,17 @@ const Slider: React.FC = () => {
 
   const totalImages = Images.length;
   const autoAdvanceInterval = 5000; // Adjust auto-advance speed
-
-  useEffect(() => { 
+  const callApiToFetchAllArtAndMusic = async () => {
+    try {
+      const result = await dispatch<any>(fetchAllArtAndMusic());
+      const fetchedData = result?.payload?.data || [];
+      setSliderData(fetchedData);
+    } catch (error) {
+      console.log("something went wrong in slider data ")
+    }
+  };
+  useEffect(() => {
+    callApiToFetchAllArtAndMusic();
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % totalImages);
     }, autoAdvanceInterval);
@@ -98,7 +108,7 @@ const Slider: React.FC = () => {
         className="absolute top-4 right-4 bg-blue-700 text-white px-2 py-1 rounded"
         onClick={goToNext}
       >
-        <NextArrow width="22" height="20" color="black"/>
+        <NextArrow width="22" height="20" color="black" />
       </button>
     </div>
   );

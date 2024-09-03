@@ -1,43 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./card";
-import { useGetAllArtsAndMusicsQuery } from "@/redux/api/adminApiSlice"; // Adjust the path as necessary
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ArrowLeftIcon } from "../../utils/icons";
-import { useRouter } from "next/router"; // For navigation
+import { useRouter } from "next/router";
+import { getAllArtMusicByCategory } from "@/redux/slice/getAllArtMusicByCategorySlice";
+
+interface ArtContent {
+  _id: string;
+  musicThumbnail: string;
+  artName: string;
+  name: string;
+  price: number;
+  description: string;
+  bidding: boolean;
+  copyright: boolean;
+}
 
 const Music: React.FC = () => {
-  const { data, error, isLoading } = useGetAllArtsAndMusicsQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
+  const dispatch = useDispatch();
+  const [musics, setMusics] = useState<ArtContent[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [searchQuery, setSearchQuery] = useState("");
+
+  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const router = useRouter();
 
-  if (isLoading) {
-    return (
-      <div
-        className={`mt-20 ml-3  ${
-          darkModeEnable ? "text-white" : "text-white"
-        }`}
-      >
-        Loading...
-      </div>
-    );
-  }
+  const callApiTofetchAllArtMusic = async () => {
+    setLoading(true); // Start loading
+    try {
+      const result = await dispatch<any>(getAllArtMusicByCategory());
+      if (result.payload?.success) {
+        setMusics(result?.payload?.data?.musics);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
 
-  if (error) {
-    return (
-      <div
-        className={`mt-20 ml-3 ${darkModeEnable ? "text-white" : "text-white"}`}
-      >
-        Error fetching data
-      </div>
-    );
-  }
+  useEffect(() => {
+    callApiTofetchAllArtMusic();
+  }, []);
 
-  const contents = data?.data?.musics || [];
-
-  const filteredContents = contents.filter(
+  const filteredContents = musics.filter(
     (item: any) =>
       item.artName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -60,39 +66,40 @@ const Music: React.FC = () => {
           placeholder="Search by field names"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className={`px-3 py-2 rounded-md border focus:outline-none  ${
-            darkModeEnable
-              ? "bg-[#0e1a49] text-white"
-              : "bg-white  text-gray-800"
+          className={`px-3 py-2 rounded-md border focus:outline-none ${
+            darkModeEnable ? "bg-[#0e1a49] text-white" : "bg-white text-gray-800"
           }`}
         />
       </div>
-      <div className="w-full flex flex-wrap">
-        {filteredContents.length > 0 ? (
-          filteredContents.map((item: any) => (
+      {loading ? ( // Show loading indicator
+        <div className="w-full flex justify-center items-center mt-20">
+          <p className="text-xl font-semibold text-white">Loading...</p>
+        </div>
+      ) : filteredContents.length > 0 ? (
+        <div className="w-full flex flex-wrap">
+          {filteredContents.map((item: any) => (
             <Card item={item} key={item._id} />
-          ))
-        ) : (
-          <div className="w-full flex justify-center items-center mt-20">
-            <div
-              className={`card m-4 w-72 h-72 flex flex-col rounded-lg shadow-lg overflow-hidden relative p-2 ${
-                darkModeEnable
-                  ? "bg-[#0E1A49] text-white"
-                  : "bg-white text-black"
-              }`}
-            >
-              <img
-                src="/NoData.png"
-                alt="No Data Found"
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4 text-center">
-                <p className="text-xl font-semibold">No Data Found</p>
-              </div>
+          ))}
+        </div>
+      ) : (
+        // No Data Found section
+        <div className="w-full flex justify-center items-center mt-20">
+          <div
+            className={`card m-4 w-72 h-72 flex flex-col rounded-lg shadow-lg overflow-hidden relative p-2 ${
+              darkModeEnable ? "bg-[#0E1A49] text-white" : "bg-white text-black"
+            }`}
+          >
+            <img
+              src="/NoData.png"
+              alt="No Data Found"
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4 text-center">
+              <p className="text-xl font-semibold">No Data Found</p>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
