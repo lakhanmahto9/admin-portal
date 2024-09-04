@@ -23,7 +23,6 @@ export const Card: React.FC = () => {
       const totalRev = photographysale.reduce((total: number, data: any) => {
         return total + data.price;
       }, 0);
-      console.log("hiii")
 
       setInfo((prev) => ({
         ...prev,
