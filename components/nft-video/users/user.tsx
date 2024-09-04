@@ -128,27 +128,86 @@ const User: React.FC = () => {
   return (
     <div className="mt-5 mx-3">
       <div className="flex justify-between mb-2">
-          <span className="ml-2" onClick={handleNavigate}>
-            {" "}
-            <button onClick={handleNavigate}>
-              <ArrowLeftIcon width="24" height="24" color="white" />
-            </button>
-          </span>
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={handleSearch}
-            className={`px-3 py-2 rounded-md border focus:outline-none `}
-            style={{ background: colors.cardBg, color: colors.text }}
-          />
-        </div>
+        <span className="ml-2" onClick={handleNavigate}>
+          {" "}
+          <button onClick={handleNavigate}>
+            <ArrowLeftIcon width="24" height="24" color="white" />
+          </button>
+        </span>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearch}
+          className={`px-3 py-2 rounded-md border focus:outline-none `}
+          style={{ background: colors.cardBg, color: colors.text }}
+        />
+      </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        
-        {isLoading || isFetching ? ( // Show spinner when loading
-          <div className="flex  justify-center items-center h-full">
-            <CircularProgress />
-          </div>
+        {isLoading || isFetching ? (
+          <table
+            className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
+              isDarkEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
+            }`}
+          >
+            <thead
+              className={`text-xs uppercase ${
+                isDarkEnabled
+                  ? "bg-[#0E1A49] text-[#D3D3D3]"
+                  : "bg-gray-100 text-gray-700"
+              } `}
+            >
+              <tr>
+                <th scope="col" className="p-4">
+                  <div className="flex items-center">
+                    <input
+                      id="checkbox-all-search"
+                      type="checkbox"
+                      className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ${
+                        isDarkEnabled
+                          ? "bg-[#0E1A49]"
+                          : "bg-gray-50 text-gray-700 "
+                      }`}
+                    />
+                    <label htmlFor="checkbox-all-search" className="sr-only">
+                      checkbox
+                    </label>
+                  </div>
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Email
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  City
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Postal Code
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Address
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Country
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Block Status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan={9} className="text-center py-6">
+                  <CircularProgress />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         ) : (
           <table
             className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
@@ -205,7 +264,6 @@ const User: React.FC = () => {
                 </th>
               </tr>
             </thead>
-
             {paginatedFilteredUsers.length > 0 ? (
               <tbody>
                 {paginatedFilteredUsers.map((user) => (
@@ -319,7 +377,7 @@ const User: React.FC = () => {
                             </button>
                             <button
                               onClick={() => handleEditUser(user)}
-                              className="block px-4 py-2 text-sm w-full rounded-2xl hover:bg-blue-400"
+                              className="block px-4 py-2 text-sm w-full  rounded-2xl  hover:bg-blue-400"
                             >
                               Edit
                             </button>
@@ -331,26 +389,17 @@ const User: React.FC = () => {
                 ))}
               </tbody>
             ) : (
-              <tr>
-                <td colSpan={9} className="text-center py-6">
-                  <img
-                    src={NoDataImage.src}
-                    alt="No Data Found"
-                    className="mx-auto mb-4"
-                    style={{ width: "300px", height: "300px" }}
-                  />
-                  <p
-                    className={`text-lg ${
-                      isDarkEnabled ? "text-gray-300" : "text-gray-500"
-                    }`}
-                  >
-                    No data found
-                  </p>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td colSpan={9} className="text-center p-4">
+                    No data available
+                  </td>
+                </tr>
+              </tbody>
             )}
           </table>
         )}
+
         {editingUser && (
           <EditUser
             user={editingUser}
