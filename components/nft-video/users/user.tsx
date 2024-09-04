@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { ThreeDotVertical } from "../../utils/icons";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import NoDataImage from "../../../public/NoData.png";
+import { CircularProgress } from "@mui/material";
 
 interface Address {
   aboutMe: string;
@@ -35,11 +36,12 @@ const User: React.FC = () => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkEnabled);
 
-  const { data } = useGetUsersQuery(undefined, {
+  const { data, isLoading, isFetching } = useGetUsersQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 
@@ -49,6 +51,7 @@ const User: React.FC = () => {
   useEffect(() => {
     if (data) {
       setUsers(data.data.users);
+      setLoading(false);
     }
   }, [data]);
 
@@ -124,8 +127,7 @@ const User: React.FC = () => {
 
   return (
     <div className="mt-5 mx-3">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="flex justify-between mb-2">
+      <div className="flex justify-between mb-2">
           <span className="ml-2" onClick={handleNavigate}>
             {" "}
             <button onClick={handleNavigate}>
@@ -141,207 +143,214 @@ const User: React.FC = () => {
             style={{ background: colors.cardBg, color: colors.text }}
           />
         </div>
-
-        <table
-          className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
-            isDarkEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
-          }`}
-        >
-          <thead
-            className={`text-xs uppercase ${
-              isDarkEnabled
-                ? "bg-[#0E1A49] text-[#D3D3D3]"
-                : "bg-gray-100 text-gray-700"
-            } `}
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        
+        {isLoading || isFetching ? ( // Show spinner when loading
+          <div className="flex  justify-center items-center h-full">
+            <CircularProgress />
+          </div>
+        ) : (
+          <table
+            className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
+              isDarkEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
+            }`}
           >
-            <tr>
-              <th scope="col" className="p-4">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ${
+            <thead
+              className={`text-xs uppercase ${
+                isDarkEnabled
+                  ? "bg-[#0E1A49] text-[#D3D3D3]"
+                  : "bg-gray-100 text-gray-700"
+              } `}
+            >
+              <tr>
+                <th scope="col" className="p-4">
+                  <div className="flex items-center">
+                    <input
+                      id="checkbox-all-search"
+                      type="checkbox"
+                      className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ${
+                        isDarkEnabled
+                          ? "bg-[#0E1A49]"
+                          : "bg-gray-50 text-gray-700 "
+                      }`}
+                    />
+                    <label htmlFor="checkbox-all-search" className="sr-only">
+                      checkbox
+                    </label>
+                  </div>
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Email
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  City
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Postal Code
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Address
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Country
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Block Status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+
+            {paginatedFilteredUsers.length > 0 ? (
+              <tbody>
+                {paginatedFilteredUsers.map((user) => (
+                  <tr
+                    key={user._id}
+                    className={`border-b dark:border-gray-700 dark:hover:bg-gray-600 ${
                       isDarkEnabled
-                        ? "bg-[#0E1A49]"
-                        : "bg-gray-50 text-gray-700 "
-                    }`}
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Email
-              </th>
-              <th scope="col" className="px-6 py-3">
-                City
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Postal Code
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Address
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Country
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Block Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Action
-              </th>
-            </tr>
-          </thead>
-          {paginatedFilteredUsers.length > 0 ? (
-            <tbody>
-              {paginatedFilteredUsers.map((user) => (
-                <tr
-                  key={user._id}
-                  className={`border-b dark:border-gray-700 dark:hover:bg-gray-600 ${
-                    isDarkEnabled
-                      ? "bg-[#0E1A49] hover:bg-blue-600 "
-                      : "bg-gray-100 text-gray-700 hover:bg-slate-300 "
-                  }`}
-                >
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input
-                        id={`checkbox-table-search-${user._id}`}
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-red-400 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor={`checkbox-table-search-${user._id}`}
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td
-                    scope="row"
-                    className={`px-6 py-4 font-medium whitespace-nowrap dark:text-white ${
-                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                        ? "bg-[#0E1A49] hover:bg-blue-600 "
+                        : "bg-gray-100 text-gray-700 hover:bg-slate-300 "
                     }`}
                   >
-                    {user.name}
-                  </td>
-                  <td
-                    className={`px-6 py-4 ${
-                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                    }`}
-                  >
-                    {user.email}
-                  </td>
-
-                  <td
-                    className={`px-6 py-4 ${
-                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                    }`}
-                  >
-                    {user.address?.city || "N/A"}
-                  </td>
-
-                  <td
-                    className={`px-6 py-4 ${
-                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                    }`}
-                  >
-                    {user.address?.postalCode || "N/A"}
-                  </td>
-                  <td
-                    className={`px-6 py-4 ${
-                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                    }`}
-                  >
-                    {user.address?.address || "N/A"}
-                  </td>
-
-                  <td
-                    className={`px-6 py-4 ${
-                      isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                    }`}
-                  >
-                    {user.address?.country || "N/A"}
-                  </td>
-                  <td
-                    className={`px-6 py-4 ${
-                      user.isBlocked
-                        ? isDarkEnabled
-                          ? "text-red-500"
-                          : "text-red-800"
-                        : isDarkEnabled
-                        ? "text-green-500"
-                        : "text-green-800"
-                    }`}
-                  >
-                    {user.isBlocked ? "Blocked" : "Active"}
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="relative inline-block text-left">
-                      <button
-                        onClick={() => handleActionClick(user._id)}
-                        className="p-2 text-gray-500 rounded-full hover:text-gray-700 focus:outline-none focus:text-gray-700"
-                      >
-                        <ThreeDotVertical
-                          width="16"
-                          height="16"
-                          color={colors.text}
+                    <td className="w-4 p-4">
+                      <div className="flex items-center">
+                        <input
+                          id={`checkbox-table-search-${user._id}`}
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-red-400 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                      </button>
-                      {selectedUser === user._id && (
-                        <div
-                          className="absolute right-0 z-10 w-40 py-2 mt-2 rounded-md shadow-xl"
-                          style={{
-                            background: colors.background,
-                            color: colors.text,
-                          }}
+                        <label
+                          htmlFor={`checkbox-table-search-${user._id}`}
+                          className="sr-only"
                         >
-                          <button
-                            onClick={() => handleBlockUser(user._id)}
-                            className="block px-4 py-2 text-sm w-full rounded-2xl  hover:bg-blue-400"
-                          >
-                            {user.isBlocked ? "Unblock" : "Block"}
-                          </button>
-                          <button
-                            onClick={() => handleEditUser(user)}
-                            className="block px-4 py-2 text-sm w-full rounded-2xl hover:bg-blue-400"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          ) : (
-            <tr>
-            <td colSpan={9} className="text-center py-6">
-              <img
-                src={NoDataImage.src}
-                alt="No Data Found"
-                className="mx-auto mb-4"
-                style={{ width: "300px", height: "300px" }}
-              />
-              <p
-                className={`text-lg ${
-                  isDarkEnabled ? "text-gray-300" : "text-gray-500"
-                }`}
-              >
-                No data found
-              </p>
-            </td>
-          </tr>
-          )}
-        </table>
+                          checkbox
+                        </label>
+                      </div>
+                    </td>
+                    <td
+                      scope="row"
+                      className={`px-6 py-4 font-medium whitespace-nowrap dark:text-white ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.name}
+                    </td>
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.email}
+                    </td>
 
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.address?.city || "N/A"}
+                    </td>
+
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.address?.postalCode || "N/A"}
+                    </td>
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.address?.address || "N/A"}
+                    </td>
+
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.address?.country || "N/A"}
+                    </td>
+                    <td
+                      className={`px-6 py-4 ${
+                        user.isBlocked
+                          ? isDarkEnabled
+                            ? "text-red-500"
+                            : "text-red-800"
+                          : isDarkEnabled
+                          ? "text-green-500"
+                          : "text-green-800"
+                      }`}
+                    >
+                      {user.isBlocked ? "Blocked" : "Active"}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="relative inline-block text-left">
+                        <button
+                          onClick={() => handleActionClick(user._id)}
+                          className="p-2 text-gray-500 rounded-full hover:text-gray-700 focus:outline-none focus:text-gray-700"
+                        >
+                          <ThreeDotVertical
+                            width="16"
+                            height="16"
+                            color={colors.text}
+                          />
+                        </button>
+                        {selectedUser === user._id && (
+                          <div
+                            className="absolute right-0 z-10 w-40 py-2 mt-2 rounded-md shadow-xl"
+                            style={{
+                              background: colors.background,
+                              color: colors.text,
+                            }}
+                          >
+                            <button
+                              onClick={() => handleBlockUser(user._id)}
+                              className="block px-4 py-2 text-sm w-full rounded-2xl  hover:bg-blue-400"
+                            >
+                              {user.isBlocked ? "Unblock" : "Block"}
+                            </button>
+                            <button
+                              onClick={() => handleEditUser(user)}
+                              className="block px-4 py-2 text-sm w-full rounded-2xl hover:bg-blue-400"
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              <tr>
+                <td colSpan={9} className="text-center py-6">
+                  <img
+                    src={NoDataImage.src}
+                    alt="No Data Found"
+                    className="mx-auto mb-4"
+                    style={{ width: "300px", height: "300px" }}
+                  />
+                  <p
+                    className={`text-lg ${
+                      isDarkEnabled ? "text-gray-300" : "text-gray-500"
+                    }`}
+                  >
+                    No data found
+                  </p>
+                </td>
+              </tr>
+            )}
+          </table>
+        )}
         {editingUser && (
           <EditUser
             user={editingUser}
@@ -350,6 +359,7 @@ const User: React.FC = () => {
           />
         )}
       </div>
+
       <div className="flex justify-center mt-4">
         <button
           className="px-4 py-2 mx-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"

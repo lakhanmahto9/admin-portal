@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {BackArrow,NextArrow} from "../../utils/icons"
+import { BackArrow, NextArrow } from "../../utils/icons";
 
 interface Course {
   _id: string;
@@ -8,20 +8,22 @@ interface Course {
   title: string;
   description?: string;
   price?: number;
-  thumbnail?: string; // Assuming this is the property name for the thumbnail
+  thumbnail?: string;
 }
 
 const Slider: React.FC = () => {
-//   const darkModeEnable = useSelector(selectDarkMode);
-  const courseData: Course[] = useSelector((state: any) => state?.user?.playlist) || [];
-    console.log(courseData)
+  const courseData: Course[] =
+    useSelector((state: any) => state?.user?.playlist) || [];
+  console.log(courseData);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
-  const Images = courseData.map((course: any) => course.thumbnail).filter((thumbnail: string | undefined) => thumbnail);
+
+  const Images = courseData
+    .map((course: any) => course.thumbnail)
+    .filter((thumbnail: string | undefined) => thumbnail);
   const totalImages = Images.length;
   const autoAdvanceInterval = 5000; // Change this to adjust auto-advance speed
 
-  useEffect(() => { 
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % totalImages);
     }, autoAdvanceInterval);
@@ -40,8 +42,8 @@ const Slider: React.FC = () => {
 
   return (
     <div
-      className={`relative p-8 my-8 ml-4 rounded-md h-[95%] `}
-    //   style={{ height: "425px" }}
+      className={`relative p-8 my-8 mb-0  w-full  rounded-md h-[95%] `}
+        style={{ height: "400px" }}
     >
       {Images.map((image, index) => (
         <img
@@ -74,7 +76,7 @@ const Slider: React.FC = () => {
         className="absolute top-4 right-4 bg-blue-700 text-white px-2 py-1 rounded"
         onClick={goToNext}
       >
-        <NextArrow width="22" height="20" color="black"/>
+        <NextArrow width="22" height="20" color="black" />
       </button>
     </div>
   );
