@@ -96,3 +96,11 @@ export const buyerphotographyapi = (payload:any) => {
     },
   });
 };
+
+export const notificationupadateapi = () => {
+  return axios.get(`${BASE_URL}/admin/update-admin-notification`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};

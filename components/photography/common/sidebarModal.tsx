@@ -5,13 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { SettingModal } from "../setting/Setting";
 import { CloseIcon } from "@/public/icons/icons";
 import { NotificatonPage } from "../notification/NotificationPage";
+import { upadateNotification } from "@/redux/slice/photography/NotificationUpdateSlice";
+import { salesPhotography } from "@/redux/slice/photography/PhotographySaleSlice";
 
 export const OpenModal: React.FC = () => {
   const dispatch = useDispatch();
   const modaltype = useSelector((state: any) => state.modal.type);
   const auth = useSelector((state: any) => state.auth.data?.data?.phSeller);
-  const closeModal = () => {
+  const closeModal = async () => {
     dispatch(removeModal({ open: false, type: "" }));
+    if(modaltype === "notification"){
+     const result =  await dispatch<any>(upadateNotification())
+     if(result.payload?.success){
+      await dispatch<any>(salesPhotography());
+     }
+    }
   };
   return (
     <div className="fixed z-50  w-96 h-screen top-0 right-0 bg-[#dae2ff] shadow-inner">

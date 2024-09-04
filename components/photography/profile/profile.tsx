@@ -47,7 +47,7 @@ export const Profile: React.FC = () => {
         </div>
         <div className="w-full h-[88%] overflow-y-scroll flex flex-col md:flex-row p-2 md:p-7 gap-4">
           <div className="w-full md:w-[40%] flex flex-col gap-4">
-            <div className={`w-full h-1/2 border rounded-lg p-2 ${isDarkEnabled?"bg-[#040836]":"bg-[#ebf6fd]"}  flex flex-col gap-2 justify-center items-center`}>
+            <div className={`w-full h-auto md:h-1/2 border rounded-lg p-2 ${isDarkEnabled?"bg-[#040836]":"bg-[#ebf6fd]"}  flex flex-col gap-2 justify-center items-center`}>
               <div className="w-28 md:w-40 h-28  md:h-40 border rounded-full">
                 <img
                   src={profile1?.profile_pic || "/image/profile.png"}
@@ -59,7 +59,7 @@ export const Profile: React.FC = () => {
                 {profile1?.name}
               </p>
             </div>
-            <div className={`relative w-full p-2 h-1/2 border rounded-lg ${isDarkEnabled?"bg-[#040836]":"bg-[#ebf6fd]"} px-16 py-2`}>
+            <div className={`relative w-full p-2 h-auto md:h-1/2 border rounded-lg ${isDarkEnabled?"bg-[#040836]":"bg-[#ebf6fd]"} px-16 py-2`}>
               {!profile?.idCard ? (
                 <div className="w-full h-full border-2 border-dashed border-indigo-600 flex justify-center items-center">
                   <p className="text-xl font-bold text-[#2b4348]">ID Card</p>
