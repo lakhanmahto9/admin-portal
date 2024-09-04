@@ -21,7 +21,7 @@ export const NotificatonPage: React.FC = () => {
             {/* <PersonIcon color="#aebffa" width="28" height="28" /> */}
           </div>
           <p className="text-sm text-[#436bfb]">
-            Photography's name is {item?.title} is purchasd by{" "}
+            Photography&apos;s name is {item?.title} is purchasd by{" "}
             {item?.buyerId?.name} on{" "}
             {moment(item.createdAt).format("MMMM Do, YYYY")}
           </p>
