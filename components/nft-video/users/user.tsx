@@ -4,13 +4,14 @@ import {
   useUserBlockUnblockMutation,
 } from "../../../redux/api/adminApiSlice";
 import EditUser from "./editUser";
-import { useSelector } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { ThreeDotVertical } from "../../utils/icons";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import NoDataImage from "../../../public/NoData.png";
 import { CircularProgress } from "@mui/material";
+import { fetchAllUsers } from "@/redux/slice/tutorial/getAllUserSlice";
 
 interface Address {
   aboutMe: string;
@@ -36,24 +37,33 @@ const User: React.FC = () => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkEnabled);
-
+ const dispatch = useDispatch();
   const { data, isLoading, isFetching } = useGetUsersQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 
+
+
   const [blockUnblockUser] = useUserBlockUnblockMutation();
   //   const darkModeEnabled = useSelector(selectDarkMode);
 
-  useEffect(() => {
-    if (data) {
-      setUsers(data.data.users);
-      setLoading(false);
+  const callApiToFetchAllUsers = async () => {
+    setLoading(true); 
+    const result = await dispatch<any>(fetchAllUsers())
+    console.log(result.payload)
+    if (result.payload?.success) {
+      setUsers(result?.payload?.data?.users);
+      // setFilteredBuyers(result?.payload?.data?.buyers);
     }
-  }, [data]);
+    setLoading(false);
+  }
+  useEffect(() => {
+    callApiToFetchAllUsers();
+  }, []);
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -104,7 +114,7 @@ const User: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    router.push("/seller-video/seller-dashboard"); // Adjust the path as necessary
+    router.push("/admin-dashboard/seller-video/seller-dashboard"); // Adjust the path as necessary
   };
 
   // Filter users based on search term
@@ -128,27 +138,86 @@ const User: React.FC = () => {
   return (
     <div className="mt-5 mx-3">
       <div className="flex justify-between mb-2">
-          <span className="ml-2" onClick={handleNavigate}>
-            {" "}
-            <button onClick={handleNavigate}>
-              <ArrowLeftIcon width="24" height="24" color="white" />
-            </button>
-          </span>
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={handleSearch}
-            className={`px-3 py-2 rounded-md border focus:outline-none `}
-            style={{ background: colors.cardBg, color: colors.text }}
-          />
-        </div>
+        <span className="ml-2" onClick={handleNavigate}>
+          {" "}
+          <button onClick={handleNavigate}>
+            <ArrowLeftIcon width="24" height="24" color="white" />
+          </button>
+        </span>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearch}
+          className={`px-3 py-2 rounded-md border focus:outline-none `}
+          style={{ background: colors.cardBg, color: colors.text }}
+        />
+      </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        
-        {isLoading || isFetching ? ( // Show spinner when loading
-          <div className="flex  justify-center items-center h-full">
-            <CircularProgress />
-          </div>
+        {loading ? (
+          <table
+            className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
+              isDarkEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
+            }`}
+          >
+            <thead
+              className={`text-xs uppercase ${
+                isDarkEnabled
+                  ? "bg-[#0E1A49] text-[#D3D3D3]"
+                  : "bg-gray-100 text-gray-700"
+              } `}
+            >
+              <tr>
+                <th scope="col" className="p-4">
+                  <div className="flex items-center">
+                    <input
+                      id="checkbox-all-search"
+                      type="checkbox"
+                      className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ${
+                        isDarkEnabled
+                          ? "bg-[#0E1A49]"
+                          : "bg-gray-50 text-gray-700 "
+                      }`}
+                    />
+                    <label htmlFor="checkbox-all-search" className="sr-only">
+                      checkbox
+                    </label>
+                  </div>
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Email
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  City
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Postal Code
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Address
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Country
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Block Status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan={9} className="text-start md:text-center py-6">
+                  <CircularProgress />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         ) : (
           <table
             className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
@@ -205,7 +274,6 @@ const User: React.FC = () => {
                 </th>
               </tr>
             </thead>
-
             {paginatedFilteredUsers.length > 0 ? (
               <tbody>
                 {paginatedFilteredUsers.map((user) => (
@@ -319,7 +387,7 @@ const User: React.FC = () => {
                             </button>
                             <button
                               onClick={() => handleEditUser(user)}
-                              className="block px-4 py-2 text-sm w-full rounded-2xl hover:bg-blue-400"
+                              className="block px-4 py-2 text-sm w-full  rounded-2xl  hover:bg-blue-400"
                             >
                               Edit
                             </button>
@@ -331,26 +399,17 @@ const User: React.FC = () => {
                 ))}
               </tbody>
             ) : (
-              <tr>
-                <td colSpan={9} className="text-center py-6">
-                  <img
-                    src={NoDataImage.src}
-                    alt="No Data Found"
-                    className="mx-auto mb-4"
-                    style={{ width: "300px", height: "300px" }}
-                  />
-                  <p
-                    className={`text-lg ${
-                      isDarkEnabled ? "text-gray-300" : "text-gray-500"
-                    }`}
-                  >
-                    No data found
-                  </p>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td colSpan={9} className="text-center p-4">
+                    No data available
+                  </td>
+                </tr>
+              </tbody>
             )}
           </table>
         )}
+
         {editingUser && (
           <EditUser
             user={editingUser}

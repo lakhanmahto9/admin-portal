@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { usePaidUsersQuery } from "../../../redux/api/adminApiSlice";
-import { useSelector } from "react-redux";
+import { fetchAllSubscribers } from "@/redux/slice/tutorial/fetchAllSubscribersSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import NoDataImage from "../../../public/NoData.png";
+import { CircularProgress } from "@mui/material";
 
 interface PaidUser {
   _id: string;
@@ -16,26 +17,32 @@ interface PaidUser {
 }
 
 const Subscribers: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [users, setUsers] = useState<PaidUser[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter();
-
-  const { data, isLoading, isError } = usePaidUsersQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const dispatch = useDispatch();
+ 
   const darkModeEnabled = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnabled);
 
-  useEffect(() => {
-    if (data) {
-      setUsers(data.data.users);
+  const callApiToFetchAllSubscribers = async () => {
+    setLoading(true);
+    const result = await dispatch<any>(fetchAllSubscribers());
+    console.log(result.payload.data);
+    if (result.payload?.success) {
+      setUsers(result?.payload?.data?.users);
     }
-  }, [data]);
+    setLoading(false);
+  };
+  useEffect(() => {
+    callApiToFetchAllSubscribers();
+  }, []);
 
   const handleNavigate = () => {
-    router.push("/seller-video/seller-dashboard");
+    router.push("/admin-dashboard/seller-video/seller-dashboard");
   };
 
   const filteredUsers = users.filter(
@@ -75,29 +82,27 @@ const Subscribers: React.FC = () => {
     setCurrentPage(1); // Reset pagination to the first page on search
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error fetching data</div>;
+  // if (isError) return <div>Error fetching data</div>;
 
   return (
     <div className="mt-5">
+      <div className="flex justify-between mb-2">
+        <span className="ml-2">
+          {" "}
+          <button onClick={handleNavigate}>
+            <ArrowLeftIcon width="24" height="24" color="white" />
+          </button>
+        </span>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearch}
+          className={`px-3 py-2 rounded-md border focus:outline-none `}
+          style={{ background: colors.cardBg, color: colors.text }}
+        />
+      </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="flex justify-between mb-2">
-          <span className="ml-2">
-            {" "}
-            <button onClick={handleNavigate}>
-              <ArrowLeftIcon width="24" height="24" color="white" />
-            </button>
-          </span>
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={handleSearch}
-            className={`px-3 py-2 rounded-md border focus:outline-none `}
-            style={{ background: colors.cardBg, color: colors.text }}
-          />
-        </div>
-
         <table
           className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
             darkModeEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
@@ -128,7 +133,18 @@ const Subscribers: React.FC = () => {
               </th>
             </tr>
           </thead>
-          {filteredUsers.length > 0 ? (
+          {loading ? (
+            // Show spinner inside the table while loading
+            <tbody>
+              <tr>
+                <td colSpan={5} className="text-center py-6">
+                  <div className="flex justify-center items-center h-full">
+                    <CircularProgress />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          ) : filteredUsers.length > 0 ? (
             <tbody>
               {currentUsers.map((user) => (
                 <tr
@@ -192,25 +208,28 @@ const Subscribers: React.FC = () => {
               ))}
             </tbody>
           ) : (
-            <tr>
-              <td colSpan={9} className="text-center py-6">
-                <img
-                  src={NoDataImage.src}
-                  alt="No Data Found"
-                  className="mx-auto mb-4"
-                  style={{ width: "300px", height: "300px" }}
-                />
-                <p
-                  className={`text-lg ${
-                    darkModeEnabled ? "text-gray-300" : "text-gray-500"
-                  }`}
-                >
-                  No data found
-                </p>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td colSpan={5} className="text-center py-6">
+                  <img
+                    src={NoDataImage.src}
+                    alt="No Data Found"
+                    className="mx-auto mb-4"
+                    style={{ width: "300px", height: "300px" }}
+                  />
+                  <p
+                    className={`text-lg ${
+                      darkModeEnabled ? "text-gray-300" : "text-gray-500"
+                    }`}
+                  >
+                    No data found
+                  </p>
+                </td>
+              </tr>
+            </tbody>
           )}
         </table>
+
         <nav
           className={`flex flex-col items-center sm:flex-row sm:justify-center gap-5 pt-4 ${
             darkModeEnabled ? "bg-[#0E1A49]" : "bg-gray-100"

@@ -35,7 +35,7 @@ const PlaylistVideos: React.FC<Props> = ({ videos }) => {
   };
 
   const goBack = () => {
-    router.push("/seller-video/playlist");
+    router.push("/admin-dashboard/seller-video/seller-dashboard");
   };
 
   return (

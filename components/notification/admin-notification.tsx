@@ -134,7 +134,7 @@ export const AdminNotification: React.FC = () => {
                             {type === "Tutorial" ? (
                               <>
                                 <strong>{item.title}</strong> is purchased by{" "}
-                                {item.userName}
+                                <p className="text-blue-500">{item.userName}</p>
                               </>
                             ) : (
                               <>

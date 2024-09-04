@@ -4,13 +4,14 @@ import {
   ThreedotIcon,
   VerifyIcon,
 } from "@/public/icons/icons";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import { fetchAllArtMusicSellers } from "@/redux/slice/fetchAllArtMusicSellersSlice";
+import noDataImage from "@/public/noData.png"; // Import your no data image
 
 interface Address {
   aboutMe: string;
@@ -32,6 +33,7 @@ export const ArtMusicSeller: React.FC = () => {
   const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkModeEnable);
   const [sellers, setSellers] = useState<Buyer[]>([]);
+  const [filteredSellers, setFilteredSellers] = useState<Buyer[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const router = useRouter();
   const dispatch = useDispatch();
@@ -41,6 +43,7 @@ export const ArtMusicSeller: React.FC = () => {
     const result = await dispatch<any>(fetchAllArtMusicSellers());
     if (result.payload?.success) {
       setSellers(result?.payload?.data?.sellers);
+      setFilteredSellers(result?.payload?.data?.sellers);
     }
     setLoading(false); // Stop loading
   };
@@ -62,6 +65,18 @@ export const ArtMusicSeller: React.FC = () => {
     router.push("/admin-dashboard/seller-art/art-dashboard");
   };
 
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value.toLowerCase();
+    if (query) {
+      const filtered = sellers.filter((item: any) =>
+        item.name.toLowerCase().includes(query)
+      );
+      setFilteredSellers(filtered);
+    } else {
+      setFilteredSellers(sellers);
+    }
+  };
+
   return (
     <>
       <div
@@ -74,15 +89,18 @@ export const ArtMusicSeller: React.FC = () => {
         >
           <div className="flex items-center gap-4 px-2">
             <div
-              className={`w-10 h-10 flex items-center justify-center rounded-full  cursor-pointer ${
+              className={`w-10 h-10 flex items-center justify-center rounded-full cursor-pointer ${
                 isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
               }`}
               onClick={backToDashboard}
             >
               <LeftIcon color="#fff" width="20" height="20" />
             </div>
-            <p className={`text-lg font-semibold `} style={{ color: colors.text }}>
-              All Seller
+            <p
+              className={`text-lg font-semibold`}
+              style={{ color: colors.text }}
+            >
+              All Sellers
             </p>
           </div>
           <div className="flex px-2 gap-2 items-center">
@@ -90,6 +108,7 @@ export const ArtMusicSeller: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search..."
+                onChange={handleSearch}
                 className="w-40 h-10 rounded-full pl-10 focus:outline-none"
                 style={{ background: colors.background, color: colors.text }}
               />
@@ -100,17 +119,29 @@ export const ArtMusicSeller: React.FC = () => {
           </div>
         </div>
         {loading ? (
-          // Loading spinner or message
           <div className="flex justify-center items-center h-full">
             <p className="text-lg" style={{ color: colors.text }}>
               Loading sellers...
             </p>
-            {/* You can replace the text with a spinner if available */}
+          </div>
+        ) : filteredSellers.length === 0 ? (
+          <div className="flex flex-col justify-center items-center h-full">
+            <img
+              src={noDataImage.src}
+              alt="No data found"
+              className="w-80 h-80 object-cover mb-4"
+            />
+            <p className="text-lg" style={{ color: colors.text }}>
+              No data found
+            </p>
           </div>
         ) : (
           <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
-            {sellers.map((item: any, index: number) => (
-              <div className="relative w-full sm:w-[48%] md:w-[32%] h-72" key={index}>
+            {filteredSellers.map((item: any, index: number) => (
+              <div
+                className="relative w-full sm:w-[48%] md:w-[32%] h-72"
+                key={index}
+              >
                 <div
                   className={`h-2/3 rounded-t-2xl flex flex-col justify-center items-center ${
                     isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
@@ -140,7 +171,9 @@ export const ArtMusicSeller: React.FC = () => {
                 </div>
                 <div
                   className={`h-1/3 rounded-b-2xl py-5 ${
-                    isDarkModeEnable ? "shadow-sm shadow-gray-700" : "bg-[#084363]"
+                    isDarkModeEnable
+                      ? "shadow-sm shadow-gray-700"
+                      : "bg-[#084363]"
                   }`}
                 >
                   <div className="flex gap-2 h-14 px-2">
@@ -163,7 +196,7 @@ export const ArtMusicSeller: React.FC = () => {
                   </div>
                 </div>
                 <div
-                  className={`flex justify-center items-center gap-1 absolute w-[30%] h-8 bottom-[29%] left-[35%] px-2  rounded-full ${
+                  className={`flex justify-center items-center gap-1 absolute w-[30%] h-8 bottom-[29%] left-[35%] px-2 rounded-full ${
                     isDarkModeEnable
                       ? "bg-[#051139] border border-gray-600"
                       : "bg-[#2c8993]"

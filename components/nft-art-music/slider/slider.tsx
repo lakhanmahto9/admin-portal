@@ -28,10 +28,6 @@ interface ArtContent {
 const Slider: React.FC = () => {
   const dispatch = useDispatch();
 
-  // const { data, isLoading, isError } = useGetAllArtAndMusicQuery(undefined, {
-  //   refetchOnMountOrArgChange: true,
-  // });
-  // const arts: ArtContent[] = data?.data || [];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sliderData, setSliderData] = useState<ArtContent[]>([]);
 
@@ -74,8 +70,8 @@ const Slider: React.FC = () => {
 
   return (
     <div
-      className={`relative p-8 my-8 ml-4 rounded-md h-[95%] `}
-      style={{ height: "425px" }}
+      className={`relative w-full flex justify-center items-center p-8 my-8 mb-0  rounded-md h-[95%] `}
+      style={{ height: "400px" }}
     >
       {Images.map((image, index) => (
         <img
@@ -87,17 +83,7 @@ const Slider: React.FC = () => {
           }`}
         />
       ))}
-      <div className="absolute bottom-16 left-12 text-white pr-28">
-        {/* <img src={LeftArrowIcon} /> */}
-        {/* <h2 className="text-white text-18 font-bold">
-          Fasted Way to create web page
-        </h2>
-        <p>
-          There’s nothing I really wanted to do in life that I wasn’t able to
-          get good at.
-        </p> */}
-      </div>
-
+   
       <button
         className="absolute top-4 right-16 bg-blue-700 text-white px-2 py-1 rounded"
         onClick={goToPrevious}
