@@ -4,13 +4,14 @@ import {
   useUserBlockUnblockMutation,
 } from "../../../redux/api/adminApiSlice";
 import EditUser from "./editUser";
-import { useSelector } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { ThreeDotVertical } from "../../utils/icons";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import NoDataImage from "../../../public/NoData.png";
 import { CircularProgress } from "@mui/material";
+import { fetchAllUsers } from "@/redux/slice/tutorial/getAllUserSlice";
 
 interface Address {
   aboutMe: string;
@@ -36,24 +37,33 @@ const User: React.FC = () => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkEnabled);
-
+ const dispatch = useDispatch();
   const { data, isLoading, isFetching } = useGetUsersQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 
+
+
   const [blockUnblockUser] = useUserBlockUnblockMutation();
   //   const darkModeEnabled = useSelector(selectDarkMode);
 
-  useEffect(() => {
-    if (data) {
-      setUsers(data.data.users);
-      setLoading(false);
+  const callApiToFetchAllUsers = async () => {
+    setLoading(true); 
+    const result = await dispatch<any>(fetchAllUsers())
+    console.log(result.payload)
+    if (result.payload?.success) {
+      setUsers(result?.payload?.data?.users);
+      // setFilteredBuyers(result?.payload?.data?.buyers);
     }
-  }, [data]);
+    setLoading(false);
+  }
+  useEffect(() => {
+    callApiToFetchAllUsers();
+  }, []);
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -104,7 +114,7 @@ const User: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    router.push("/seller-video/seller-dashboard"); // Adjust the path as necessary
+    router.push("/admin-dashboard/seller-video/seller-dashboard"); // Adjust the path as necessary
   };
 
   // Filter users based on search term
@@ -143,8 +153,23 @@ const User: React.FC = () => {
           style={{ background: colors.cardBg, color: colors.text }}
         />
       </div>
+        <span className="ml-2" onClick={handleNavigate}>
+          {" "}
+          <button onClick={handleNavigate}>
+            <ArrowLeftIcon width="24" height="24" color="white" />
+          </button>
+        </span>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearch}
+          className={`px-3 py-2 rounded-md border focus:outline-none `}
+          style={{ background: colors.cardBg, color: colors.text }}
+        />
+      </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        {isLoading || isFetching ? (
+        {loading ? (
           <table
             className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
               isDarkEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
@@ -202,7 +227,7 @@ const User: React.FC = () => {
             </thead>
             <tbody>
               <tr>
-                <td colSpan={9} className="text-center py-6">
+                <td colSpan={9} className="text-start md:text-center py-6">
                   <CircularProgress />
                 </td>
               </tr>

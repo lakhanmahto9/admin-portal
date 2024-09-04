@@ -30,7 +30,7 @@ export const Graph: React.FC<GraphProps> = ({ salesData }) => {
 
   return (
     <div
-      className={`w-full h-96  rounded-2xl p-4 shadow-md `}
+      className={`w-full h-96 mt-5 rounded-2xl p-4 shadow-md `}
       style={{background:colors.cardBg}}
     >
       <div className="flex justify-between">

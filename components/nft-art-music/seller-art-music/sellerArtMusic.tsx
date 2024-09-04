@@ -1,5 +1,5 @@
 import { LeftIcon, SearchIcon } from "@/public/icons/icons";
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect,useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { particularSellerArtMusicList } from "@/redux/slice/particularSellerArtMusicSlice";
@@ -16,7 +16,8 @@ export const SellerArtMusicList: React.FC = () => {
     (state: any) =>
       state.particularsellersartmusic?.data?.particularSellerArtMusicList || []
   );
-  // console.log(photography)
+  const [sellerArt, setSellerArt] = useState(photography);
+   // console.log(photography)
   const image = localStorage.getItem("image");
 
   const back = () => {
@@ -37,6 +38,18 @@ export const SellerArtMusicList: React.FC = () => {
       console.log(result);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value.toLowerCase();
+    if (query) {
+      const filtered = sellerArt.filter((item: any) =>
+        item?.artName.toLowerCase().includes(query)
+      );
+      setSellerArt(filtered);
+    } else {
+      setSellerArt(photography);
     }
   };
 
@@ -65,7 +78,7 @@ export const SellerArtMusicList: React.FC = () => {
           <div className="relative">
             <input
               type="text"
-              //   onChange={handleSearch}
+                onChange={handleSearch}
               placeholder="Search..."
               className="w-40 h-10 rounded-full pl-10 focus:outline-none"
               style={{background:colors.background,color:colors.text}}
@@ -77,7 +90,7 @@ export const SellerArtMusicList: React.FC = () => {
         </div>
       </div>
       <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
-        {photography.length === 0 ? (
+        {sellerArt.length === 0 ? (
           <div className="flex flex-col items-center justify-center w-full h-full">
             <img
               src="/NoData.png"
@@ -92,7 +105,7 @@ export const SellerArtMusicList: React.FC = () => {
             </p>
           </div>
         ) : (
-          photography.map((item: any, index: number) => (
+          sellerArt.map((item: any, index: number) => (
             <div
               key={item._id || index}
               className={`w-[32%] h-96 rounded-2xl border ${

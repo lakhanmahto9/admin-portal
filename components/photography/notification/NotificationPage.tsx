@@ -19,7 +19,7 @@ export const NotificatonPage: React.FC = () => {
             />
           </div>
           <p className="text-sm text-[#436bfb]">
-            Photography's name is {item?.title} is purchased by{" "}
+            Photography&apos;s name is {item?.title} is purchasd by{" "}
             {item?.buyerId?.name} on{" "}
             {moment(item.createdAt).format("MMMM Do, YYYY")}
           </p>

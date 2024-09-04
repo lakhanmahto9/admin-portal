@@ -4,13 +4,14 @@ import {
   ThreedotIcon,
   VerifyIcon,
 } from "@/public/icons/icons";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import { fetchAllArtMusicBuyers } from "@/redux/slice/fetchAllArtMusicBuyersSlice";
+import noDataImage from "@/public/noData.png"; // Import your no data image
 
 interface Address {
   aboutMe: string;
@@ -32,6 +33,7 @@ export const AllBuyerDetails: React.FC = () => {
   const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkModeEnable);
   const [buyers, setBuyers] = useState<Buyer[]>([]);
+  const [filteredBuyers, setFilteredBuyers] = useState<Buyer[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Add loading state
   const router = useRouter();
   const dispatch = useDispatch();
@@ -41,6 +43,7 @@ export const AllBuyerDetails: React.FC = () => {
     const result = await dispatch<any>(fetchAllArtMusicBuyers());
     if (result.payload?.success) {
       setBuyers(result?.payload?.data?.buyers);
+      setFilteredBuyers(result?.payload?.data?.buyers);
     }
     setLoading(false); // Stop loading
   };
@@ -62,19 +65,31 @@ export const AllBuyerDetails: React.FC = () => {
     router.push("/admin-dashboard/seller-art/art-dashboard");
   };
 
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value.toLowerCase();
+    if (query) {
+      const filtered = buyers.filter((item: any) =>
+        item.name.toLowerCase().includes(query)
+      );
+      setFilteredBuyers(filtered);
+    } else {
+      setFilteredBuyers(buyers);
+    }
+  };
+
   return (
     <>
       <div
-        className={`w-full h-[83vh]  rounded-xl`}
+        className={`w-full h-[83vh] rounded-xl`}
         style={{ background: colors.cardBg }}
       >
         <div
-          className={`h-[12%]  rounded-t-xl flex justify-between`}
+          className={`h-[12%] rounded-t-xl flex justify-between`}
           style={{ background: colors.sidebarBg }}
         >
           <div className="flex items-center gap-4 px-2">
             <div
-              className={`w-10 h-10 flex items-center justify-center rounded-full  cursor-pointer ${
+              className={`w-10 h-10 flex items-center justify-center rounded-full cursor-pointer ${
                 isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
               }`}
               onClick={backToDashboard}
@@ -85,7 +100,7 @@ export const AllBuyerDetails: React.FC = () => {
               className={`text-lg font-semibold`}
               style={{ color: colors.text }}
             >
-              All Buyer
+              All Buyers
             </p>
           </div>
           <div className="flex px-2 gap-2 items-center">
@@ -93,6 +108,7 @@ export const AllBuyerDetails: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search..."
+                onChange={handleSearch}
                 className="w-40 h-10 rounded-full pl-10 focus:outline-none"
                 style={{ background: colors.background, color: colors.text }}
               />
@@ -109,15 +125,23 @@ export const AllBuyerDetails: React.FC = () => {
                 Loading...
               </p>
             </div>
-          ) : buyers.length === 0 ? ( // Display message if no data is found
-            <div className="w-full flex justify-center items-center h-full">
+          ) : filteredBuyers.length === 0 ? ( // Display message and image if no data is found
+            <div className="w-full flex flex-col justify-center items-center h-full">
+              <img
+                src={noDataImage.src}
+                alt="No data found"
+                className="w-80 h-80 object-cover mb-4"
+              />
               <p className="text-xl" style={{ color: colors.text }}>
                 No buyers found.
               </p>
             </div>
           ) : (
-            buyers.map((item: any, index: number) => (
-              <div className="relative w-full sm:w-[48%] md:w-[32%] h-72" key={index}>
+            filteredBuyers.map((item: any, index: number) => (
+              <div
+                className="relative w-full sm:w-[48%] md:w-[32%] h-72"
+                key={index}
+              >
                 <div
                   className={`h-2/3 rounded-t-2xl flex flex-col justify-center items-center ${
                     isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
@@ -126,7 +150,7 @@ export const AllBuyerDetails: React.FC = () => {
                   <p
                     className={`font-semibold ${
                       isDarkModeEnable ? "text-[#D3D3D3]" : "text-[#D3D3D3]"
-                    } `}
+                    }`}
                   >
                     {item.name}
                   </p>
@@ -146,7 +170,7 @@ export const AllBuyerDetails: React.FC = () => {
                   </div>
                 </div>
                 <div
-                  className={`h-1/3  rounded-b-2xl py-5  ${
+                  className={`h-1/3 rounded-b-2xl py-5 ${
                     isDarkModeEnable
                       ? "shadow-sm shadow-gray-700"
                       : "bg-[#084363]"
@@ -156,7 +180,7 @@ export const AllBuyerDetails: React.FC = () => {
                     <div
                       onClick={() => sellerPhotography(item)}
                       className={`w-1/2 cursor-pointer rounded-lg flex justify-center items-center ${
-                        isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92] "
+                        isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
                       }`}
                     >
                       <p className="text-[#fff]">Art/Music</p>
@@ -164,7 +188,7 @@ export const AllBuyerDetails: React.FC = () => {
                     <div
                       onClick={() => profile(item)}
                       className={`w-1/2 cursor-pointer rounded-lg flex justify-center items-center ${
-                        isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92] "
+                        isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
                       }`}
                     >
                       <p className="text-[#fff]">Profile</p>
@@ -172,7 +196,7 @@ export const AllBuyerDetails: React.FC = () => {
                   </div>
                 </div>
                 <div
-                  className={`flex justify-center items-center gap-1 absolute w-[30%] h-8 bottom-[29%] left-[35%] px-2  rounded-full ${
+                  className={`flex justify-center items-center gap-1 absolute w-[30%] h-8 bottom-[29%] left-[35%] px-2 rounded-full ${
                     isDarkModeEnable
                       ? "bg-[#051139] border border-gray-600"
                       : "bg-[#2c8993]"
@@ -180,7 +204,7 @@ export const AllBuyerDetails: React.FC = () => {
                 >
                   <p className="text-[#fff]">
                     {item.isBlocked ? "Blocked" : "Unblocked"}
-                  </p>{" "}
+                  </p>
                 </div>
                 <div
                   onClick={() =>
