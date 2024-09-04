@@ -1,9 +1,7 @@
 import { Notification } from "@/components/utils/icons";
-import { Badge, Tooltip } from "@mui/material";
+import { Badge, Tooltip, CircularProgress } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
-// import TimeAgo from "../VideoFrame/TimeAgo";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { DisabledNotification } from "@/redux/slice/disabledNotificationSlice";
 import { fetchSalesCourse } from "@/redux/slice/fetchSalesCourseSlice";
 import moment from 'moment';
@@ -19,30 +17,33 @@ interface SaleCourse {
 
 export const AdminNotification: React.FC = () => {
   const saleData = useSelector((state: any) => state?.user?.sale) || [];
-  const artAndMusicSalesData =
-    useSelector((state: any) => state?.user?.artAndMusicSales) || [];
+  const artAndMusicSalesData = useSelector((state: any) => state?.user?.artAndMusicSales) || [];
   const type = useSelector((state: any) => state.open.type);
-  console.log(artAndMusicSalesData);
   const darkModeEnabled = useSelector((state: any) => state.darkmode.dark);
-  //   const sidebarMode = useSelector((state: any) => state.sidebarMode.isEnabled);
   const [saleNumber, setSaleNumber] = useState(0);
-  const [saleArtMusicNumber, setSaleArtMusicNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);  // Loading state
   const modalRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    if (type === "Tutorial" && saleData?.length > 0) {
-      const data = saleData.filter((item: any) => item.seen === true);
-      setSaleNumber(data.length);
-    } else if (
-      type === "Digital Art and Music" &&
-      artAndMusicSalesData?.length > 0
-    ) {
-      const data = artAndMusicSalesData.filter(
-        (item: any) => item.seen === true
-      );
-      setSaleNumber(data.length);
-    }
+    const fetchData = async () => {
+      setLoading(true);  // Start loading
+      try {
+        if (type === "Tutorial" && saleData?.length > 0) {
+          const data = saleData.filter((item: any) => item.seen === true);
+          setSaleNumber(data.length);
+        } else if (type === "Digital Art and Music" && artAndMusicSalesData?.length > 0) {
+          const data = artAndMusicSalesData.filter((item: any) => item.seen === true);
+          setSaleNumber(data.length);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);  // Stop loading once data is fetched
+      }
+    };
+    fetchData();
   }, [type, saleData, artAndMusicSalesData]);
 
   const openNotificationModal = () => {
@@ -51,10 +52,7 @@ export const AdminNotification: React.FC = () => {
 
   const handleClickOutside = async (event: MouseEvent) => {
     try {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         setOpen(false);
         // const result = await dispatch<any>(DisabledNotification());
         // if (result?.payload?.status) {
@@ -110,67 +108,73 @@ export const AdminNotification: React.FC = () => {
                 </p>
               </div>
               <div className="overflow-y-auto h-[calc(100%-3.5rem)]">
-                {(type === "Tutorial" ? saleData : artAndMusicSalesData)
-                  ?.slice()
-                  .reverse()
-                  .map((item: any, index: number) => (
-                    <div
-                      className={`mb-1 h-auto rounded-lg p-2 ${
-                        darkModeEnabled
-                          ? "hover:bg-[#051139]"
-                          : "hover:bg-[#f0f0f0]"
-                      }  ${item.seen ? "" : ""}`}
-                      key={index}
-                    >
-                      <div className="flex gap-1 w-full">
-                        <p
-                          className={`w-3/4 ${
-                            darkModeEnabled ? "text-white" : "text-black"
-                          }`}
-                        >
-                          {type === "Tutorial" ? (
-                            <>
-                              <strong>{item.title}</strong> is purchased by{" "}
-                              {item.userName}
-                            </>
-                          ) : (
-                            <>
-                              <strong>{item.artName}</strong> is purchased by{" "}
-                              {item.name}
-                            </>
-                          )}
-                        </p>
-                        <div className="w-1/4">
-                          <img
-                            src={
-                              type === "Tutorial"
-                                ? item.thumbnail
-                                : item.artThumbnail || item.musicThumbnail
+                {loading ? (
+                  <div className="flex justify-center items-center h-full">
+                    <CircularProgress />
+                  </div>
+                ) : (
+                  (type === "Tutorial" ? saleData : artAndMusicSalesData)
+                    ?.slice()
+                    .reverse()
+                    .map((item: any, index: number) => (
+                      <div
+                        className={`mb-1 h-auto rounded-lg p-2 ${
+                          darkModeEnabled
+                            ? "hover:bg-[#051139]"
+                            : "hover:bg-[#f0f0f0]"
+                        }`}
+                        key={index}
+                      >
+                        <div className="flex gap-1 w-full">
+                          <p
+                            className={`w-3/4 ${
+                              darkModeEnabled ? "text-white" : "text-black"
+                            }`}
+                          >
+                            {type === "Tutorial" ? (
+                              <>
+                                <strong>{item.title}</strong> is purchased by{" "}
+                                {item.userName}
+                              </>
+                            ) : (
+                              <>
+                                <strong>{item.artName}</strong> is purchased by{" "}
+                                <p className="text-blue-600">{item.name}</p>
+                              </>
+                            )}
+                          </p>
+                          <div className="w-1/4">
+                            <img
+                              src={
+                                type === "Tutorial"
+                                  ? item.thumbnail
+                                  : item.artThumbnail || item.musicThumbnail
+                              }
+                              alt=""
+                              className="rounded-lg"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex justify-between gap-1">
+                          <p
+                            className={`font-semibold ${
+                              darkModeEnabled ? "text-gray-300" : "text-black"
+                            }`}
+                          >
+                            ₹{item.price}
+                          </p>
+                          <p
+                            className={
+                              darkModeEnabled ? "text-gray-400" : "text-orange-500"
                             }
-                            alt=""
-                            className="rounded-lg"
-                          />
+                          >
+                            {moment(item.createdAt).format("DD MMM YYYY, HH:mm")}
+                          </p>
                         </div>
                       </div>
-
-                      <div className="flex justify-between gap-1">
-                        <p
-                          className={`font-semibold ${
-                            darkModeEnabled ? "text-gray-300" : "text-black"
-                          }`}
-                        >
-                          ₹{item.price}
-                        </p>
-                        <p
-                          className={
-                            darkModeEnabled ? "text-gray-400" : "text-orange-500"
-                          }
-                        >
-                         {moment(item.createdAt).format("DD MMM YYYY, HH:mm")}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                )}
               </div>
             </div>
           </div>
