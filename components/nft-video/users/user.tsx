@@ -4,7 +4,7 @@ import {
   useUserBlockUnblockMutation,
 } from "../../../redux/api/adminApiSlice";
 import EditUser from "./editUser";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { ThreeDotVertical } from "../../utils/icons";
@@ -41,22 +41,26 @@ const User: React.FC = () => {
 
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkEnabled);
-  const dispatch = useDispatch();
+ const dispatch = useDispatch();
   const { data, isLoading, isFetching } = useGetUsersQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 
+
+
   const [blockUnblockUser] = useUserBlockUnblockMutation();
+  //   const darkModeEnabled = useSelector(selectDarkMode);
 
   const callApiToFetchAllUsers = async () => {
     setLoading(true); 
-    const result = await dispatch<any>(fetchAllUsers());
+    const result = await dispatch<any>(fetchAllUsers())
+    console.log(result.payload)
     if (result.payload?.success) {
-      setUsers(result.payload?.data?.users);
+      setUsers(result?.payload?.data?.users);
+      // setFilteredBuyers(result?.payload?.data?.buyers);
     }
     setLoading(false);
-  };
-
+  }
   useEffect(() => {
     callApiToFetchAllUsers();
   }, []);
@@ -83,6 +87,7 @@ const User: React.FC = () => {
         )
       );
       setSelectedUser(null);
+      // Optionally, refetch users to get the updated list
     } catch (error) {
       console.error("Failed to block/unblock user:", error);
     }
@@ -134,6 +139,7 @@ const User: React.FC = () => {
     <div className="mt-5 mx-3">
       <div className="flex justify-between mb-2">
         <span className="ml-2" onClick={handleNavigate}>
+          {" "}
           <button onClick={handleNavigate}>
             <ArrowLeftIcon width="24" height="24" color="white" />
           </button>
@@ -143,7 +149,7 @@ const User: React.FC = () => {
           placeholder="Search"
           value={searchTerm}
           onChange={handleSearch}
-          className={`px-3 py-2 rounded-md border focus:outline-none`}
+          className={`px-3 py-2 rounded-md border focus:outline-none `}
           style={{ background: colors.cardBg, color: colors.text }}
         />
       </div>
@@ -268,121 +274,182 @@ const User: React.FC = () => {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {paginatedFilteredUsers.length === 0 ? (
-                <tr>
-                  <td colSpan={9} className="text-center py-6">
-                    <img
-                      src={NoDataImage.src}
-                      alt="No Data"
-                      className="mx-auto"
-                      style={{ width: "150px" }}
-                    />
-                    <p>No users found</p>
-                  </td>
-                </tr>
-              ) : (
-                paginatedFilteredUsers.map((user) => (
-                  <tr key={user._id}>
-                    <td className="p-4">
+            {paginatedFilteredUsers.length > 0 ? (
+              <tbody>
+                {paginatedFilteredUsers.map((user) => (
+                  <tr
+                    key={user._id}
+                    className={`border-b dark:border-gray-700 dark:hover:bg-gray-600 ${
+                      isDarkEnabled
+                        ? "bg-[#0E1A49] hover:bg-blue-600 "
+                        : "bg-gray-100 text-gray-700 hover:bg-slate-300 "
+                    }`}
+                  >
+                    <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
-                          id={`checkbox-${user._id}`}
+                          id={`checkbox-table-search-${user._id}`}
                           type="checkbox"
-                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          className="w-4 h-4 text-blue-600 bg-red-400 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
                         <label
-                          htmlFor={`checkbox-${user._id}`}
+                          htmlFor={`checkbox-table-search-${user._id}`}
                           className="sr-only"
                         >
                           checkbox
                         </label>
                       </div>
                     </td>
-                    <td className="px-6 py-3">{user.name}</td>
-                    <td className="px-6 py-3">{user.email}</td>
-                    <td className="px-6 py-3">
+                    <td
+                      scope="row"
+                      className={`px-6 py-4 font-medium whitespace-nowrap dark:text-white ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.name}
+                    </td>
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
+                      {user.email}
+                    </td>
+
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
                       {user.address?.city || "N/A"}
                     </td>
-                    <td className="px-6 py-3">
+
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
                       {user.address?.postalCode || "N/A"}
                     </td>
-                    <td className="px-6 py-3">
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
                       {user.address?.address || "N/A"}
                     </td>
-                    <td className="px-6 py-3">
+
+                    <td
+                      className={`px-6 py-4 ${
+                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
+                      }`}
+                    >
                       {user.address?.country || "N/A"}
                     </td>
-                    <td className="px-6 py-3">
+                    <td
+                      className={`px-6 py-4 ${
+                        user.isBlocked
+                          ? isDarkEnabled
+                            ? "text-red-500"
+                            : "text-red-800"
+                          : isDarkEnabled
+                          ? "text-green-500"
+                          : "text-green-800"
+                      }`}
+                    >
                       {user.isBlocked ? "Blocked" : "Active"}
                     </td>
-                    <td className="px-6 py-3">
-                      <button
-                        onClick={() => handleActionClick(user._id)}
-                        className={`px-4 py-2 rounded ${
-                          isDarkEnabled
-                            ? "bg-blue-600 text-white"
-                            : "bg-blue-200 text-black"
-                        }`}
-                      >
-                        <ThreeDotVertical
-                          width="24"
-                          height="24"
-                          color={isDarkEnabled ? "white" : "black"}
-                        />
-                      </button>
-                      {selectedUser === user._id && (
-                        <div className="mt-2">
-                          <button
-                            onClick={() => handleBlockUser(user._id)}
-                            className={`px-4 py-2 rounded ${
-                              user.isBlocked ? "bg-green-500" : "bg-red-500"
-                            } text-white`}
+                    <td className="px-6 py-4 text-right">
+                      <div className="relative inline-block text-left">
+                        <button
+                          onClick={() => handleActionClick(user._id)}
+                          className="p-2 text-gray-500 rounded-full hover:text-gray-700 focus:outline-none focus:text-gray-700"
+                        >
+                          <ThreeDotVertical
+                            width="16"
+                            height="16"
+                            color={colors.text}
+                          />
+                        </button>
+                        {selectedUser === user._id && (
+                          <div
+                            className="absolute right-0 z-10 w-40 py-2 mt-2 rounded-md shadow-xl"
+                            style={{
+                              background: colors.background,
+                              color: colors.text,
+                            }}
                           >
-                            {user.isBlocked ? "Unblock" : "Block"}
-                          </button>
-                          <button
-                            onClick={() => handleEditUser(user)}
-                            className="px-4 py-2 ml-2 rounded bg-yellow-500 text-white"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                      )}
+                            <button
+                              onClick={() => handleBlockUser(user._id)}
+                              className="block px-4 py-2 text-sm w-full rounded-2xl  hover:bg-blue-400"
+                            >
+                              {user.isBlocked ? "Unblock" : "Block"}
+                            </button>
+                            <button
+                              onClick={() => handleEditUser(user)}
+                              className="block px-4 py-2 text-sm w-full  rounded-2xl  hover:bg-blue-400"
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
+                ))}
+              </tbody>
+            ) : (
+              <tbody>
+                <tr>
+                  <td colSpan={9} className="text-center p-4">
+                    No data available
+                  </td>
+                </tr>
+              </tbody>
+            )}
           </table>
         )}
+
+        {editingUser && (
+          <EditUser
+            user={editingUser}
+            onSave={handleSaveEdit}
+            onCancel={handleCancelEdit}
+          />
+        )}
       </div>
-      <div className="flex justify-between mt-4">
+
+      <div className="flex justify-center mt-4">
         <button
-          onClick={() => paginate(currentPage - 1)}
+          className="px-4 py-2 mx-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           disabled={currentPage === 1}
-          className="px-4 py-2 rounded bg-blue-500 text-white"
+          onClick={() => paginate(currentPage - 1)}
         >
           Previous
         </button>
-        <span className="self-center">
-          Page {currentPage} of {totalPages}
-        </span>
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+          (page) => (
+            <button
+              key={page}
+              onClick={() => paginate(page)}
+              className={`px-4 py-2 mx-1 rounded-md ${
+                currentPage === page
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {page}
+            </button>
+          )
+        )}
         <button
-          onClick={() => paginate(currentPage + 1)}
+          className="px-4 py-2 mx-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           disabled={currentPage === totalPages}
-          className="px-4 py-2 rounded bg-blue-500 text-white"
+          onClick={() => paginate(currentPage + 1)}
         >
           Next
         </button>
       </div>
-      {editingUser && (
-        <EditUser
-          user={editingUser}
-          onSave={handleSaveEdit}
-          onCancel={handleCancelEdit}
-        />
-      )}
     </div>
   );
 };
