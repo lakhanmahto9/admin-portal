@@ -122,10 +122,10 @@ export const VideoDashboard: React.FC = () => {
     <div className="flex flex-col items-center justify-center">
       <Card data={cardData} />
       <div className="w-full flex flex-col justify-center lg:flex-row gap-6 mt-10 pb-10">
-        <div className="w-full mt-5 lg:w-3/5">
+        <div className="w-full mt-10 lg:w-3/5">
           <Graph salesData={salesCourse} />
         </div>
-        <div className="w-full lg:w-2/5">
+        <div className="w-full flex justify-center items-center lg:w-2/5">
           <Slider />
         </div>
       </div>
@@ -134,7 +134,7 @@ export const VideoDashboard: React.FC = () => {
         <div className="w-full lg:w-3/5">
           <DashboardTable dashboardSalesData={salesCourse} />
         </div>
-        <div className="w-[95%] lg:w-2/5">
+        <div className="w-full lg:w-2/5">
           <Categories dashboardSalesData={salesCourse} />
         </div>
       </div>
