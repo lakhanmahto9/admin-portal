@@ -72,7 +72,7 @@ export const BuyerPurchaseList: React.FC = () => {
           >
             <LeftIcon color="#fff" width="20" height="20" />
           </div>
-          <p className={`text-lg font-semibold`} style={{ color: colors.text }}>
+          <p className={`text-md md:text-lg font-semibold`} style={{ color: colors.text }}>
             Purchased Art/Music
           </p>
         </div>

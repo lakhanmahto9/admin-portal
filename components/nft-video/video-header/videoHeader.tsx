@@ -5,6 +5,7 @@ import { setModal } from "../../../redux/slice/openModal";
 import { useDispatch } from "react-redux";
 import { BellIcon, SettingIcon } from "../../utils/icons";
 import { AdminNotification } from "@/components/notification/admin-notification";
+import { userInformation } from "@/redux/slice/fetchAllUsersDetailSlice";
 
 const VideoHeader: React.FC = () => {
   const [navfix, setNavFix] = useState(false);
@@ -18,7 +19,12 @@ const VideoHeader: React.FC = () => {
   // const openNotificaion = () => {
   //   dispatch(setModal({ open: true, type: "notification" }));
   // };
+
+  const callApiToFetchAllUserDetailsApi  = async () => {
+    await dispatch<any>(userInformation())
+  }
   useEffect(() => {
+    callApiToFetchAllUserDetailsApi()
     setNavFix(fix);
   }, [fix]);
   return (

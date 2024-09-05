@@ -6,6 +6,8 @@ import BASE_URL from "@/baseUrl";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import Image from "next/image";
+import noDataImg from "../../../public/Nodata.png";
 
 // Define TypeScript interfaces for the creator data
 interface Creator {
@@ -91,12 +93,17 @@ const TopCreatorsByTotalSale: React.FC = () => {
             ))
         ) : (
           <div className="flex flex-col items-center justify-center w-full h-full">
-            <img
-              src="/NoData.png"
-              alt="No data found"
-              className="w-96 h-96"
+            <Image
+              src={noDataImg}
+              alt="No Data Found"
+              className="object-cover"
+              width={300} // Desired width
+              height={300} // Desired height
+              layout="intrinsic" // Ensures the image doesn't overflow
             />
-            <p className="text-xl"style={{color:colors.text}}>No data found</p>
+            <p className="text-xl" style={{ color: colors.text }}>
+              No data found
+            </p>
           </div>
         )}
       </div>

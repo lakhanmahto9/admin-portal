@@ -6,6 +6,8 @@ import BASE_URL from "@/baseUrl";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import Image from 'next/image';
+import noDataImg from "../../../public/Nodata.png";
 
 // Define TypeScript interfaces for the creator data
 interface Creator {

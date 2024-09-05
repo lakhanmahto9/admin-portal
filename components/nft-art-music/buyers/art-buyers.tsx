@@ -11,7 +11,8 @@ import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import { fetchAllArtMusicBuyers } from "@/redux/slice/fetchAllArtMusicBuyersSlice";
-import noDataImage from "@/public/noData.png"; // Import your no data image
+import noDataImage from "@/public/noData.png";
+import Image from "next/image";
 
 interface Address {
   aboutMe: string;
@@ -127,10 +128,13 @@ export const AllBuyerDetails: React.FC = () => {
             </div>
           ) : filteredBuyers.length === 0 ? ( // Display message and image if no data is found
             <div className="w-full flex flex-col justify-center items-center h-full">
-              <img
-                src={noDataImage.src}
-                alt="No data found"
-                className="w-80 h-80 object-cover mb-4"
+              <Image
+                src={noDataImage}
+                alt="No Data Found"
+                className="object-cover"
+                width={300} // Desired width
+                height={300} // Desired height
+                layout="intrinsic" // Ensures the image doesn't overflow
               />
               <p className="text-xl" style={{ color: colors.text }}>
                 No buyers found.
