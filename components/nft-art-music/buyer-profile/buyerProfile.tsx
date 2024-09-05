@@ -64,10 +64,10 @@ export const BuyerProfile: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="w-full h-[88%] overflow-y-scroll flex p-7 gap-4">
-          <div className="w-[40%] flex flex-col gap-4">
+        <div className="w-full h-[88%] overflow-y-scroll flex flex-col md:flex-row p-2 md:p-7 gap-4">
+          <div className="w-full md:w-[40%] flex flex-col gap-4">
             <div
-              className={`w-full h-1/2 rounded-lg flex flex-col gap-2 justify-center items-center ${
+              className={`w-full h-full md:h-1/2 rounded-lg flex flex-col gap-2 justify-center items-center ${
                 isDarkModeEnable
                   ? "bg-[#051139] border border-gray-600"
                   : "bg-[#ebf6fd] border"
@@ -84,7 +84,7 @@ export const BuyerProfile: React.FC = () => {
                 {profile?.name || "NA"}
               </p>
             </div>
-            <div className={`relative w-full h-1/2 rounded-lg px-16 py-2 ${isDarkModeEnable ? "bg-[#051139] border border-gray-600" : "bg-[#ebf6fd] border "}`}>
+            <div className={`relative w-full h-80 md:h-1/2 rounded-lg px-16 py-2 ${isDarkModeEnable ? "bg-[#051139] border border-gray-600" : "bg-[#ebf6fd] border "}`}>
               {!profile1?.idCard ? (
                 <div className="w-full h-full border-2 border-dashed border-indigo-600 flex justify-center items-center">
                   <p className="text-xl font-bold text-[#2b4348]">ID Card</p>
@@ -105,9 +105,9 @@ export const BuyerProfile: React.FC = () => {
               )}
             </div>
           </div>
-          <div className={`w-[60%] rounded-lg px-8 py-4 ${isDarkModeEnable ? "bg-[#051139]" : "bg-[#ebf6fd] "}`}>
+          <div className={`w-full md:w-[60%] rounded-lg px-8 py-4 ${isDarkModeEnable ? "bg-[#051139]" : "bg-[#ebf6fd] "}`}>
             <p className="text-lg font-bold" style={{color:colors.text}}>Information</p>
-            <div className="w-full h-16  rounded-md p-2 mb-4" style={{background:colors.dialogBackground}}>
+            <div className="w-full  md:h-16  rounded-md p-2 mb-4" style={{background:colors.dialogBackground}}>
               <p className="text-white">
                 {profile?.isApproved
                   ? "This profile has verified on our NFT marketplace."

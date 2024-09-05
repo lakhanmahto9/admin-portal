@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { ArrowLeftIcon } from "../../utils/icons";
 import { useRouter } from "next/router";
 import { getAllArtMusicByCategory } from "@/redux/slice/getAllArtMusicByCategorySlice";
+import noDataImg from "../../../public/Nodata.png";
+import Image from "next/image";
 
 interface ArtContent {
   _id: string;
@@ -67,7 +69,9 @@ const Music: React.FC = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className={`px-3 py-2 rounded-md border focus:outline-none ${
-            darkModeEnable ? "bg-[#0e1a49] text-white" : "bg-white text-gray-800"
+            darkModeEnable
+              ? "bg-[#0e1a49] text-white"
+              : "bg-white text-gray-800"
           }`}
         />
       </div>
@@ -89,10 +93,13 @@ const Music: React.FC = () => {
               darkModeEnable ? "bg-[#0E1A49] text-white" : "bg-white text-black"
             }`}
           >
-            <img
-              src="/NoData.png"
+            <Image
+              src={noDataImg}
               alt="No Data Found"
               className="w-full h-48 object-cover"
+              layout="responsive" 
+              width={300} 
+              height={200}
             />
             <div className="p-4 text-center">
               <p className="text-xl font-semibold">No Data Found</p>

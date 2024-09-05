@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Card from "./card"; // Adjust the path as necessary
+import Card from "./card"; 
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router"; // For navigation
+import { useRouter } from "next/router"; 
 import { ArrowLeftIcon } from "../../utils/icons";
 import { getAllArtMusicByCategory } from "@/redux/slice/getAllArtMusicByCategorySlice";
 
@@ -23,7 +23,7 @@ const Art: React.FC = () => {
   const [visibleCardsCount, setVisibleCardsCount] = useState(20);
   const [searchQuery, setSearchQuery] = useState("");
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
-  const router = useRouter(); // Initialize history for navigation
+  const router = useRouter(); 
 
   const callApiTofetchAllArtMusic = async () => {
     setLoading(true); // Start loading

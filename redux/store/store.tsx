@@ -101,7 +101,7 @@ const buyerphotography = persistReducer(
   BuyerPhotograhySlice
 );
 
-const persistUser = persistReducer({ ...persistConfig, key: "user" }, userSlice);
+const userDetails = persistReducer({ ...persistConfig, key: "user" }, userSlice);
 const nevSideColor = persistReducer({ ...persistConfig, key: "sidebarbg" }, sidebarNavColorSlice);
 const headerFix = persistReducer({ ...persistConfig, key: "fix" }, navfix);
 
@@ -112,7 +112,7 @@ const store = configureStore({
     modal: openmodal,
     auth:auth,
     darkmode: darkTheme,
-    user:persistUser,
+    user:userDetails,
     sidebarbg:nevSideColor,
     fix:headerFix,
     phseller:phseller,
@@ -127,7 +127,7 @@ const store = configureStore({
     artMusicBuyerProfile:artMusicBuyerProfile,
     artmusicbuyerpurchaseList:artMusicBuyerPurchaseList,
     artmusicsellerprofile:artMusicSellerProfile,
-    particularsellersartmusic:particularSellerArtMusic
+    particularsellersartmusic:particularSellerArtMusic,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

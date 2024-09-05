@@ -61,8 +61,8 @@ export const SellerProfile: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="w-full h-[88%] overflow-y-scroll flex p-7 gap-4">
-          <div className="w-[40%] flex flex-col gap-4">
+        <div className="w-full h-[88%] overflow-y-scroll flex flex-col md:flex-row p-2 md:p-7 gap-4">
+          <div className="w-full md:w-[40%] flex flex-col gap-4">
             <div
               className={`w-full h-1/2 rounded-lg flex flex-col gap-2 justify-center items-center ${
                 isDarkModeEnable
@@ -109,7 +109,7 @@ export const SellerProfile: React.FC = () => {
             </div>
           </div>
           <div
-            className={`w-[60%] rounded-lg px-8 py-4 ${
+            className={`w-full md:w-[60%] rounded-lg px-8 py-4 ${
               isDarkModeEnable ? "bg-[#051139]" : "bg-[#ebf6fd] "
             }`}
           >
@@ -117,7 +117,7 @@ export const SellerProfile: React.FC = () => {
               Information
             </p>
             <div
-              className="w-full h-16 border rounded-md p-2 mb-4"
+              className="w-full h-22 md:h-16 border rounded-md p-2 mb-4"
               style={{ background: colors.dialogBackground }}
             >
               <p className="text-white">

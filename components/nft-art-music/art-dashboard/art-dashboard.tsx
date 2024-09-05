@@ -9,7 +9,6 @@ import Slider from "../slider/slider";
 import DashboardTable from "./dashboard-table";
 import Categories from "./categories";
 import { userInformation } from "@/redux/slice/fetchAllUsersDetailSlice";
-import { useGetAllArtAndMusicSalesHistoryQuery } from "@/redux/api/adminApiSlice";
 import { fetchAllArtMusicSalesHistory } from "@/redux/slice/fetchAllArtMusicSalesHistorySlice";
 
 // import { FetchAllPhotographyBySellerSide } from "@/redux/slice/FetchAllPhotographyBySellerSildeSlice";
@@ -50,7 +49,7 @@ export const ArtMusicDashboard: React.FC = () => {
 
   const callApiToAllSales = async () => {
     try {
-      //   await dispatch<any>(FetchAllSale());
+        // await dispatch<any>(FetchAllSale());
     } catch (error) {
       console.log(error);
     }

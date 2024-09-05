@@ -1,10 +1,12 @@
 import { LeftIcon, SearchIcon } from "@/public/icons/icons";
-import React, { ChangeEvent, useEffect,useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { particularArtMusicBuyerPurchaseList } from "@/redux/slice/ArtMusicBuyerPurchaseListSlice";
 import moment from "moment";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import Image from "next/image";
+import noDataImg from "../../../public/Nodata.png";
 
 export const BuyerPurchaseList: React.FC = () => {
   const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
@@ -43,7 +45,7 @@ export const BuyerPurchaseList: React.FC = () => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     if (query) {
-      console.log(purchase)
+      console.log(purchase);
       const filtered = purchase.filter((item: any) =>
         item?.artName.toLowerCase().includes(query)
       );
@@ -64,7 +66,7 @@ export const BuyerPurchaseList: React.FC = () => {
       >
         <div onClick={back} className="flex items-center gap-4 px-2">
           <div
-            className={`w-10 h-10 flex items-center justify-center rounded-full  cursor-pointer ${
+            className={`w-14 md:w-10 h-10 flex items-center justify-center rounded-full  cursor-pointer ${
               isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
             }`}
           >
@@ -78,10 +80,10 @@ export const BuyerPurchaseList: React.FC = () => {
           <div className="relative">
             <input
               type="text"
-                onChange={handleSearch}
+              onChange={handleSearch}
               placeholder="Search..."
               className="w-40 h-10 rounded-full pl-10 focus:outline-none"
-              style={{background:colors.background,color:colors.text}}
+              style={{ background: colors.background, color: colors.text }}
             />
             <div className="absolute top-3 left-2">
               <SearchIcon color="#2e10dc" width="20" height="20" />
@@ -92,10 +94,13 @@ export const BuyerPurchaseList: React.FC = () => {
       <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
         {purchase.length === 0 ? (
           <div className="flex flex-col items-center justify-center w-full h-full">
-            <img
-              src="/NoData.png"
-              alt="No data"
-              className="w-3/4 h-3/4 object-contain"
+            <Image
+              src={noDataImg}
+              alt="No Data Found"
+              className="object-cover"
+              width={300} // Desired width
+              height={300} // Desired height
+              layout="intrinsic" // Ensures the image doesn't overflow
             />
             <p
               className="text-lg font-bold mt-4"
@@ -108,7 +113,7 @@ export const BuyerPurchaseList: React.FC = () => {
           purchase.map((item: any, index: number) => (
             <div
               key={item._id || index}
-              className={`w-[32%] h-96 rounded-2xl border ${
+              className={`w-full md:w-[32%] h-96 rounded-2xl border ${
                 isDarkModeEnable ? "border-gray-600" : "border[#ccc]"
               }`}
             >

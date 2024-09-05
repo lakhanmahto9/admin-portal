@@ -11,7 +11,8 @@ import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 import { fetchAllArtMusicSellers } from "@/redux/slice/fetchAllArtMusicSellersSlice";
-import noDataImage from "@/public/noData.png"; // Import your no data image
+import Image from 'next/image';
+import noDataImg from "@/public/noData.png"; // Import your no data image
 
 interface Address {
   aboutMe: string;
@@ -126,10 +127,13 @@ export const ArtMusicSeller: React.FC = () => {
           </div>
         ) : filteredSellers.length === 0 ? (
           <div className="flex flex-col justify-center items-center h-full">
-            <img
-              src={noDataImage.src}
-              alt="No data found"
-              className="w-80 h-80 object-cover mb-4"
+            <Image
+              src={noDataImg}
+              alt="No Data Found"
+              className="object-cover"
+              width={300} // Desired width
+              height={300} // Desired height
+              layout="intrinsic" // Ensures the image doesn't overflow
             />
             <p className="text-lg" style={{ color: colors.text }}>
               No data found
