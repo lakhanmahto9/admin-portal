@@ -4,6 +4,7 @@ import React, { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 
 export const Transaction: React.FC = () => {
+  const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const totalsell = useSelector((state: any) => state.sale?.data?.sells || []);
   const [sale, setSale] = useState(totalsell);
   const [search, setSearch] = useState("");
@@ -23,16 +24,16 @@ export const Transaction: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-96 border bg-[#FFFFFF] rounded-2xl mb-2">
-      <div className="h-[15%] border-b flex justify-between items-center px-4">
-        <p className="text-xl font-semibold">Transaction</p>
-        <div className="flex px-2 gap-2 items-center">
+    <div className={`w-full h-96 border ${isDarkEnabled?"border-[#303030] ":"bg-[#ffffff]"}  rounded-2xl mb-2`}>
+      <div className={`h-[15%] ${isDarkEnabled?"border-b border-b-[#303030]":"border-b"}  flex justify-between items-center px-4`}>
+        <p className={`text-lg font-semibold ${isDarkEnabled?"text-[#D3D3D3]":"text-[#100f0f]"}`}>Transaction</p>
+        <div className="flex px-2 gap-2 items-center border rounded-full">
           <div className="relative">
             <input
               type="text"
               onChange={handleSearch}
               placeholder="Search..."
-              className="w-40 h-10 rounded-full pl-10 focus:outline-none"
+              className={`w-40 h-10 rounded-full  ${isDarkEnabled?"bg-[#100f0f]":"text-[#D3D3D3]"} pl-10 focus:outline-none`}
             />
             <div className="absolute top-3 left-2">
               <SearchIcon color="#2e10dc" width="20" height="20" />
@@ -53,8 +54,8 @@ export const Transaction: React.FC = () => {
                   />
                 </div>
                 <div className="">
-                  <p className="text-lg font-bold">{item?.title}</p>
-                  <p className="text-sm font-semibold">₹{item?.price}</p>
+                  <p className={`text-lg font-bold ${isDarkEnabled?"text-[#D3D3D3]":"text-[#100f0f]"}`}>{item?.title}</p>
+                  <p className={`text-sm font-semibold ${isDarkEnabled?"text-[#D3D3D3]":"text-[#100f0f]"}`}>₹{item?.price}</p>
                 </div>
               </div>
             </div>
@@ -64,19 +65,19 @@ export const Transaction: React.FC = () => {
             <div className="h-[30%] p-1">
               <div className="leading-5">
                 <div className="flex justify-between">
-                  <p className="font-semibold text-[#504f4f]">Seller</p>
+                  <p className={`font-semibold ${isDarkEnabled?"text-[#D3D3D3]":"text-[#100f0f]"}`}>Seller</p>
                   <p className="font-semibold text-[#9595a3]">{item?.name}</p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="font-semibold text-[#504f4f]">Buyer</p>
+                  <p className={`font-semibold ${isDarkEnabled?"text-[#D3D3D3]":"text-[#100f0f]"}`}>Buyer</p>
                   <p className="font-semibold text-[#9595a3]">{item?.buyerId?.name}</p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="font-semibold text-[#504f4f]">Order ID</p>
+                  <p className={`font-semibold ${isDarkEnabled?"text-[#D3D3D3]":"text-[#100f0f]"}`}>Order ID</p>
                   <p className="font-semibold text-[#9595a3]">{item?.orderId}</p>
                 </div>
                 <div className="flex justify-between">
-                  <p className="font-semibold text-[#504f4f]">Date</p>
+                  <p className={`font-semibold ${isDarkEnabled?"text-[#D3D3D3]":"text-[#100f0f]"}`}>Date</p>
                   <p className="font-semibold text-[#9595a3]">{moment(item.createdAt).format("MMMM D, YYYY")}</p>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import { PhotographyLayout } from "@/components/photography/photography-laylout/photography-layout";
 import { PhotographySellerDetails } from "@/components/photography/seller-details/seller-details";
+import WithAuth from "@/components/utils/with-auth";
 import React from "react";
 
 const PhotographyDashboard: React.FC = () => {
@@ -9,4 +10,4 @@ const PhotographyDashboard: React.FC = () => {
     </PhotographyLayout>
   );
 };
-export default PhotographyDashboard;
+export default WithAuth(PhotographyDashboard);
