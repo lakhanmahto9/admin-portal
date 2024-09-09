@@ -2,7 +2,9 @@ import React, { ReactNode } from "react";
 import { SettingIcon } from "../../utils/icons";
 import SallerSidebar from "../ecommerce-sidebar/ecommerce-sidebar";
 import SellerHeader from "../ecommerce-header/ecommerce-header";
-import { OpenModal } from "../common/modal";
+// import { OpenModal } from "../common/modal";
+import { OpenModal } from "../common/sidebarModal";
+
 import { useSelector } from "react-redux";
 import { setModal } from "../../../redux/slice/openModal";
 import { useDispatch } from "react-redux";
