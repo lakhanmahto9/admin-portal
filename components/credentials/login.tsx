@@ -49,6 +49,8 @@ export const Login: React.FC = () => {
         }
         else if(type === "Digital Art and Music"){
           router.push("/admin-dashboard/seller-art/art-dashboard")
+        }else if(type === "E-Commerce"){
+          router.push("/admin-dashboard/nft-ecommerce/ecommerce-dashboard")
         }
        }else{
         setSpin(false);
