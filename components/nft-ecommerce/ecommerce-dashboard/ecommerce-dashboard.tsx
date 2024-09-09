@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card } from "../card/card";
 import { Graph } from "../ecommerce-graph/graph";
 import { useDispatch } from "react-redux";
-import { fetchTotalUserPlaylistCreatorCount } from "@/redux/slice/fetchTotalUserPlaylistCreaterSlice";
+import { getEcommerceCardDataThunk } from "@/redux/slice/ecommerce/getEcommerceCardDataSlice";
 import { SalesDataItem } from "./data-types";
 import { fetchSalesCourse } from "../../../redux/slice/fetchSalesCourseSlice";
 import Slider from "../slider/slider";
@@ -12,18 +12,13 @@ import { userInformation } from "@/redux/slice/fetchAllUsersDetailSlice";
 
 // import { FetchAllPhotographyBySellerSide } from "@/redux/slice/FetchAllPhotographyBySellerSildeSlice";
 export interface DashboardCardData {
-  totalCreatorCount: number;
-  totalPlaylistCount: number;
-  totalUserCount: number;
-  totalRevenue: number;
-  todayRevenue: number;
-  todayUserCount: number;
-  todayCreatorCount: number;
-  todayPlaylistCount: number;
-  todaySellerCount: number;
-  todayBuyerCount: number;
-  totalSellerCount: number;
-  totalBuyerCount: number;
+  todayProducts:number,
+  todaySellers:number,
+  todayBuyers:number,
+  totalProducts:number,
+  totalSellers:number,
+  totalBuyers:number,
+ 
 }
 
  const EcommerceDashboard: React.FC = () => {
@@ -31,24 +26,19 @@ export interface DashboardCardData {
   const token = localStorage.getItem("access_token");
   const [salesCourse, setSalesCourse] = useState<SalesDataItem[]>([]);
   const [cardData, setCardData] = useState<DashboardCardData>({
-    totalCreatorCount: 0,
-    totalPlaylistCount: 0,
-    totalUserCount: 0,
-    totalRevenue: 0,
-    todayRevenue: 0,
-    todayUserCount: 0,
-    todayCreatorCount: 0,
-    todayPlaylistCount: 0,
-    todaySellerCount: 0,
-    todayBuyerCount: 0,
-    totalBuyerCount: 0,
-    totalSellerCount: 0,
+    todayProducts:0,
+    todaySellers:0,
+    todayBuyers:0,
+    totalProducts:0,
+    totalSellers:0,
+    totalBuyers:0,
+   
   });
   useEffect(() => {
     // if (token) {
     callApiToAllSales();
     callApiToFetchSalesCourses();
-    getApiToFetchTotalUserPlaylistCreator();
+    callApiToGetEcommerceCardData();
     getAllPlaylistForSlider();
     //   dispatch<any>(FetchAllPhotographyBySellerSide());
     // }
@@ -69,35 +59,37 @@ export interface DashboardCardData {
     }
   };
 
-  const getApiToFetchTotalUserPlaylistCreator = async () => {
+  const callApiToGetEcommerceCardData = async () => {
     try {
-      const result = await dispatch<any>(fetchTotalUserPlaylistCreatorCount());
-      //   console.log(result.payload)
+      const result = await dispatch<any>(getEcommerceCardDataThunk());
+        console.log(result.payload)
+
+      
+
       if (result.payload && result.payload.data) {
         const {
-          totalCreatorCount,
-          totalPlaylistCount,
-          totalUserCount,
-          todayUserCount,
-          todayCreatorCount,
-          todayPlaylistCount,
-          todaySellerCount,
-          todayBuyerCount,
-          totalSellerCount,
-          totalBuyerCount,
+          todayProducts,
+          todaySellers,
+          todayBuyers,
+          totalProducts,
+          totalSellers,
+          totalBuyers,
+         
         } = result.payload.data;
+
+        console.log(totalBuyers, "9000000")
+
+
         setCardData((prevData) => ({
           ...prevData,
-          totalCreatorCount,
-          totalPlaylistCount,
-          totalUserCount,
-          todayUserCount,
-          todayCreatorCount,
-          todayPlaylistCount,
-          todaySellerCount,
-          todayBuyerCount,
-          totalSellerCount,
-          totalBuyerCount,
+          todayProducts,
+          todaySellers,
+          todayBuyers,
+          totalProducts,
+          totalSellers,
+          totalBuyers,
+         
+        
         }));
       }
     } catch (error) {

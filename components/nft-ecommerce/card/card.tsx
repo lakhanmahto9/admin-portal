@@ -11,52 +11,11 @@ interface CardProps {
 export const Card: React.FC<CardProps> = ({ data }) => {
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
-  //   const data = useSelector(
-  //     (state: any) => state.sellerphotography?.data?.photography || []
-  //   );
-  //   const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
-  const [info, setInfo] = useState({
-    totalPhotography: 0,
-    totalBuyer: 0,
-    totalRevenue: 0,
-    todayRevenue: 0,
-  });
+ 
 
-  useEffect(() => {
-    // callFilterFunction();
-  }, []);
 
-  //   const callFilterFunction = () => {
-  //     if (mysale.length > 0) {
-  //       const totalRev = mysale.reduce((total: number, data: any) => {
-  //         return total + data.price;
-  //       }, 0);
-
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         totalRevenue: totalRev,
-  //       }));
-  //       const currentDate = new Date();
-  //       const filterSale = mysale.filter((item: any) => {
-  //         const itemDate = new Date(item.createdAt);
-  //         return (
-  //           itemDate.getFullYear() === currentDate.getFullYear() &&
-  //           itemDate.getMonth() === currentDate.getMonth() &&
-  //           itemDate.getDate() === currentDate.getDate()
-  //         );
-  //       });
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         todayRevenue: filterSale.reduce(
-  //           (acc: number, data: any) => (acc = acc + data.price),
-  //           0
-  //         ),
-  //       }));
-  //     }
-  //   };
   const cardStyle = {
     backgroundColor: colors.cardBg,
-    // border: `1px solid ${darkModeEnable ? "#3C4E6D" : "gray"}`,
     boxShadow: `0px 1px 4px -1px `,
     color: colors.text,
   };
@@ -70,7 +29,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold ">Total Buyer</p>
-            <p className="text-xl font-bold">{data.totalBuyerCount}</p>
+            <p className="text-xl font-bold">{data.totalBuyers}</p>
           </div>
           <div className="relative">
             <div
@@ -95,7 +54,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Today&apos;s Buyer</p>
-            <p className="text-xl font-bold">{data.todayBuyerCount}</p>
+            <p className="text-xl font-bold">{data.todayBuyers}</p>
           </div>
           <div></div>
         </div>
@@ -112,7 +71,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Total Creater</p>
-            <p className="text-xl font-bold">{data.totalCreatorCount}</p>
+            <p className="text-xl font-bold">{data.todaySellers}</p>
           </div>
           <div></div>
         </div>
@@ -129,7 +88,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Today&apos;s Creater</p>
-            <p className="text-xl font-bold">{data.todayCreatorCount}</p>
+            <p className="text-xl font-bold">{data.todaySellers}</p>
           </div>
           <div></div>
         </div>
@@ -146,7 +105,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Today&apos;s Playlist</p>
-            <p className="text-xl font-bold">{data.todayPlaylistCount}</p>
+            <p className="text-xl font-bold">{data.todayProducts}</p>
           </div>
           <div></div>
         </div>
@@ -162,7 +121,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold">Total Playlist</p>
-            <p className="text-xl font-bold">{data.totalPlaylistCount}</p>
+            <p className="text-xl font-bold">{data.todayProducts}</p>
           </div>
           <div></div>
         </div>
