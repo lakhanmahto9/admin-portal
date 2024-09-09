@@ -24,6 +24,7 @@ import particularSellerArtMusicSlice from "../slice/particularSellerArtMusicSlic
 import salePhotographySlice from "../slice/photography/PhotographySaleSlice";
 import BuyerPhotograhySlice from "../slice/photography/AllBuyerPhotography";
 import getEcommerceBuyersReducer from "../slice/ecommerce/getEcommerceBuyersSlice";
+import actionReducer from "../slice/ecommerce/actionSlice";
 
 
 const persistConfig = {
@@ -130,6 +131,8 @@ const store = configureStore({
     artmusicsellerprofile:artMusicSellerProfile,
     particularsellersartmusic:particularSellerArtMusic,
     getEcommerceBuyers:getEcommerceBuyersReducer,
+    userActions: actionReducer, // Add the actionSliceReducer to the store
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

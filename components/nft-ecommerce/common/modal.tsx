@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { VerifyModal } from "./verifyModal";
 import { BlockModal } from "./block";
 import { BuyerVerifyModal } from "./buyerVerifyModal";
-import { UserblockModal } from "@/components/nft-ecommerce/common/UserBlockModal";
+import { UserblockModal } from "@/components/nft-ecommerce/common/UserblockModal";
 
 export const DialogModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
