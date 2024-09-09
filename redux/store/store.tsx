@@ -27,6 +27,8 @@ import getEcommerceBuyersReducer from "../slice/ecommerce/getEcommerceBuyersSlic
 import actionReducer from "../slice/ecommerce/actionSlice";
 
 
+
+
 const persistConfig = {
   key: "root",
   storage,
@@ -106,6 +108,7 @@ const buyerphotography = persistReducer(
 const userDetails = persistReducer({ ...persistConfig, key: "user" }, userSlice);
 const nevSideColor = persistReducer({ ...persistConfig, key: "sidebarbg" }, sidebarNavColorSlice);
 const headerFix = persistReducer({ ...persistConfig, key: "fix" }, navfix);
+
 
 const store = configureStore({
   reducer: {

@@ -2,12 +2,13 @@ import { Notification } from "@/components/utils/icons";
 import { Badge, Tooltip, CircularProgress } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DisabledNotification } from "@/redux/slice/disabledNotificationSlice";
-import { fetchSalesCourse } from "@/redux/slice/fetchSalesCourseSlice";
+import { disabledAdminNotification } from "@/redux/slice/disabledNotificationSlice";
 import moment from 'moment';
+import { CheckDoubleIcon, CheckIcon } from "../utils/icons";
+import { disabledAdminNotificationForVideo } from "@/redux/slice/disabledNotificationForVideoSlice";
 
 interface SaleCourse {
-  seen: boolean;
+  adminSeen: boolean;
   userName: string;
   thumbnail: string;
   price: number;
@@ -22,25 +23,25 @@ export const AdminNotification: React.FC = () => {
   const darkModeEnabled = useSelector((state: any) => state.darkmode.dark);
   const [saleNumber, setSaleNumber] = useState(0);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);  // Loading state
+  const [loading, setLoading] = useState(true);
   const modalRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);  // Start loading
+      setLoading(true);
       try {
         if (type === "Tutorial" && saleData?.length > 0) {
-          const data = saleData.filter((item: any) => item.seen === true);
-          setSaleNumber(data.length);
+          const unseenNotifications = saleData.filter((item: any) => !item.adminSeen);
+          setSaleNumber(unseenNotifications.length);
         } else if (type === "Digital Art and Music" && artAndMusicSalesData?.length > 0) {
-          const data = artAndMusicSalesData.filter((item: any) => item.seen === true);
-          setSaleNumber(data.length);
+          const unseenNotifications = artAndMusicSalesData.filter((item: any) => !item.adminSeen);
+          setSaleNumber(unseenNotifications.length);
         }
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);  // Stop loading once data is fetched
+        setLoading(false);
       }
     };
     fetchData();
@@ -54,13 +55,13 @@ export const AdminNotification: React.FC = () => {
     try {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         setOpen(false);
-        // const result = await dispatch<any>(DisabledNotification());
-        // if (result?.payload?.status) {
-        //   let data = {
-        //     id: localStorage.getItem("creatorId"),
-        //   };
-        //   const result = await dispatch<any>(fetchSalesCourse(data));
-        // }
+        setSaleNumber(0); // Reset the badge count when closing the modal
+        if(type === 'Tutorial'){
+          await dispatch<any>(disabledAdminNotificationForVideo());
+        }else{
+          await dispatch<any>(disabledAdminNotification());
+        }
+        
       }
     } catch (error) {
       console.log(error);
@@ -74,11 +75,26 @@ export const AdminNotification: React.FC = () => {
     };
   }, []);
 
+  // Function to sort notifications with unseen ones on top
+  const sortNotifications = (notifications: any[]) => {
+    return notifications
+      .slice() // Make a copy of the notifications array
+      .sort((a, b) => {
+        if (!a.adminSeen && b.adminSeen) {
+          return -1; // Unseen notifications come first
+        } else if (a.adminSeen && !b.adminSeen) {
+          return 1; // Seen notifications come after unseen
+        }
+        // If both are unseen or seen, sort by createdAt date
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      });
+  };
+
   return (
     <div>
       <Tooltip title="Notification">
         <Badge
-          // badgeContent={saleNumber}
+          badgeContent={saleNumber}
           color="secondary"
           onClick={openNotificationModal}
         >
@@ -113,9 +129,7 @@ export const AdminNotification: React.FC = () => {
                     <CircularProgress />
                   </div>
                 ) : (
-                  (type === "Tutorial" ? saleData : artAndMusicSalesData)
-                    ?.slice()
-                    .reverse()
+                  sortNotifications(type === "Tutorial" ? saleData : artAndMusicSalesData)
                     .map((item: any, index: number) => (
                       <div
                         className={`mb-1 h-auto rounded-lg p-2 ${
@@ -171,6 +185,14 @@ export const AdminNotification: React.FC = () => {
                           >
                             {moment(item.createdAt).format("DD MMM YYYY, HH:mm")}
                           </p>
+                        </div>
+                        {/* Display tick icon based on adminSeen status */}
+                        <div className="flex justify-end mt-2">
+                          {item.adminSeen ? (
+                            <CheckDoubleIcon color="#0e87f1" width="20" height="20" />
+                          ) : (
+                            <CheckIcon color="#858e98" width="20" height="20" />
+                          )}
                         </div>
                       </div>
                     ))
