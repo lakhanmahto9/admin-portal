@@ -167,3 +167,21 @@ export const getAllArtMusicByCategoryApi = () => {
     },
   });
 };
+
+export const disabledAdminNotificationApi = () => {
+  return axios.get(`${BASE_URL}/admin/admin-dissabled-notification-for-art-music`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const disabledAdminNotificationForVideoApi = () => {
+  return axios.get(`${BASE_URL}/admin/admin-dissabled-notification-for-video`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+

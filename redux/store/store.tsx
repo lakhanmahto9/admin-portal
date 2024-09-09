@@ -26,6 +26,8 @@ import BuyerPhotograhySlice from "../slice/photography/AllBuyerPhotography";
 import getEcommerceBuyersReducer from "../slice/ecommerce/getEcommerceBuyersSlice";
 
 
+
+
 const persistConfig = {
   key: "root",
   storage,
@@ -105,6 +107,7 @@ const buyerphotography = persistReducer(
 const userDetails = persistReducer({ ...persistConfig, key: "user" }, userSlice);
 const nevSideColor = persistReducer({ ...persistConfig, key: "sidebarbg" }, sidebarNavColorSlice);
 const headerFix = persistReducer({ ...persistConfig, key: "fix" }, navfix);
+
 
 const store = configureStore({
   reducer: {
