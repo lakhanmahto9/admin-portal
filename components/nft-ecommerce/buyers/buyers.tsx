@@ -1,454 +1,184 @@
-import React, { useEffect, useState } from "react";
 import {
-    
-  useUserBlockUnblockMutation,
-} from "../../../redux/api/adminApiSlice";
-import { getEcommerceBuyersThunk } from "@/redux/slice/ecommerce/getEcommerceBuyersSlice";
-import EditBuyer from "./editBuyers";
-import { useSelector ,useDispatch} from "react-redux";
-import { ArrowLeftIcon } from "../../utils/icons";
-import { useRouter } from "next/router";
-import { ThreeDotVertical } from "../../utils/icons";
-import { useThemeColors } from "@/components/utils/useThemeColor";
-import NoDataImage from "../../../public/NoData.png";
-import { CircularProgress } from "@mui/material";
-import { fetchAllUsers } from "@/redux/slice/tutorial/getAllUserSlice";
-
-interface Address {
-  aboutMe: string;
-  city: string;
-  address: string;
-  country: string;
-  postalCode: string;
-}
-
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  address: Address | null;
-  isBlocked: boolean;
-}
-
-const Buyers: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(10);
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
-  const colors = useThemeColors(isDarkEnabled);
- const dispatch = useDispatch();
-
-
-
-  const [blockUnblockUser] = useUserBlockUnblockMutation();
-  //   const darkModeEnabled = useSelector(selectDarkMode);
-
-  const callApiToFetchAllUsers = async () => {
-    setLoading(true); 
-    const result = await dispatch<any>(getEcommerceBuyersThunk())
-    if (result.payload?.success) {
-      setUsers(result?.payload?.data);
-    }
-    setLoading(false);
-  }
-  useEffect(() => {
-    callApiToFetchAllUsers();
-  }, [dispatch]);
-
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-  const totalPages = Math.ceil(users.length / usersPerPage);
-
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  const handleActionClick = (userId: string) => {
-    setSelectedUser(selectedUser === userId ? null : userId);
-  };
-
-  const handleBlockUser = async (userId: string) => {
-    try {
-      const user = users.find((user) => user._id === userId);
-      if (!user) return;
-      await blockUnblockUser(userId).unwrap();
-      setUsers(
-        users.map((u) =>
-          u._id === userId ? { ...u, isBlocked: !u.isBlocked } : u
-        )
+    LeftIcon,
+    SearchIcon,
+    ThreedotIcon,
+    VerifyIcon,
+  } from "@/public/icons/icons";
+  import { useDispatch, useSelector } from "react-redux";
+  import { useRouter } from "next/router";
+  import { setDialog } from "@/redux/slice/photography/OpenModalSlice";
+  import { DialogModal } from "../common/modal";
+  import { ChangeEvent, useState } from "react";
+  
+  
+  export const Buyers: React.FC = () => {
+    const router = useRouter();
+    const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
+    const phbuyer = useSelector((state: any) => state.buyer?.data?.buyer || []);
+    const [buyer, setBuyer] = useState(phbuyer);
+    const [search, setSearch] = useState("");
+   
+    const dispatch = useDispatch();
+  
+    const buyerPhotography = (item: any) => {
+      // localStorage.setItem("image", item.profile_pic);
+      router.push(
+        `/admin-dashboard/seller-photography/buyerphotography/${item._id}`
       );
-      setSelectedUser(null);
-      // Optionally, refetch users to get the updated list
-    } catch (error) {
-      console.error("Failed to block/unblock user:", error);
+    };
+    const back = () => {
+      router.push("/admin-dashboard/seller-photography/photography-dashboard");
+    };
+  
+    const profile = (item: any) => {
+      router.push(
+        `/admin-dashboard/seller-photography/buyerprofile/${item?._id}`
+      );
+    };
+    const handleSearch = (e:ChangeEvent<HTMLInputElement>) =>{
+      const query = e.target.value.toLowerCase();
+      if (query) {
+        const filtered = buyer.filter((item: any) =>
+          item.name.toLowerCase().includes(query)
+        );
+        setBuyer(filtered);
+      } else {
+        setBuyer(phbuyer);
+      }
     }
-  };
-
-  const handleEditUser = (user: User) => {
-    setEditingUser(user);
-    setSelectedUser(null);
-  };
-
-  const handleSaveEdit = (updatedUser: User) => {
-    setUsers(
-      users.map((user) => (user._id === updatedUser._id ? updatedUser : user))
-    );
-    setEditingUser(null);
-  };
-
-  const handleCancelEdit = () => {
-    setEditingUser(null);
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleNavigate = () => {
-    router.push("/admin-dashboard/seller-video/seller-dashboard"); // Adjust the path as necessary
-  };
-
-  // Filter users based on search term
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.address?.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.address?.postalCode
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      user.address?.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.address?.country.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const paginatedFilteredUsers = filteredUsers.slice(
-    indexOfFirstUser,
-    indexOfLastUser
-  );
-
-  return (
-    <div className="mt-5 mx-3">
-      <div className="flex justify-between mb-2">
-        <span className="ml-2" onClick={handleNavigate}>
-          {" "}
-          <button onClick={handleNavigate}>
-            <ArrowLeftIcon width="24" height="24" color="white" />
-          </button>
-        </span>
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={handleSearch}
-          className={`px-3 py-2 rounded-md border focus:outline-none `}
-          style={{ background: colors.cardBg, color: colors.text }}
-        />
-      </div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        {loading ? (
-          <table
-            className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
-              isDarkEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
-            }`}
+    return (
+      <>
+        <div
+          className={`w-full h-[83vh]  ${
+            isDarkEnabled ? "bg-[#101c44]" : "bg-[#fff]"
+          } rounded-xl`}
+        >
+          <div
+            className={`h-[12%] ${
+              isDarkEnabled ? "bg-[#101c44]" : "bg-[#dae2ff]"
+            } rounded-t-xl flex justify-between`}
           >
-            <thead
-              className={`text-xs uppercase ${
-                isDarkEnabled
-                  ? "bg-[#0E1A49] text-[#D3D3D3]"
-                  : "bg-gray-100 text-gray-700"
-              } `}
-            >
-              <tr>
-                <th scope="col" className="p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-all-search"
-                      type="checkbox"
-                      className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ${
-                        isDarkEnabled
-                          ? "bg-[#0E1A49]"
-                          : "bg-gray-50 text-gray-700 "
-                      }`}
-                    />
-                    <label htmlFor="checkbox-all-search" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Email
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  City
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Postal Code
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Address
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Country
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Block Status
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colSpan={9} className="text-start md:text-center py-6">
-                  <CircularProgress />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        ) : (
-          <table
-            className={`w-full text-sm text-left rtl:text-right dark:text-gray-400 ${
-              isDarkEnabled ? "bg-[#0E1A49]" : "bg-gray-50 text-gray-500"
-            }`}
-          >
-            <thead
-              className={`text-xs uppercase ${
-                isDarkEnabled
-                  ? "bg-[#0E1A49] text-[#D3D3D3]"
-                  : "bg-gray-100 text-gray-700"
-              } `}
-            >
-              <tr>
-                <th scope="col" className="p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-all-search"
-                      type="checkbox"
-                      className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ${
-                        isDarkEnabled
-                          ? "bg-[#0E1A49]"
-                          : "bg-gray-50 text-gray-700 "
-                      }`}
-                    />
-                    <label htmlFor="checkbox-all-search" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Email
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  City
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Postal Code
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Address
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Country
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Block Status
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            {paginatedFilteredUsers.length > 0 ? (
-              <tbody>
-                {paginatedFilteredUsers.map((user) => (
-                  <tr
-                    key={user._id}
-                    className={`border-b dark:border-gray-700 dark:hover:bg-gray-600 ${
-                      isDarkEnabled
-                        ? "bg-[#0E1A49] hover:bg-blue-600 "
-                        : "bg-gray-100 text-gray-700 hover:bg-slate-300 "
-                    }`}
+            <div className="flex items-center gap-4 px-2">
+              <div
+                onClick={back}
+                className={`w-10 h-10 ${
+                  isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                } flex items-center justify-center rounded-full  cursor-pointer`}
+              >
+                <LeftIcon color="#fff" width="20" height="20" />
+              </div>
+              <p
+                className={`text-lg font-semibold  ${
+                  isDarkEnabled ? "text-[#fff]" : "text-[#192555]"
+                }`}
+              >
+                All Buyer
+              </p>
+            </div>
+            <div className="flex px-2 gap-2 items-center">
+              <div className="relative">
+                <input
+                  type="text"
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  className="w-40 h-10 rounded-full pl-10 focus:outline-none"
+                />
+                <div className="absolute top-3 left-2">
+                  <SearchIcon color="#2e10dc" width="20" height="20" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full h-[88%] overflow-y-scroll flex flex-wrap justify-between p-2 gap-2">
+            {buyer.length > 0 ? (
+              buyer.map((item: any, index: number) => (
+                <div className="relative w-full md:w-[32%] h-72" key={index}>
+                  <div
+                    className={`h-2/3 rounded-t-2xl ${
+                      isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                    } flex justify-center items-center`}
                   >
-                    <td className="w-4 p-4">
-                      <div className="flex items-center">
-                        <input
-                          id={`checkbox-table-search-${user._id}`}
-                          type="checkbox"
-                          className="w-4 h-4 text-blue-600 bg-red-400 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    <div className="relative w-28 h-28 rounded-full border">
+                      <img
+                        src={item.profile_pic || "/image/profile.png"}
+                        alt=""
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                      <div className="absolute bottom-2 right-2">
+                        <VerifyIcon
+                          color={item.isApproved ? "#00ff00" : "#ff0000"}
+                          height="20"
+                          width="20"
                         />
-                        <label
-                          htmlFor={`checkbox-table-search-${user._id}`}
-                          className="sr-only"
-                        >
-                          checkbox
-                        </label>
                       </div>
-                    </td>
-                    <td
-                      scope="row"
-                      className={`px-6 py-4 font-medium whitespace-nowrap dark:text-white ${
-                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                      }`}
-                    >
-                      {user.name}
-                    </td>
-                    <td
-                      className={`px-6 py-4 ${
-                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                      }`}
-                    >
-                      {user.email}
-                    </td>
-
-                    <td
-                      className={`px-6 py-4 ${
-                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                      }`}
-                    >
-                      {user.address?.city || "N/A"}
-                    </td>
-
-                    <td
-                      className={`px-6 py-4 ${
-                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                      }`}
-                    >
-                      {user.address?.postalCode || "N/A"}
-                    </td>
-                    <td
-                      className={`px-6 py-4 ${
-                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                      }`}
-                    >
-                      {user.address?.address || "N/A"}
-                    </td>
-
-                    <td
-                      className={`px-6 py-4 ${
-                        isDarkEnabled ? "text-[#D3D3D3]" : "text-gray-700"
-                      }`}
-                    >
-                      {user.address?.country || "N/A"}
-                    </td>
-                    <td
-                      className={`px-6 py-4 ${
-                        user.isBlocked
-                          ? isDarkEnabled
-                            ? "text-red-500"
-                            : "text-red-800"
-                          : isDarkEnabled
-                          ? "text-green-500"
-                          : "text-green-800"
-                      }`}
-                    >
-                      {user.isBlocked ? "Blocked" : "Active"}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="relative inline-block text-left">
-                        <button
-                          onClick={() => handleActionClick(user._id)}
-                          className="p-2 text-gray-500 rounded-full hover:text-gray-700 focus:outline-none focus:text-gray-700"
-                        >
-                          <ThreeDotVertical
-                            width="16"
-                            height="16"
-                            color={colors.text}
-                          />
-                        </button>
-                        {selectedUser === user._id && (
-                          <div
-                            className="absolute right-0 z-10 w-40 py-2 mt-2 rounded-md shadow-xl"
-                            style={{
-                              background: colors.background,
-                              color: colors.text,
-                            }}
-                          >
-                            <button
-                              onClick={() => handleBlockUser(user._id)}
-                              className="block px-4 py-2 text-sm w-full rounded-2xl  hover:bg-blue-400"
-                            >
-                              {user.isBlocked ? "Unblock" : "Block"}
-                            </button>
-                            <button
-                              onClick={() => handleEditUser(user)}
-                              className="block px-4 py-2 text-sm w-full  rounded-2xl  hover:bg-blue-400"
-                            >
-                              Edit
-                            </button>
-                          </div>
-                        )}
+                    </div>
+                  </div>
+                  <div
+                    className={`h-1/3 ${
+                      isDarkEnabled ? "bg-[#010844]" : "bg-[#084363]"
+                    } rounded-b-2xl py-5`}
+                  >
+                    <div className="flex gap-2 h-14 px-2">
+                      <div
+                        onClick={() => buyerPhotography(item)}
+                        className={`w-1/2  ${
+                          isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                        } cursor-pointer rounded-lg flex justify-center items-center`}
+                      >
+                        <p className="text-[#fff]">Photography</p>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+                      <div
+                        onClick={() => profile(item)}
+                        className={`w-1/2 ${
+                          isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                        } cursor-pointer rounded-lg flex justify-center items-center`}
+                      >
+                        <p className="text-[#fff]">Profile</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className={`flex justify-center items-center gap-1 absolute w-[30%] h-8 bottom-[29%] left-[35%] px-2 ${
+                      isDarkEnabled ? "bg-[#03061e]" : "bg-[#2c8993]"
+                    } rounded-full`}
+                  >
+                    <p className="text-[#fff]">
+                      {item.isBlocked ? "Blocked" : "Unblocked"}
+                    </p>{" "}
+                  </div>
+                  <div
+                    onClick={() =>
+                      dispatch(
+                        setDialog({
+                          open: true,
+                          type: "userblock",
+                          id: item._id,
+                          block: item.isBlocked,
+                        })
+                      )
+                    }
+                    className={`flex justify-center items-center cursor-pointer gap-1 absolute w-[10%] h-8 bottom-[29%] right-[23%] px-2   ${
+                      isDarkEnabled ? "bg-[#03061e]" : "bg-[#2c8993]"
+                    } rounded-full`}
+                  >
+                    <ThreedotIcon width="20" height="20" color="#fff" />
+                  </div>
+                </div>
+              ))
             ) : (
-              <tbody>
-                <tr>
-                  <td colSpan={9} className="text-center p-4">
-                    No data available
-                  </td>
-                </tr>
-              </tbody>
+              <div className="w-full h-full flex justify-center items-center">
+                <div className="w-96 h-96 p-4 flex flex-col justify-center items-center">
+                  <img src="/image/not-found.png" alt="" />
+                  <p className="text-lg font-semibold">Not available</p>
+                </div>
+              </div>
             )}
-          </table>
-        )}
+          </div>
+        </div>
+        <DialogModal />
+      </>
+    );
+  };
 
-        {editingUser && (
-          <EditBuyer
-            user={editingUser}
-            onSave={handleSaveEdit}
-            onCancel={handleCancelEdit}
-          />
-        )}
-      </div>
-
-      <div className="flex justify-center mt-4">
-        <button
-          className="px-4 py-2 mx-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          disabled={currentPage === 1}
-          onClick={() => paginate(currentPage - 1)}
-        >
-          Previous
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-          (page) => (
-            <button
-              key={page}
-              onClick={() => paginate(page)}
-              className={`px-4 py-2 mx-1 rounded-md ${
-                currentPage === page
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              {page}
-            </button>
-          )
-        )}
-        <button
-          className="px-4 py-2 mx-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          disabled={currentPage === totalPages}
-          onClick={() => paginate(currentPage + 1)}
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default Buyers;
+  export default Buyers
+  

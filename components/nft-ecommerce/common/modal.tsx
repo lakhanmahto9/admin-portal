@@ -2,12 +2,8 @@ import { CloseIcon } from "../../utils/icons";
 import { removeModal } from "@/redux/slice/openModal";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { Addphotographyform } from "../addphotography/AddPhotoGraphyForm";
-// import { Editphotographyform } from "../addphotography/EditPhotoGraphyForm";
-// import { ProfileForm } from "../profile/profile-form";
-// import { EditProfileForm } from "../profile/edit-profile-form";
+
 import { SettingModal } from "../common/setting";
-// import { NotificatonPage } from "@/components/notification/Notification";
 
 export const OpenModal: React.FC = () => {
   const dispatch = useDispatch();
@@ -42,12 +38,15 @@ export const OpenModal: React.FC = () => {
         </div>
       </div>
       <div className="h-[86%]">
-        {/* {modaltype === "Add-Photo" && <Addphotographyform />}
-        {modaltype === "Edit" && <Editphotographyform />}
-        {modaltype === "Add-Profile" && <ProfileForm/>}
-        {modaltype === "Edit-Profile" && <EditProfileForm/>} */}
+     
         {modaltype === "setting" && <SettingModal/>}
-        {/* {modaltype === "notification" && <NotificatonPage/>} */}
+
+        {/* {modaltype === "verify"&&<VerifyModal />}
+        {modaltype === "block"&&<BlockModal />}
+        {modaltype === "userblock"&&<UserblockModal />}
+        {modaltype === "buyerverify"&&<BuyerVerifyModal />} */}
+
+        
       </div>
       
     </div>
