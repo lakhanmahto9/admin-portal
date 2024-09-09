@@ -1,5 +1,6 @@
 import { PhotographyLayout } from "@/components/photography/photography-laylout/photography-layout";
 import { PhotographList } from "@/components/photography/photography-list/photography-list";
+import WithAuth from "@/components/utils/with-auth";
 import React from "react";
 
 const Photographylist: React.FC = () => {
@@ -9,4 +10,4 @@ const Photographylist: React.FC = () => {
     </PhotographyLayout>
   );
 };
-export default Photographylist;
+export default WithAuth(Photographylist);
