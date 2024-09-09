@@ -30,7 +30,7 @@ export const editUserApi = (userId: string, updates: any) => {
 // API for viewing user details
 export const viewUserApi = (userId: string) => {
   return axios.get(
-    `${BASE_URL}/admin/view-user/${userId}`,
+    `${BASE_URL}/admin/view-ecommerce-buyer/${userId}`,
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

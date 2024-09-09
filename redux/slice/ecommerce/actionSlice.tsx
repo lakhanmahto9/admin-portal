@@ -1,6 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import BASE_URL from "@/baseUrl";
 import { blockOrUnblockEcommerceBuyerApi, editUserApi, viewUserApi } from "@/redux/api/ecommerce/actionApi";
 
 // Async thunk for blocking/unblocking buyers

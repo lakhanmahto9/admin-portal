@@ -53,7 +53,7 @@ import {
     };
   
     const profile = (item: any) => {
-      router.push(`/admin-dashboard/seller-photography/buyerprofile/${item?._id}`);
+      router.push(`/admin-dashboard/nft-ecommerce/buyer-profile/${item?._id}`);
     };
   
     return (
@@ -121,7 +121,7 @@ import {
                         onClick={() => buyerPhotography(item)}
                         className={`w-1/2 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} cursor-pointer rounded-lg flex justify-center items-center`}
                       >
-                        <p className="text-[#fff]">Photography</p>
+                        <p className="text-[#fff]">Product</p>
                       </div>
                       <div
                         onClick={() => profile(item)}

@@ -2,6 +2,8 @@ import { CrossIcon } from "@/public/icons/icons";
 import { getAllSeller } from "@/redux/slice/photography/AllPhSellerSlice";
 import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
 import { phsellerProile } from "@/redux/slice/photography/PhSellerProfile";
+import { viewUserThunk } from "@/redux/slice/ecommerce/actionSlice";
+
 import { phsellerVerifyProile } from "@/redux/slice/photography/PhSellerVerify";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +23,7 @@ export const VerifyModal: React.FC = () => {
         setSpin(false);
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
-        await dispatch<any>(phsellerProile({ sellerId:  open.id }));
+        await dispatch<any>(viewUserThunk(open.id));
         await dispatch<any>(getAllSeller());
       }else{
         setSpin(false)
