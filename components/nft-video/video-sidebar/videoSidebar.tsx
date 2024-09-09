@@ -140,7 +140,7 @@ const VideoSidebar: React.FC = () => {
 
   const callToFetchArtMusicAndVideoRevenue = async () => {
     const result = await dispatch<any>(artMusicAndVideoRevenue());
-    console.log(result.payload.totalRevenue);
+    console.log(result?.payload?.totalRevenue);
     SetArtMusicAndVideoRevenueData(result?.payload);
   };
 
