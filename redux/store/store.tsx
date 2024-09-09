@@ -23,6 +23,7 @@ import artMusicSellerProfileSlice from "../slice/artMusicSellerProfileSlice";
 import particularSellerArtMusicSlice from "../slice/particularSellerArtMusicSlice";
 import salePhotographySlice from "../slice/photography/PhotographySaleSlice";
 import BuyerPhotograhySlice from "../slice/photography/AllBuyerPhotography";
+import getEcommerceBuyersReducer from "../slice/ecommerce/getEcommerceBuyersSlice";
 
 
 const persistConfig = {
@@ -128,6 +129,7 @@ const store = configureStore({
     artmusicbuyerpurchaseList:artMusicBuyerPurchaseList,
     artmusicsellerprofile:artMusicSellerProfile,
     particularsellersartmusic:particularSellerArtMusic,
+    getEcommerceBuyers:getEcommerceBuyersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

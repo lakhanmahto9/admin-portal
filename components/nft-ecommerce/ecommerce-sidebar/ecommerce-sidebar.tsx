@@ -54,8 +54,8 @@ import {
       },
       {
         icon: <BagCheck color="orange" height="18" width="18" />,
-        link: "Users",
-        href: publicRuntimeConfig?.users,
+        link: "Buyers",
+        href: publicRuntimeConfig?.ecommerceBuyers,
       },
   
       {
@@ -109,9 +109,9 @@ import {
       router.push(href);
     };
   
-    useEffect(() => {
-      callToFetchArtMusicAndVideoRevenue();
-    }, []);
+    // useEffect(() => {
+    //   callToFetchArtMusicAndVideoRevenue();
+    // }, []);
     const changeSwitch = (type: string, value: boolean) => {
       if(type === "art"){
         setSwitchTab((prev) => ({
@@ -138,11 +138,11 @@ import {
       }
     };
   
-    const callToFetchArtMusicAndVideoRevenue = async () => {
-      const result = await dispatch<any>(artMusicAndVideoRevenue());
-      console.log(result.payload.totalRevenue);
-      SetArtMusicAndVideoRevenueData(result?.payload);
-    };
+    // const callToFetchArtMusicAndVideoRevenue = async () => {
+    //   const result = await dispatch<any>(artMusicAndVideoRevenue());
+    //   console.log(result?.payload.totalRevenue);
+    //   SetArtMusicAndVideoRevenueData(result?.payload);
+    // };
   
     return (
       <div className="w-full h-full px-5 py-3 lg:py-5">
