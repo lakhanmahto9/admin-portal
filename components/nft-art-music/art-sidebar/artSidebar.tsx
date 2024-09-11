@@ -143,6 +143,8 @@ const ArtSidebar: React.FC = () => {
         ecommerce: !value,
       }));
       dispatch(openCredential("E-Commerce"))
+      router.push("/admin-dashboard/nft-ecommerce/ecommerce-dashboard")
+
     }
   };
 
