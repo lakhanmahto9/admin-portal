@@ -170,7 +170,7 @@ const SellerProfile: React.FC = () => {
               onClick={() => {
                 if (!profile?.seller?.isApproved) {
                   dispatch(
-                    setDialog({ open: true, type: "sellerverify", id: id })
+                    setDialog({ open: true, type: "sellerVerify", id: id })
                   );
                 }
               }}

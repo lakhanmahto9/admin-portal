@@ -21,8 +21,8 @@ export const BuyerVerifyModal: React.FC = () => {
         setSpin(false);
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
-        await dispatch<any>(buyerProile({ buyerId:  open.id }));
-        await dispatch<any>(AllBuyer());
+        // await dispatch<any>(buyerProile({ buyerId:  open.id }));
+        // await dispatch<any>(AllBuyer());
       }else{
         setSpin(false)
         dispatch(removeDialog({ open: false, type: ""}));

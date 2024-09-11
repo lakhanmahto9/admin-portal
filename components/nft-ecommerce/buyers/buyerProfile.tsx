@@ -141,7 +141,7 @@ const BuyerProfile: React.FC = () => {
               onClick={() => {
                 if (!profile?.isApproved) {
                   dispatch(
-                    setDialog({ open: true, type: "buyerverify", id: id })
+                    setDialog({ open: true, type: "buyerVerify", id: id })
                   );
                 }
               }}

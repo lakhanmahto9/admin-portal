@@ -30,6 +30,7 @@ export const viewSellerApi = (sellerId: string) => {
   export const verifyESellerApi = (sellerId: string) => {
     return axios.patch(
       `${BASE_URL}/admin/verify-eseller/${sellerId}`,
+      {},
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -42,7 +43,7 @@ export const viewSellerApi = (sellerId: string) => {
   export const blockOrUnblockEcommerceSellerApi = (sellerId: string) => {
     return axios.patch(
       `${BASE_URL}/admin/block-or-unblock-ecommerce-seller/${sellerId}`,
-      {}, // If you have a body, pass it here; otherwise leave it empty
+      {}, 
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

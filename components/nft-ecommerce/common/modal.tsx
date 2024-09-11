@@ -18,8 +18,9 @@ export const DialogModal: React.FC = () => {
         {open.type === "verify"&&<VerifyModal />}
         {open.type === "block"&&<BlockModal />}
         {open.type === "userblock"&&<UserblockModal />}
-        {open.type === "buyerverify"&&<BuyerVerifyModal />}
-        
+        {open.type === "buyerVerify"&&<BuyerVerifyModal />}
+        {open.type === "sellerVerify"&&< VerifyModal/>}
+
       </div>
     </Dialog>
   );
