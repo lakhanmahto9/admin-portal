@@ -60,8 +60,8 @@ import {
   
       {
         icon: <Users color="red" height="18" width="18" />,
-        link: "Creater",
-        href: publicRuntimeConfig?.creater,
+        link: "Sellers",
+        href: publicRuntimeConfig?.ecommerceSellers,
       },
       {
         icon: <Users color="#FF1493" height="18" width="18" />,

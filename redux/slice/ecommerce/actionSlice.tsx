@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { blockOrUnblockEcommerceBuyerApi, editUserApi, viewUserApi } from "@/redux/api/ecommerce/actionApi";
+import { blockOrUnblockEcommerceBuyerApi, editUserApi, verifyEUserApi, viewUserApi } from "@/redux/api/ecommerce/actionApi";
 
 // Async thunk for blocking/unblocking buyers
 export const blockOrUnblockEcommerceBuyerThunk = createAsyncThunk(
@@ -41,6 +41,21 @@ export const viewUserThunk = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to fetch user details"
+      );
+    }
+  }
+);
+
+// Async thunk for verifying users
+export const verifyEUserThunk = createAsyncThunk(
+  "buyers/verify",
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await verifyEUserApi(userId);
+      return response.data; // Returning the response data on success
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to verify buyer"
       );
     }
   }
@@ -92,9 +107,10 @@ const actionSlice = createSlice({
         state.success = false;
         state.error = null;
       })
-      .addCase(editUserThunk.fulfilled, (state) => {
+      .addCase(editUserThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
+        state.userDetails = action.payload; // Update user details here
         state.error = null;
       })
       .addCase(editUserThunk.rejected, (state, action) => {
@@ -120,6 +136,24 @@ const actionSlice = createSlice({
         state.loading = false;
         state.success = false;
         state.userDetails = null;
+        state.error = action.payload as string || "An error occurred";
+      });
+
+    // Verify User
+    builder
+      .addCase(verifyEUserThunk.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(verifyEUserThunk.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+      })
+      .addCase(verifyEUserThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
         state.error = action.payload as string || "An error occurred";
       });
   },

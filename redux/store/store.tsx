@@ -27,6 +27,9 @@ import getEcommerceBuyersReducer from "../slice/ecommerce/getEcommerceBuyersSlic
 import actionReducer from "../slice/ecommerce/actionSlice";
 
 
+import getEcommerceSellersReducer from "../slice/ecommerce/getEcommerceSellersSlice";
+import sellerActionReducer from "../slice/ecommerce/sellerActionSlice";
+
 
 
 const persistConfig = {
@@ -135,6 +138,8 @@ const store = configureStore({
     particularsellersartmusic:particularSellerArtMusic,
     getEcommerceBuyers:getEcommerceBuyersReducer,
     userActions: actionReducer, // Add the actionSliceReducer to the store
+    getEcommerceSellers:getEcommerceSellersReducer,
+    sellerActions: sellerActionReducer,
 
   },
   middleware: (getDefaultMiddleware) =>

@@ -38,3 +38,15 @@ export const viewUserApi = (userId: string) => {
     }
   );
 };
+
+// API for verifying user 
+export const verifyEUserApi = (userId: string) => {
+  return axios.patch(
+    `${BASE_URL}/admin/verify-ebuyer/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+};
