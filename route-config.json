@@ -32,7 +32,8 @@
     "photographybuyerdetails":"/admin-dashboard/seller-photography/photography-buyer-details",
     "ecommerceDashboard":"/admin-dashboard/nft-ecommerce/ecommerce-dashboard",
     "ecommerceBuyers":"/admin-dashboard/nft-ecommerce/ecommerce-buyers",
-    "ecommerceSellers":"/admin-dashboard/nft-ecommerce/ecommerce-sellers"
+    "ecommerceSellers":"/admin-dashboard/nft-ecommerce/ecommerce-sellers",
+    "products":"/admin-dashboard/nft-ecommerce/products"
 
   }
   

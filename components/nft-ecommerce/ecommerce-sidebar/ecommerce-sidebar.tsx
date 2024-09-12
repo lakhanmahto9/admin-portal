@@ -8,6 +8,7 @@ import {
     Users,
     MyPlaylist,
     MorePeople,
+    MyProductIcon,
   } from "../../utils/icons";
   import React, { useEffect, useState } from "react";
   import getConfig from "next/config";
@@ -63,15 +64,11 @@ import {
         link: "Sellers",
         href: publicRuntimeConfig?.ecommerceSellers,
       },
-      // {
-      //   icon: <Users color="#FF1493" height="18" width="18" />,
-      //   link: "Subscriber",
-      //   href: publicRuntimeConfig?.subscribers,
-      // },
+     
       {
-        icon: <MyPlaylist color="green" height="18" width="18" />,
-        link: "Playlist",
-        href: publicRuntimeConfig?.playlist,
+        icon: <MyProductIcon color="red" height="18" width="18" />,
+        link: "Products",
+        href: publicRuntimeConfig?.products,
       },
       {
         icon: (

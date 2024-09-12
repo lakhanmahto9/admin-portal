@@ -49,7 +49,7 @@ import {
     };
   
     const back = () => {
-      router.push("/admin-dashboard/seller-photography/photography-dashboard");
+      router.push("/admin-dashboard/nft-ecommerce/ecommerce-dashboard");
     };
   
     const profile = (item: any) => {

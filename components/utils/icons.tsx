@@ -429,3 +429,17 @@ export const CheckDoubleIcon: React.FC<StarProps> = ({
     </svg>
   );
 };
+
+export const MyProductIcon: React.FC<StarProps> = ({ color, width, height }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-bag"
+    viewBox="0 0 16 16"
+  >
+    <path d="M5.5 5V4a2.5 2.5 0 1 1 5 0v1h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h2zm1-1v1h4V4a1.5 1.5 0 0 0-3 0v1z"/>
+    <path d="M3 7v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7H3z"/>
+  </svg>
+);
