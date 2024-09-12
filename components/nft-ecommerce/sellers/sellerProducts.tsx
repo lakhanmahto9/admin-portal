@@ -4,14 +4,11 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { setDialog } from "@/redux/slice/photography/OpenModalSlice";
 import { DialogModal } from "../common/modal";
-import { viewUserThunk } from "@/redux/slice/ecommerce/actionSlice";
+import { viewSellerThunk } from "@/redux/slice/ecommerce/sellerActionSlice";
 
-const BuyerProfile: React.FC = () => {
+const sellerProducts: React.FC = () => {
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
-  const profile = useSelector((state: any) => state.userActions?.userDetails?.data);
-
-  console.log(profile, "profile")
-  console.log(  profile?.buyer?.profile_pic , "profile pic"  )
+  const profile = useSelector((state: any) => state.sellerActions?.sellerDetails?.data);
 
   const router = useRouter();
   const { id } = router.query;
@@ -26,7 +23,7 @@ const BuyerProfile: React.FC = () => {
   const callApiToProfile = async () => {
     try {
       if (typeof id === 'string') {
-        await dispatch<any>(viewUserThunk(id));
+        await dispatch<any>(viewSellerThunk(id));
       }
     } catch (error) {
       console.log(error);
@@ -34,7 +31,19 @@ const BuyerProfile: React.FC = () => {
   };
   
   const back = () => {
-    router.push("/admin-dashboard/nft-ecommerce/ecommerce-buyers");
+    router.push("/admin-dashboard/nft-ecommerce/ecommerce-sellers");
+  };
+
+  const downloadIdCard = () => {
+    const idCardUrl = profile?.seller?.idCard;
+    if (idCardUrl) {
+      const link = document.createElement("a");
+      link.href = idCardUrl;
+      link.download = "id_card.jpg"; // Name of the file to be downloaded
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
@@ -46,39 +55,65 @@ const BuyerProfile: React.FC = () => {
               <LeftIcon color="#fff" width="20" height="20" />
             </div>
             <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : "text-[#192555]"}`}>
-              Buyer Profile
+              Seller Profile
             </p>
           </div>
         </div>
         <div className="w-full h-[88%] overflow-y-scroll flex flex-col md:flex-row p-2 md:p-7 gap-4">
           <div className="w-full md:w-[40%] flex flex-col gap-4">
-            <div className={`w-full h-auto md:h-1/2 border rounded-lg p-2 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#ebf6fd]"} flex flex-col gap-2 justify-center items-center`}>
-              <div className="w-40 h-40 border rounded-full">
+            {/* Profile Section */}
+            <div className={`w-full h-auto md:h-1/2 border rounded-lg p-4 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#ebf6fd]"} flex flex-col gap-4 justify-center items-center`}>
+              <div className="w-40 h-40 border-4 border-[#025f92] rounded-full overflow-hidden">
                 <img
-                  src={profile?.buyer?.profile_pic || "/image/profile.png"}
+                  src={profile?.seller?.profile_pic || "/image/profile.png"}
                   alt="Profile"
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <p className={`text-xl font-bold ${isDarkEnabled ? "text-[#fff]" : "text-[#2b4348]"}`}>
-                {profile?.buyer?.name}
+                {profile?.seller?.name}
               </p>
             </div>
+
+            {/* ID Card Section */}
+            <div className={`w-full h-auto border rounded-lg p-2 relative ${isDarkEnabled ? "bg-[#040836]" : "bg-[#ebf6fd]"}`}>
+              {!profile?.seller?.idCard ? (
+                <div className="w-full h-40 border-2 border-dashed border-indigo-600 flex justify-center items-center">
+                  <p className="text-xl font-bold text-[#2b4348]">ID Card</p>
+                </div>
+              ) : (
+                <div className="relative w-full h-48 overflow-hidden">
+                  <img
+                    src={profile?.seller?.idCard}
+                    alt="ID Card"
+                    className="w-60 h-full object-cover rounded-md"
+                  />
+                  <div 
+                  onClick={downloadIdCard}
+                  className="absolute bottom-4 right-2 w-10 h-10 cursor-pointer rounded-full bg-[#025f92] flex justify-center items-center">
+
+                    <DownloadIcon color="#fff" width="20" height="20" />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
+
+          {/* Information Section */}
           <div className={`w-full md:w-[60%] ${isDarkEnabled ? "bg-[#040836] border" : "bg-[#ebf6fd]"} rounded-lg px-8 py-4`}>
             <p className={`text-lg font-bold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
               Information
             </p>
             <div className="w-full h-auto md:h-16 border bg-[#025f92] rounded-md p-2 mb-4">
               <p className="text-white">
-                {profile?.buyer?.isApproved
+                {profile?.seller?.isApproved
                   ? "This profile has been verified on our NFT marketplace."
                   : "This profile has not yet been verified on our NFT marketplace."}
               </p>
               <p className="text-white">
                 Status:{" "}
-                <span className={profile?.buyer?.isApproved ? "text-[#6af109]" : "text-[#fd3f29]"}>
-                  {!profile?.buyer?.isApproved ? "Not Verified" : "Verified"}
+                <span className={profile?.seller?.isApproved ? "text-[#6af109]" : "text-[#fd3f29]"}>
+                  {profile?.seller?.isApproved ? "Verified" : "Not Verified"}
                 </span>
               </p>
             </div>
@@ -86,62 +121,56 @@ const BuyerProfile: React.FC = () => {
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 Name
               </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.buyer?.name}</p>
+              <p className="text-lg text-[#6a6a6b]">{profile?.seller?.name}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 Email
               </p>
-              <p className="text-lg text-[#6a6a6b] break-all">{profile?.buyer?.email}</p>
+              <p className="text-lg text-[#6a6a6b] break-all">{profile?.seller?.email}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 Mobile Number
               </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.buyer?.phone}</p>
+              <p className="text-lg text-[#6a6a6b]">{profile?.seller?.phone}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 Address
               </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.address}</p> {/* Adjusted for address field */}
+              <p className="text-lg text-[#6a6a6b]">{profile?.address?.address}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 City
               </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.city}</p> {/* Adjusted for address field */}
+              <p className="text-lg text-[#6a6a6b]">{profile?.address?.city}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 State
               </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.state}</p> {/* Adjusted for address field */}
+              <p className="text-lg text-[#6a6a6b]">{profile?.address?.state}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 Country
               </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.country}</p> {/* Adjusted for address field */}
+              <p className="text-lg text-[#6a6a6b]">{profile?.address?.country}</p>
             </div>
             <div className="flex gap-4 justify-between md:justify-start">
               <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
                 PIN
               </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.postalCode}</p> {/* Adjusted for address field */}
+              <p className="text-lg text-[#6a6a6b]">{profile?.address?.postalCode}</p>
             </div>
-            {/* <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                About Me
-              </p>
-              <p className="text-lg text-[#6a6a6b] break-all">{profile?.about}</p>
-            </div> */}
 
             <div
               onClick={() => {
-                if (!profile?.isApproved) {
+                if (!profile?.seller?.isApproved) {
                   dispatch(
-                    setDialog({ open: true, type: "buyerVerify", id: id })
+                    setDialog({ open: true, type: "sellerVerify", id: id })
                   );
                 }
               }}
@@ -157,4 +186,4 @@ const BuyerProfile: React.FC = () => {
   );
 };
 
-export default BuyerProfile;
+export default sellerProducts;

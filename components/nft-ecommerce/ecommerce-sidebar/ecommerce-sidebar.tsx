@@ -63,11 +63,11 @@ import {
         link: "Sellers",
         href: publicRuntimeConfig?.ecommerceSellers,
       },
-      {
-        icon: <Users color="#FF1493" height="18" width="18" />,
-        link: "Subscriber",
-        href: publicRuntimeConfig?.subscribers,
-      },
+      // {
+      //   icon: <Users color="#FF1493" height="18" width="18" />,
+      //   link: "Subscriber",
+      //   href: publicRuntimeConfig?.subscribers,
+      // },
       {
         icon: <MyPlaylist color="green" height="18" width="18" />,
         link: "Playlist",

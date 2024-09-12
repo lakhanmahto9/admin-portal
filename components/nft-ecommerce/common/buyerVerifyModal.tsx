@@ -2,13 +2,15 @@ import { CrossIcon } from "@/public/icons/icons";
 import { AllBuyer } from "@/redux/slice/photography/AllBuyerSlice";
 import { buyerProile } from "@/redux/slice/photography/BuyerProfileSlice";
 import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
-import { verifyEUserThunk } from "@/redux/slice/ecommerce/actionSlice";
+import { verifyEUserThunk, viewUserThunk } from "@/redux/slice/ecommerce/actionSlice";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export const BuyerVerifyModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
+  // const profile = useSelector((state: any) => state.userActions?.userDetails?.data);
+
   const [spin, setSpin] = useState(false);
   const dispatch = useDispatch();
   const handleVerify = async () => {
@@ -21,7 +23,7 @@ export const BuyerVerifyModal: React.FC = () => {
         setSpin(false);
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
-        // await dispatch<any>(buyerProile({ buyerId:  open.id }));
+        await dispatch<any>(viewUserThunk(open.id ));
         // await dispatch<any>(AllBuyer());
       }else{
         setSpin(false)

@@ -53,7 +53,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
       >
         <div className="flex justify-between">
           <div className="flex flex-col">
-            <p className="text-sm font-semibold">Today&apos;s Buyer</p>
+            <p className="text-sm font-semibold">Today&apos;s Buyers</p>
             <p className="text-xl font-bold">{data.todayBuyers}</p>
           </div>
           <div></div>
@@ -70,7 +70,24 @@ export const Card: React.FC<CardProps> = ({ data }) => {
       >
         <div className="flex justify-between">
           <div className="flex flex-col">
-            <p className="text-sm font-semibold">Total Creater</p>
+            <p className="text-sm font-semibold">Total sellers</p>
+            <p className="text-xl font-bold">{data.totalSellers}</p>
+          </div>
+          <div></div>
+        </div>
+        <div className="flex">
+          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
+          <p className="">since last year</p>
+        </div>
+      </div>
+
+      <div
+        className="w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4 shadow-md"
+        style={cardStyle}
+      >
+        <div className="flex justify-between">
+          <div className="flex flex-col">
+            <p className="text-sm font-semibold">Today&apos;s Sellers</p>
             <p className="text-xl font-bold">{data.todaySellers}</p>
           </div>
           <div></div>
@@ -87,24 +104,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
       >
         <div className="flex justify-between">
           <div className="flex flex-col">
-            <p className="text-sm font-semibold">Today&apos;s Creater</p>
-            <p className="text-xl font-bold">{data.todaySellers}</p>
-          </div>
-          <div></div>
-        </div>
-        <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
-        </div>
-      </div>
-
-      <div
-        className="w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4 shadow-md"
-        style={cardStyle}
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Today&apos;s Playlist</p>
+            <p className="text-sm font-semibold">Today&apos;s Products</p>
             <p className="text-xl font-bold">{data.todayProducts}</p>
           </div>
           <div></div>
@@ -120,8 +120,8 @@ export const Card: React.FC<CardProps> = ({ data }) => {
       >
         <div className="flex justify-between">
           <div className="flex flex-col">
-            <p className="text-sm font-semibold">Total Playlist</p>
-            <p className="text-xl font-bold">{data.todayProducts}</p>
+            <p className="text-sm font-semibold">Total Products</p>
+            <p className="text-xl font-bold">{data.totalProducts}</p>
           </div>
           <div></div>
         </div>

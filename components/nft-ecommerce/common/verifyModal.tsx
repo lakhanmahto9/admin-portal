@@ -8,7 +8,7 @@ import { viewUserThunk } from "@/redux/slice/ecommerce/actionSlice";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { verifyESellerThunk } from "@/redux/slice/ecommerce/sellerActionSlice";
+import { verifyESellerThunk, viewSellerThunk } from "@/redux/slice/ecommerce/sellerActionSlice";
 
 export const VerifyModal: React.FC = () => {
   const open = useSelector((state: any) => state.dialog);
@@ -24,7 +24,7 @@ export const VerifyModal: React.FC = () => {
         setSpin(false);
         dispatch(removeDialog({ open: false, type: ""}));
         toast.success(result.payload?.message);
-        // await dispatch<any>(viewUser Thunk(open.id));
+        await dispatch<any>(viewSellerThunk(open.id));
         // await dispatch<any>(getAllSeller());
       }else{
         setSpin(false)

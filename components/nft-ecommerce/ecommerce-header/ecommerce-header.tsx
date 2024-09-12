@@ -41,7 +41,7 @@ const EcommerceHeader: React.FC = () => {
       >
         <div className="text-[#fff]">
           <p>Welcome To</p>
-          <p>Tutorial Portal</p>
+          <p>Ecommerce Portal</p>
         </div>
         <div className="flex gap-4">
           <div className="block lg:hidden cursor-pointer"><Drawerpage /></div>

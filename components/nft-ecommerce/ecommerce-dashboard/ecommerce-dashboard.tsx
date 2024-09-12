@@ -112,6 +112,7 @@ export interface DashboardCardData {
 
   return (
     <div className="flex flex-col items-center justify-center">
+
       <Card data={cardData} />
       <div className="w-full flex flex-col justify-center lg:flex-row gap-6 mt-10 pb-10">
         <div className="w-full mt-10 lg:w-3/5">
