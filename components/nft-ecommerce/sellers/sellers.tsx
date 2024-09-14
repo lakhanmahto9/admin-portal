@@ -143,7 +143,7 @@ import {
                       dispatch(
                         setDialog({
                           open: true,
-                          type: "userblock",
+                          type: "sellerBlock",
                           id: item._id,
                           block: item.isBlocked,
                         })

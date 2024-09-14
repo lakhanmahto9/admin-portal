@@ -1,34 +1,37 @@
 import { CrossIcon } from "@/public/icons/icons";
-import { getAllSeller } from "@/redux/slice/photography/AllPhSellerSlice";
+import { getEcommerceSellersThunk } from "@/redux/slice/ecommerce/getEcommerceSellersSlice";
 import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
-import { phsellerBlockProile } from "@/redux/slice/photography/blockSlice";
+import { blockOrUnblockEcommerceSellerThunk } from "@/redux/slice/ecommerce/sellerActionSlice";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { AppDispatch, RootState } from "@/redux/store/store"; // Adjust import based on your setup
 
-export const BlockModal: React.FC = () => {
-  const open = useSelector((state: any) => state.dialog);
+const SellerBlockModal: React.FC = () => {
+  const open = useSelector((state: RootState) => state.dialog);
   const [spin, setSpin] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleBlock = async () => {
     try {
       setSpin(true);
-      const result = await dispatch<any>(
-        phsellerBlockProile({ sellerId: open.id })
+      const result = await dispatch(
+        blockOrUnblockEcommerceSellerThunk(open.id) // Pass only the buyerId
       );
+
       if (result.payload?.success) {
         setSpin(false);
-        dispatch(removeDialog({ open: false, type: ""}));
+        dispatch(removeDialog({ open: false, type: "" }));
         toast.success(result.payload?.message);
-        await dispatch<any>(getAllSeller());
-      }else{
-        setSpin(false);
+        dispatch(getEcommerceSellersThunk()); // No need for await here
       }
     } catch (error) {
       setSpin(false);
       console.log(error);
+      toast.error("An error occurred. Please try again.");
     }
   };
+
   return (
     <div className="w-full h-auto sm:w-96 sm:h-40 bg-[#025f92] py-2 px-4">
       <div className="flex justify-between">
@@ -43,8 +46,8 @@ export const BlockModal: React.FC = () => {
         </p>
       </div>
       <div className="mt-5 px-5">
-        <p className="text-md text-[#fff]">
-          Are you sure, want to {open.block? "unblock":"block"} this user?
+        <p className="text-[#fff]">
+          Are you sure you want to {open.block ? "unblock" : "block"} this user?
         </p>
       </div>
       <div className="mt-5 flex justify-end">
@@ -52,10 +55,10 @@ export const BlockModal: React.FC = () => {
           onClick={handleBlock}
           className="flex justify-center items-center cursor-pointer text-white w-28 h-12 border rounded-md"
         >
-          {spin?"Wait...": open.block?"Unblock":"Block"}
-        
+          {spin ? "Wait..." : open.block ? "Unblock" : "Block"}
         </div>
       </div>
     </div>
   );
 };
+export default SellerBlockModal

@@ -1,189 +1,167 @@
-import { DownloadIcon, LeftIcon } from "@/public/icons/icons";
-import React, { useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDialog } from "@/redux/slice/photography/OpenModalSlice";
-import { DialogModal } from "../common/modal";
-import { viewSellerThunk } from "@/redux/slice/ecommerce/sellerActionSlice";
+import { useRouter } from "next/router";
+import { AppDispatch, RootState } from "@/redux/store/store";
+import { fetchSellerProductsThunk } from "@/redux/slice/ecommerce/productslice";
+import { LeftIcon } from "@/public/icons/icons";
 
-const sellerProducts: React.FC = () => {
-  const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
-  const profile = useSelector((state: any) => state.sellerActions?.sellerDetails?.data);
-
+const SellerProducts: React.FC = () => {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const { id } = router.query;
-  const dispatch = useDispatch();
-  
-  useEffect(() => {
-    if (id) {
-      callApiToProfile();
-    }
-  }, [id]);
 
-  const callApiToProfile = async () => {
-    try {
-      if (typeof id === 'string') {
-        await dispatch<any>(viewSellerThunk(id));
-      }
-    } catch (error) {
-      console.log(error);
+  const sellerProducts = useSelector((state: RootState) => state.products.sellerProducts);
+  const isDarkEnabled = useSelector((state: RootState) => state.darkmode.dark);
+
+  const [selectedProductIndex, setSelectedProductIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (typeof id === "string") {
+      const fetchProduct = async () => {
+        try {
+          await dispatch(fetchSellerProductsThunk(id));
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchProduct();
     }
-  };
-  
+  }, [dispatch, id]);
+
   const back = () => {
     router.push("/admin-dashboard/nft-ecommerce/ecommerce-sellers");
   };
 
-  const downloadIdCard = () => {
-    const idCardUrl = profile?.seller?.idCard;
-    if (idCardUrl) {
-      const link = document.createElement("a");
-      link.href = idCardUrl;
-      link.download = "id_card.jpg"; // Name of the file to be downloaded
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const handleProductClick = (index: number) => {
+    setSelectedProductIndex(index);
   };
 
   return (
-    <>
-      <div className={`w-full h-[83vh] ${isDarkEnabled ? "bg-[#101c44]" : "bg-[#fff]"} rounded-xl`}>
-        <div className={`h-[12%] ${isDarkEnabled ? "bg-[#101c44]" : "bg-[#dae2ff]"} rounded-t-xl flex justify-between`}>
-          <div onClick={back} className="flex items-center gap-4 px-2">
-            <div className={`w-10 h-10 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} flex items-center justify-center rounded-full cursor-pointer`}>
-              <LeftIcon color="#fff" width="20" height="20" />
-            </div>
-            <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : "text-[#192555]"}`}>
-              Seller Profile
-            </p>
+    <div className={`w-full min-h-screen ${isDarkEnabled ? "bg-[#101c44]" : "bg-gray-100"} rounded-xl shadow-lg`}>
+      {/* Header */}
+      <div
+        className={`h-16 ${isDarkEnabled ? "bg-[#101c44]" : "bg-[#DAE2FF]"} rounded-t-xl flex items-center p-4 shadow-md border-b border-gray-300`}
+      >
+        <div onClick={back} className="flex items-center gap-4 cursor-pointer hover:scale-105 transition-transform">
+          <div
+            className={`w-12 h-12 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} flex items-center justify-center rounded-full shadow-md`}
+          >
+            <LeftIcon color="#fff" width="24" height="24" />
           </div>
-        </div>
-        <div className="w-full h-[88%] overflow-y-scroll flex flex-col md:flex-row p-2 md:p-7 gap-4">
-          <div className="w-full md:w-[40%] flex flex-col gap-4">
-            {/* Profile Section */}
-            <div className={`w-full h-auto md:h-1/2 border rounded-lg p-4 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#ebf6fd]"} flex flex-col gap-4 justify-center items-center`}>
-              <div className="w-40 h-40 border-4 border-[#025f92] rounded-full overflow-hidden">
-                <img
-                  src={profile?.seller?.profile_pic || "/image/profile.png"}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <p className={`text-xl font-bold ${isDarkEnabled ? "text-[#fff]" : "text-[#2b4348]"}`}>
-                {profile?.seller?.name}
-              </p>
-            </div>
-
-            {/* ID Card Section */}
-            <div className={`w-full h-auto border rounded-lg p-2 relative ${isDarkEnabled ? "bg-[#040836]" : "bg-[#ebf6fd]"}`}>
-              {!profile?.seller?.idCard ? (
-                <div className="w-full h-40 border-2 border-dashed border-indigo-600 flex justify-center items-center">
-                  <p className="text-xl font-bold text-[#2b4348]">ID Card</p>
-                </div>
-              ) : (
-                <div className="relative w-full h-48 overflow-hidden">
-                  <img
-                    src={profile?.seller?.idCard}
-                    alt="ID Card"
-                    className="w-60 h-full object-cover rounded-md"
-                  />
-                  <div 
-                  onClick={downloadIdCard}
-                  className="absolute bottom-4 right-2 w-10 h-10 cursor-pointer rounded-full bg-[#025f92] flex justify-center items-center">
-
-                    <DownloadIcon color="#fff" width="20" height="20" />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Information Section */}
-          <div className={`w-full md:w-[60%] ${isDarkEnabled ? "bg-[#040836] border" : "bg-[#ebf6fd]"} rounded-lg px-8 py-4`}>
-            <p className={`text-lg font-bold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-              Information
-            </p>
-            <div className="w-full h-auto md:h-16 border bg-[#025f92] rounded-md p-2 mb-4">
-              <p className="text-white">
-                {profile?.seller?.isApproved
-                  ? "This profile has been verified on our NFT marketplace."
-                  : "This profile has not yet been verified on our NFT marketplace."}
-              </p>
-              <p className="text-white">
-                Status:{" "}
-                <span className={profile?.seller?.isApproved ? "text-[#6af109]" : "text-[#fd3f29]"}>
-                  {profile?.seller?.isApproved ? "Verified" : "Not Verified"}
-                </span>
-              </p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                Name
-              </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.seller?.name}</p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                Email
-              </p>
-              <p className="text-lg text-[#6a6a6b] break-all">{profile?.seller?.email}</p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                Mobile Number
-              </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.seller?.phone}</p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                Address
-              </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.address}</p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                City
-              </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.city}</p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                State
-              </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.state}</p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                Country
-              </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.country}</p>
-            </div>
-            <div className="flex gap-4 justify-between md:justify-start">
-              <p className={`text-lg font-semibold ${isDarkEnabled ? "text-[#fff]" : ""}`}>
-                PIN
-              </p>
-              <p className="text-lg text-[#6a6a6b]">{profile?.address?.postalCode}</p>
-            </div>
-
-            <div
-              onClick={() => {
-                if (!profile?.seller?.isApproved) {
-                  dispatch(
-                    setDialog({ open: true, type: "sellerVerify", id: id })
-                  );
-                }
-              }}
-              className="mt-4 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2"
-            >
-              <p className="text-white">Verify</p>
-            </div>
-          </div>
+          <p className={`text-xl font-semibold ${isDarkEnabled ? "text-white" : "text-[#192555]"}`}>
+            Seller Products
+          </p>
         </div>
       </div>
-      <DialogModal />
-    </>
+
+      {/* Main Content */}
+      <div className="w-full h-[calc(100vh-4rem)] overflow-y-auto p-6 flex flex-col md:flex-row gap-6">
+        {/* Left: Product List */}
+        <div className="w-full md:w-1/3 flex flex-col gap-6">
+          {loading ? (
+            <div className="text-center text-gray-500">Loading...</div>
+          ) : sellerProducts.length > 0 ? (
+            sellerProducts.map((product, productIndex) => (
+              <div
+                key={productIndex}
+                className={`cursor-pointer p-6 rounded-lg shadow-lg transition-all transform hover:scale-105 ${isDarkEnabled ? "bg-[#1b294a]" : "bg-[#025f92] border"}`}
+                onClick={() => handleProductClick(productIndex)}
+              >
+                <p className={`text-lg font-semibold ${isDarkEnabled ? "text-white" : "text-white"}`}>{product.name}</p>
+                <p className={`text-sm font-light ${isDarkEnabled ? "text-gray-300" : "text-white"}`}>{product.category}</p>
+                {product.items.length > 0 && (
+                  <div className="w-full h-64 mt-4 rounded-md overflow-hidden shadow-sm">
+                    <img
+                      src={product.items[0].colorImageUrl || "/image/product-placeholder.png"}
+                      alt={`Product color ${product.items[0].color}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-lg font-medium text-gray-500">No Products Available</p>
+          )}
+        </div>
+
+        {/* Right: Product Details */}
+        <div className="w-full md:w-2/3">
+          {selectedProductIndex !== null && sellerProducts.length > 0 ? (
+            <div className={`p-6 rounded-lg shadow-lg ${isDarkEnabled ? "bg-[#1b294a]" : "bg-[#025f92] border"}`}>
+              <h2 className={`text-2xl font-bold mb-6 ${isDarkEnabled ? "text-white" : "text-white"}`}>Product Information</h2>
+              <div className="space-y-4">
+                <div className="flex justify-between border-b pb-2">
+                  <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-white"}`}>Name</p>
+                  <p className="text-[#f2f2f2]">{sellerProducts[selectedProductIndex].name}</p>
+                </div>
+                <div className="flex justify-between border-b pb-2">
+                  <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-white"}`}>Category</p>
+                  <p className="text-[#f2f2f2]">{sellerProducts[selectedProductIndex].category}</p>
+                </div>
+                <div className="flex justify-between border-b pb-2">
+                  <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-white"}`}>Price</p>
+                  <p className="text-[#6af109]">${sellerProducts[selectedProductIndex].price}</p>
+                </div>
+                <div className="flex justify-between border-b pb-2">
+                  <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-white"}`}>Total Stock</p>
+                  <p className="text-[#f2f2f2]">{sellerProducts[selectedProductIndex].totalStock}</p>
+                </div>
+
+                <div className="border-t pt-4">
+                  {sellerProducts[selectedProductIndex].items.length > 0 ? (
+                    sellerProducts[selectedProductIndex].items.map((item, itemIndex) => (
+                      <div key={itemIndex} className="w-full p-4 rounded-md shadow-sm  mb-4 flex gap-6">
+                        {/* Product Image */}
+                        <div className="w-56 h-80 rounded-md overflow-hidden shadow-md">
+                          <img
+                            src={item.colorImageUrl || "/image/product-placeholder.png"}
+                            alt={`Product color ${item.color}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+
+                        {/* Product Details: Color and Size */}
+                        <div className="flex-1 flex flex-col justify-between">
+                          <div>
+                            <p className={`text-lg font-semibold ${isDarkEnabled ? "text-white" : "text-white"}`}>Color</p>
+                            <p className="text-[#f2f2f2]">{item.color}</p>
+                          </div>
+
+                          <div className="mt-4">
+                            <h3 className={`font-semibold ${isDarkEnabled ? "text-white" : "text-white"}`}>Available Sizes</h3>
+                            <div className="grid grid-cols-2 gap-4 mt-2">
+                              {item.sizes.map((sizeAndStock, idx) => (
+                                <div key={idx} className="flex justify-between items-center">
+                                  <p className={`text-lg ${isDarkEnabled ? "text-white" : "text-white"}`}>
+                                    Size: <span className="font-normal">{sizeAndStock.size}</span>
+                                  </p>
+                                  <p className={`text-lg ${sizeAndStock.stock > 0 ? "text-green-500" : "text-red-500"} font-semibold`}>
+                                    {sizeAndStock.stock > 0 ? `${sizeAndStock.stock} in stock` : "Out of stock"}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-center text-lg font-medium text-gray-500">No Items Available</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center text-lg font-medium text-gray-500">Select a product to view details</div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default sellerProducts;
+export default SellerProducts;

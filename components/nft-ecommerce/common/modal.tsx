@@ -2,7 +2,7 @@ import { Dialog } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { VerifyModal } from "./verifyModal";
-import { BlockModal } from "./block";
+import  SellerBlockModal  from "./sellerBlockModal";
 import { BuyerVerifyModal } from "./buyerVerifyModal";
 import { UserblockModal } from "@/components/nft-ecommerce/common/UserblockModal";
 
@@ -16,7 +16,7 @@ export const DialogModal: React.FC = () => {
     >
       <div>
         {open.type === "verify"&&<VerifyModal />}
-        {open.type === "block"&&<BlockModal />}
+        {open.type === "sellerBlock"&&<SellerBlockModal />}
         {open.type === "userblock"&&<UserblockModal />}
         {open.type === "buyerVerify"&&<BuyerVerifyModal />}
         {open.type === "sellerVerify"&&< VerifyModal/>}

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllProductsApi, getProductByIdApi } from "@/redux/api/ecommerce/productApi";
+import { getAllProductsApi, getProductByIdApi, getSellerProductsApi } from "@/redux/api/ecommerce/productApi";
 import {  ProductState } from "@/components/nft-ecommerce/products/productType";
 
 
@@ -33,11 +33,30 @@ export const getProductByIdThunk = createAsyncThunk(
   }
 );
 
+
+// Async thunk for fetching seller products by seller ID
+export const fetchSellerProductsThunk = createAsyncThunk(
+  "products/fetchSellerProducts",
+  async (sellerId: string, { rejectWithValue }) => {
+    try {
+      const response = await getSellerProductsApi(sellerId); // API call
+      return response.data; // Return fetched seller products
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch seller products"
+      );
+    }
+  }
+);
+
+
 // Initial state
 
 const initialState: ProductState = {
     products: [],
     singleProduct: null,
+    sellerProducts: [],
+
     loading: false,
     error: null,
   };
@@ -62,7 +81,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string || "An error occurred"; // Assign the error message
       })
-      
+      builder
       // Handle fetch single product
       .addCase(getProductByIdThunk.pending, (state) => {
         state.loading = true;
@@ -77,6 +96,22 @@ const productSlice = createSlice({
         state.singleProduct = null;
         state.error = action.payload as string || "An error occurred"; // Assign the error message
       });
+      builder
+
+        // Handle fetch seller products
+    builder
+    .addCase(fetchSellerProductsThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchSellerProductsThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.sellerProducts = action.payload.data; // Store seller products
+    })
+    .addCase(fetchSellerProductsThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string || "Failed to fetch seller products";
+    });
   },
 });
 
