@@ -42,9 +42,9 @@ import {
       setSearch(e.target.value);
     };
   
-    const buyerPhotography = (item: any) => {
+    const buyerPurchasedproducts = (item: any) => {
       router.push(
-        `/admin-dashboard/seller-photography/buyerphotography/${item._id}`
+        `/admin-dashboard/nft-ecommerce/buyer-purchased-products/${item._id}`
       );
     };
   
@@ -118,7 +118,7 @@ import {
                   >
                     <div className="flex gap-2 h-14 px-2">
                       <div
-                        onClick={() => buyerPhotography(item)}
+                        onClick={() => buyerPurchasedproducts(item)}
                         className={`w-1/2 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} cursor-pointer rounded-lg flex justify-center items-center`}
                       >
                         <p className="text-[#fff]">Product</p>

@@ -35,6 +35,7 @@ export interface ProductState {
   products: Product[]; // Array to store all products
   singleProduct: Product | null; // To store a single product data
   sellerProducts: Product[]; // Array to store products by a specific seller
+  buyerPurchasedProducts: Product[];
   loading: boolean;
   error: string | null; // Allow both string and null types for error
 }

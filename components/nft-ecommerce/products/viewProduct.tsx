@@ -10,13 +10,15 @@ const ViewProduct: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = router.query;
   const product = useSelector((state: RootState) => state.products.singleProduct);
+  console.log(product, "product")
   const isDarkEnabled = useSelector((state: RootState) => state.darkmode.dark);
 
   useEffect(() => {
     if (typeof id === "string") {
       const fetchProduct = async () => {
         try {
-          await dispatch(getProductByIdThunk(id));
+         const res = await dispatch(getProductByIdThunk(id));
+         console.log(res, "res product")
         } catch (error) {
           console.error("Error fetching product:", error);
         }

@@ -8,12 +8,21 @@ export const getAllProductsApi = () => {
 
 // API for fetching a single product by its ID
 export const getProductByIdApi = (productId: string) => {
-  return axios.get(`${BASE_URL}/eproduct/${productId}`);
+  return axios.get(`${BASE_URL}/eproduct/get-products/${productId}`);
 };
 
 // API for fetching seller products by sellerId
 export const getSellerProductsApi = (sellerId: string) => {
   return axios.get(`${BASE_URL}/eproduct/fetch-seller-products/${sellerId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+// API for fetching seller products by sellerId
+export const getBuyerPurchasedProducts = (buyerId: string) => {
+  return axios.get(`${BASE_URL}/eproduct/get-buyer-purchased-products/${buyerId}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
     },

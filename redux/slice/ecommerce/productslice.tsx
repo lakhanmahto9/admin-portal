@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllProductsApi, getProductByIdApi, getSellerProductsApi } from "@/redux/api/ecommerce/productApi";
+import { getAllProductsApi, getBuyerPurchasedProducts, getProductByIdApi, getSellerProductsApi } from "@/redux/api/ecommerce/productApi";
 import {  ProductState } from "@/components/nft-ecommerce/products/productType";
 
 
@@ -49,6 +49,21 @@ export const fetchSellerProductsThunk = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching seller products by seller ID
+export const getBuyerPurchasedProductsThunk = createAsyncThunk(
+  "products/getBuyerPurchasedProducts",
+  async (buyerId: string, { rejectWithValue }) => {
+    try {
+      const response = await getBuyerPurchasedProducts(buyerId); // API call
+      return response.data; 
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch seller products"
+      );
+    }
+  }
+);
+
 
 // Initial state
 
@@ -56,6 +71,7 @@ const initialState: ProductState = {
     products: [],
     singleProduct: null,
     sellerProducts: [],
+    buyerPurchasedProducts: [],
 
     loading: false,
     error: null,
@@ -111,6 +127,21 @@ const productSlice = createSlice({
     .addCase(fetchSellerProductsThunk.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string || "Failed to fetch seller products";
+    });
+
+
+    builder
+    .addCase(getBuyerPurchasedProductsThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getBuyerPurchasedProductsThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.buyerPurchasedProducts = action.payload.data; // Store seller products
+    })
+    .addCase(getBuyerPurchasedProductsThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string || "Failed to fetch buyer Purchased products";
     });
   },
 });
