@@ -12,3 +12,12 @@ export const getEcommerceMonthlySalesData = (selectedYear: number) => {
     }
   );
 };
+
+// API for blocking or unblocking an eCommerce buyer
+export const getEcommerceSalesDetails = () => {
+  return axios.get(`${BASE_URL}/admin/get-ecommerce-sales-details`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};

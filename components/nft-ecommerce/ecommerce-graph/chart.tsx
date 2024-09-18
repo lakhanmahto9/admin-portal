@@ -59,6 +59,7 @@ const CustomDot = (props: any) => {
 };
 
 export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
+  console.log(year, salesData, 6274)
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
 

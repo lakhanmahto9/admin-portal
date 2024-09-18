@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Card } from "../card/card";
 import { Graph } from "../ecommerce-graph/graph";
 import { getEcommerceCardDataThunk } from "@/redux/slice/ecommerce/getEcommerceCardDataSlice";
-import { getEcommerceMonthlySalesData } from "../../../redux/api/ecommerce/dashboardApi";
+import { getEcommerceMonthlySalesData , getEcommerceSalesDetails} from "../../../redux/api/ecommerce/dashboardApi";
 import Slider from "../slider/slider";
 import DashboardTable from "./dashboard-table";
 import Categories from "./categories";
@@ -24,8 +24,19 @@ interface SalesData {
   totalRevenue: number;
 }
 
+interface SalesDetails {
+  username:string;
+  productName: string;
+  date: Date;
+  country: string;
+  price: number;
+  quantity: number;
+}
+
 const EcommerceDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [salesDetails, setSalesDetails] = useState<SalesDetails[]>([]);
+
   const [salesProduct, setSalesProduct] = useState<SalesData[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
   const [cardData, setCardData] = useState<DashboardCardData>({
@@ -40,6 +51,7 @@ const EcommerceDashboard: React.FC = () => {
   useEffect(() => {
     callApiToFetchSalesProducts(selectedYear);
     callApiToGetEcommerceCardData();
+    callApiToFetchSalesDetails()
   }, [selectedYear]);
 
   const callApiToGetEcommerceCardData = async () => {
@@ -56,12 +68,27 @@ const EcommerceDashboard: React.FC = () => {
   const callApiToFetchSalesProducts = async (year: number) => {
     try {
       const result = await getEcommerceMonthlySalesData(year);
+      console.log(result, "result123")
       if (result && result.data) {
-        setSalesProduct(result.data.data || []); // Ensure data matches expected format
+        setSalesProduct(result.data.data || []); // Ensure the result is stored correctly in salesDetails
       }
     } catch (error) {
       console.error("Failed to fetch sales data", error);
       setSalesProduct([]);
+    }
+  };
+
+
+  const callApiToFetchSalesDetails = async () => {
+    try {
+      const result = await getEcommerceSalesDetails();
+      console.log(result.data.data, "result")
+
+      if (result && result.data) {
+        setSalesDetails(result.data.data || []); // Ensure data matches expected format
+      }
+    } catch (error) {
+      console.error("Failed to fetch sales data", error);
     }
   };
 
@@ -72,16 +99,14 @@ const EcommerceDashboard: React.FC = () => {
         <div className="w-full mt-10 ">
           <Graph salesData={salesProduct} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />
         </div>
-        {/* <div className="w-full flex justify-center items-center lg:w-2/5">
-          <Slider />
-        </div> */}
+      
       </div>
 
       <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
-        {/* <div className="w-full lg:w-3/5">
-          <DashboardTable dashboardSalesData={salesProduct} />
+        <div className="w-full lg:w-3/5">
+        <DashboardTable salesDetails={salesDetails} /> {/* Pass salesDetails as a prop to DashboardTable */}
         </div>
-        <div className="w-full lg:w-2/5">
+        {/* <div className="w-full lg:w-2/5">
           <Categories dashboardSalesData={salesProduct} />
         </div> */}
       </div>
