@@ -12,8 +12,6 @@ import {
 import { useSelector } from "react-redux";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 
-
-
 interface SalesData {
   month: string; // Ensure this property is present
   totalSoldItems: number;
@@ -79,7 +77,7 @@ export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
           </filter>
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke={colors.text} />
-        <XAxis dataKey="name" stroke={colors.text} />
+        <XAxis dataKey="month" stroke={colors.text} /> {/* Update dataKey to "month" */}
         <YAxis stroke={colors.text} />
         <Tooltip content={<CustomTooltip />} />
         <Legend wrapperStyle={{ color: colors.text }} />
