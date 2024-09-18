@@ -30,6 +30,7 @@ import actionReducer from "../slice/ecommerce/actionSlice";
 import getEcommerceSellersReducer from "../slice/ecommerce/getEcommerceSellersSlice";
 import sellerActionReducer from "../slice/ecommerce/sellerActionSlice";
 import productsReducer from "../slice/ecommerce/productslice";
+import orderReducer from "../slice/ecommerce/orderSlice";
 
 
 
@@ -142,6 +143,7 @@ const store = configureStore({
     getEcommerceSellers:getEcommerceSellersReducer,
     sellerActions: sellerActionReducer,
     products: productsReducer,
+    orders: orderReducer
 
   },
   middleware: (getDefaultMiddleware) =>

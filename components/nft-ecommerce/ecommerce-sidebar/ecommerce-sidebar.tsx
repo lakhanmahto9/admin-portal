@@ -70,6 +70,12 @@ import {
         link: "Products",
         href: publicRuntimeConfig?.products,
       },
+
+      {
+        icon: <MyProductIcon color="red" height="18" width="18" />,
+        link: "Orders",
+        href: publicRuntimeConfig?.orders,
+      },
       {
         icon: (
           <MorePeople

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   LineChart,
   Line,
@@ -9,14 +9,20 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import moment from "moment";
 import { useSelector } from "react-redux";
-import { SalesDataItem } from "../ecommerce-dashboard/data-types";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+
+
+
+interface SalesData {
+  month: string; // Ensure this property is present
+  totalSoldItems: number;
+  totalRevenue: number;
+}
 
 interface ChartProps {
   year: number;
-  salesData: SalesDataItem[]; // Accepting salesData as a prop
+  salesData: SalesData[];
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -35,8 +41,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const CustomDot = (props: any) => {
   const { cx, cy, payload } = props;
-
-  if (payload.value > 0) {
+  if (payload && payload.value > 0) {
     return (
       <svg
         x={cx - 5}
@@ -52,43 +57,16 @@ const CustomDot = (props: any) => {
       </svg>
     );
   }
-
   return null;
 };
 
 export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
-  const [filteredData, setFilteredData] = useState<any[]>([]);
-
-  useEffect(() => {
-    filterData();
-  }, [year, salesData]);
-
-  const filterData = () => {
-    // Filter sales data by the selected year
-    const filtered = salesData.filter((item) =>
-      moment(item.createdAt).year() === year
-    );
-
-    // Initialize monthly data with zero values
-    const monthlyData = Array.from({ length: 12 }, (_, i) => ({
-      name: moment().month(i).format("MMM"),
-      courses: 0, // You might count the number of courses created or purchased
-    }));
-
-    // Aggregate sales data by month
-    filtered.forEach((item) => {
-      const month = moment(item.createdAt).month();
-      monthlyData[month].courses += 1; // Increment the count for the respective month
-    });
-
-    setFilteredData(monthlyData);
-  };
 
   return (
     <ResponsiveContainer width="98%" height={300}>
-      <LineChart data={filteredData}>
+      <LineChart data={salesData}>
         <defs>
           <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow
@@ -107,9 +85,18 @@ export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
         <Legend wrapperStyle={{ color: colors.text }} />
         <Line
           type="monotone"
-          dataKey="courses"
-          name="Courses"
+          dataKey="totalSoldItems"
+          name="Total Sold Items"
           stroke={colors.graphDraw}
+          strokeWidth={3}
+          dot={<CustomDot />}
+          filter="url(#shadow)"
+        />
+        <Line
+          type="monotone"
+          dataKey="totalRevenue"
+          name="Total Revenue"
+          stroke="#8884d8"
           strokeWidth={3}
           dot={<CustomDot />}
           filter="url(#shadow)"

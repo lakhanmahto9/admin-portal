@@ -34,7 +34,7 @@ const Categories: React.FC<Props> = ({ dashboardSalesData }) => {
       </h3>
       <div>
         <div className="">
-          {dashboardSalesData.map((el, ind) => (
+          {dashboardSalesData?.map((el, ind) => (
             <div
               key={ind}
               className="flex flex-start space-y-4 mt-2 justify-between"
