@@ -11,12 +11,14 @@ import {
   import { ChangeEvent, useState, useEffect } from "react";
   import { getEcommerceSellersThunk } from "@/redux/slice/ecommerce/getEcommerceSellersSlice";
   import { AppDispatch } from "@/redux/store/store"; 
+  import { useThemeColors } from "@/components/utils/useThemeColor";
 
   
   export const Sellers: React.FC = () => {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>(); // Typed dispatch
     const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
+    const colors = useThemeColors(isDarkEnabled);
     const sellers = useSelector((state: any) => state.getEcommerceSellers?.data?.data || []);
     console.log(sellers, "sellers")
     
@@ -59,15 +61,17 @@ import {
     return (
       <>
         <div
-          className={`w-full h-[83vh] ${isDarkEnabled ? "bg-[#101c44]" : "bg-[#fff]"} rounded-xl`}
+          className={`w-full h-[83vh] rounded-xl`}
+          style={{background:colors.cardBg}}
         >
           <div
-            className={`h-[12%] ${isDarkEnabled ? "bg-[#101c44]" : "bg-[#dae2ff]"} rounded-t-xl flex justify-between`}
+            className={`h-[12%] rounded-t-xl flex justify-between`}
+            style={{background:colors.sidebarBg}}
           >
             <div className="flex items-center gap-4 px-2">
               <div
                 onClick={back}
-                className={`w-10 h-10 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} flex items-center justify-center rounded-full cursor-pointer`}
+                className={`w-10 h-10 ${isDarkEnabled ? "bg-[#051139]" : "bg-[#025f92]"} flex items-center justify-center rounded-full cursor-pointer`}
               >
                 <LeftIcon color="#fff" width="20" height="20" />
               </div>
@@ -96,7 +100,7 @@ import {
               filteredSellers.map((item: any, index: number) => (
                 <div className="relative w-full md:w-[32%] h-72" key={index}>
                   <div
-                    className={`h-2/3 rounded-t-2xl ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} flex justify-center items-center`}
+                    className={`h-2/3 rounded-t-2xl ${isDarkEnabled ? "bg-[#051139] shadow-sm shadow-gray-500" : "bg-[#025f92]"} flex justify-center items-center`}
                   >
                     <div className="relative w-28 h-28 rounded-full border">
                       <img
@@ -114,18 +118,18 @@ import {
                     </div>
                   </div>
                   <div
-                    className={`h-1/3 ${isDarkEnabled ? "bg-[#010844]" : "bg-[#084363]"} rounded-b-2xl py-5`}
+                    className={`h-1/3 ${isDarkEnabled ? "bg-[#0e1a49] shadow-sm shadow-gray-500" : "bg-[#084363]"} rounded-b-2xl py-5`}
                   >
                     <div className="flex gap-2 h-14 px-2">
                       <div
                         onClick={() => handleSellerProduct(item)}
-                        className={`w-1/2 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} cursor-pointer rounded-lg flex justify-center items-center`}
+                        className={`w-1/2 ${isDarkEnabled ? "bg-[#051139]" : "bg-[#025f92]"} cursor-pointer rounded-lg flex justify-center items-center`}
                       >
                         <p className="text-[#fff]">Product</p>
                       </div>
                       <div
                         onClick={() => profile(item)}
-                        className={`w-1/2 ${isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"} cursor-pointer rounded-lg flex justify-center items-center`}
+                        className={`w-1/2 ${isDarkEnabled ? "bg-[#051139]" : "bg-[#025f92]"} cursor-pointer rounded-lg flex justify-center items-center`}
                       >
                         <p className="text-[#fff]">Profile</p>
                       </div>

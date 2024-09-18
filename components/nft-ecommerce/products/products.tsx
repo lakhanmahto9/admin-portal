@@ -4,14 +4,27 @@ import { AppDispatch } from "@/redux/store/store"; // Adjust according to your s
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store"; // Adjust according to your store setup
 import { useRouter } from "next/router";
+import { useThemeColors } from "@/components/utils/useThemeColor";
+
+type Product = {
+  _id: string;
+  name: string;
+  totalStock: number;
+  isDiscounted: boolean;
+  items: {
+    colorImageUrl: string;
+  }[];
+};
+
 
 const Products = () => {
   const router = useRouter();
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkEnabled);
   const [search, setSearch] = useState("");
   const dispatch: AppDispatch = useDispatch();
 
-  const [fetchedProducts, setFetchedProducts] = useState([]);
+  const [fetchedProducts, setFetchedProducts] = useState<Product[]>([]);
 
   console.log(fetchedProducts, "fetched products");
 
@@ -44,20 +57,18 @@ const Products = () => {
   return (
     <>
       <div
-        className={`w-full h-[83vh] ${
-          isDarkEnabled ? "bg-[#101c44]" : "bg-[#fff]"
-        } rounded-xl`}
+        className={`w-full h-[83vh] rounded-xl`}
+        style={{background:colors.cardBg}}
       >
         <div
-          className={`h-[12%] ${
-            isDarkEnabled ? "bg-[#101c44]" : "bg-[#dae2ff]"
-          } rounded-t-xl flex justify-between`}
+          className={`h-[12%] rounded-t-xl flex justify-between`}
+          style={{background:colors.sidebarBg}}
         >
           <div className="flex items-center gap-4 px-2">
             <div
               onClick={() => alert("Back")}
               className={`w-10 h-10 ${
-                isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                isDarkEnabled ? "bg-[#051139]" : "bg-[#025f92]"
               } flex items-center justify-center rounded-full cursor-pointer`}
             >
               <p style={{ color: "#fff" }}>{"<"}</p>
@@ -90,15 +101,17 @@ const Products = () => {
               <div className="relative w-full md:w-[32%] h-72" key={index}>
                 <div
                   className={`h-2/3 rounded-t-2xl ${
-                    isDarkEnabled ? "bg-[#040836]" : "bg-[#025F92]"
+                    isDarkEnabled ? "bg-[#051139] shadow-sm shadow-gray-500" : "bg-[#025F92]"
                   } flex justify-center items-center`}
                 >
                   <div className="relative w-28 h-28">
-                    <img
+                   <div className="w-32 h-32">
+                   <img
                       src={item.items[0]?.colorImageUrl} // Assuming you're displaying the first item's colorImageUrl
                       alt={item.name}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-contain rounded-lg"
                     />
+                   </div>
                     <div className="absolute  mt-1 ml-6">
                       <p
                         style={{
@@ -112,14 +125,14 @@ const Products = () => {
                 </div>
                 <div
                   className={`h-1/3 ${
-                    isDarkEnabled ? "bg-[#010844]" : "bg-[#084363]"
+                    isDarkEnabled ? "bg-[#0e1a49] shadow-sm shadow-gray-500" : "bg-[#084363]"
                   } rounded-b-2xl py-5`}
                 >
                   <div className="flex gap-2 h-14 px-2">
                     <div
                       onClick={() => handleProductClick(item)}
                       className={`w-full ${
-                        isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+                        isDarkEnabled ? "bg-[#051139]" : "bg-[#025f92]"
                       } cursor-pointer rounded-lg flex justify-center items-center`}
                     >
                       <p className="text-[#fff]">View Product</p>

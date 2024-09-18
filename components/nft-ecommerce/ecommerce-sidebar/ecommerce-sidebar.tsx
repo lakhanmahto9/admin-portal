@@ -132,12 +132,13 @@ import {
         router.push("/admin-dashboard/seller-photography/photography-dashboard")
         
       }
-      else if(type === "ecommerce"){
+      else if(type === "tutorial"){
         setSwitchTab((prev) => ({
           ...prev,
-          ecommerce: !value,
+          tutorial: !value,
         }));
-        dispatch(openCredential("E-Commerce"))
+        dispatch(openCredential("Tutorial"))
+        router.push("/admin-dashboard/seller-video/seller-dashboard")
       }
     };
   
@@ -248,9 +249,9 @@ import {
                 </div>
               </div>
               <div className="w-full h-10 px-4 bg-[#02364f] text-[#fff] rounded-lg flex justify-between items-center">
-                <p>Ecommerce</p>
+                <p>Tutorial</p>
                 <div
-                  onClick={() => changeSwitch("ecommerce", switchTab.ecommerce)}
+                  onClick={() => changeSwitch("tutorial", switchTab.ecommerce)}
                   className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
                     switchTab.ecommerce
                       ? "justify-end bg-[#025f92]"
