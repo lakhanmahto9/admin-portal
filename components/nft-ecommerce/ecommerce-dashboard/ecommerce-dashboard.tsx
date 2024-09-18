@@ -36,6 +36,7 @@ interface SalesDetails {
 const EcommerceDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [salesDetails, setSalesDetails] = useState<SalesDetails[]>([]);
+  console.log(salesDetails, "sales details1111")
 
   const [salesProduct, setSalesProduct] = useState<SalesData[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
@@ -82,10 +83,10 @@ const EcommerceDashboard: React.FC = () => {
   const callApiToFetchSalesDetails = async () => {
     try {
       const result = await getEcommerceSalesDetails();
-      console.log(result.data.data, "result")
+      // console.log(result.data.data.items, "result")
 
       if (result && result.data) {
-        setSalesDetails(result.data.data || []); // Ensure data matches expected format
+        setSalesDetails(result.data.data.items || []); // Ensure data matches expected format
       }
     } catch (error) {
       console.error("Failed to fetch sales data", error);
@@ -104,7 +105,7 @@ const EcommerceDashboard: React.FC = () => {
 
       <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
         <div className="w-full lg:w-3/5">
-        <DashboardTable salesDetails={salesDetails} /> {/* Pass salesDetails as a prop to DashboardTable */}
+        <DashboardTable salesDetails={salesDetails} /> 
         </div>
         {/* <div className="w-full lg:w-2/5">
           <Categories dashboardSalesData={salesProduct} />
