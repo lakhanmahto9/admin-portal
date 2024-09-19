@@ -184,4 +184,12 @@ export const disabledAdminNotificationForVideoApi = () => {
   });
 };
 
+export const disabledAdminNotificationForEcommerceApi = () => {
+  return axios.get(`${BASE_URL}/admin/admin-dissabled-notification-for-ecommerce`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
 
