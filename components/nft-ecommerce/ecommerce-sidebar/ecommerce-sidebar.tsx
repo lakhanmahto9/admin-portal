@@ -76,6 +76,7 @@ import {
         link: "Orders",
         href: publicRuntimeConfig?.orders,
       },
+   
       {
         icon: (
           <MorePeople
@@ -84,19 +85,8 @@ import {
             color={darkModeEnable ? "#9eaaef" : "black"}
           />
         ),
-        link: "Top Sellers By  Sale",
-        href: publicRuntimeConfig?.SellersByTotalSale,
-      },
-      {
-        icon: (
-          <MorePeople
-            width="24"
-            height="24"
-            color={darkModeEnable ? "#9eaaef" : "black"}
-          />
-        ),
-        link: "Top Sellers By Revenue",
-        href: publicRuntimeConfig?.topSellersByRevenue,
+        link: "Top Sellers",
+        href: publicRuntimeConfig?.topESellers,
       },
       {
         icon: <LogoutIcon color="red" height="18" width="18" />,

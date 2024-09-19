@@ -34,7 +34,8 @@
     "ecommerceBuyers":"/admin-dashboard/nft-ecommerce/ecommerce-buyers",
     "ecommerceSellers":"/admin-dashboard/nft-ecommerce/ecommerce-sellers",
     "products":"/admin-dashboard/nft-ecommerce/products",
-    "orders":"/admin-dashboard/nft-ecommerce/orders"
+    "orders":"/admin-dashboard/nft-ecommerce/orders",
+    "topESellers": "/admin-dashboard/nft-ecommerce/top-sellers"
 
   }
   
