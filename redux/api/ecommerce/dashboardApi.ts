@@ -21,3 +21,21 @@ export const getEcommerceSalesDetails = () => {
     },
   });
 };
+
+// API for blocking or unblocking an eCommerce buyer
+export const getEcommerceTransactions = () => {
+  return axios.get(`${BASE_URL}/admin/get-transactions`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+// API for specific transaction
+export const getEcommerceTransaction = (itemId:string) => {
+    return axios.get(`${BASE_URL}/admin/get-transaction/${itemId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+  };

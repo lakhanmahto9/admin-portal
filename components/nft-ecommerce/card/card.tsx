@@ -9,6 +9,7 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = ({ data }) => {
+  console.log(data, "dataa")
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
  
@@ -29,7 +30,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold ">Total Buyer</p>
-            <p className="text-xl font-bold">{data.totalBuyers}</p>
+            <p className="text-xl font-bold">{data?.totalBuyers}</p>
           </div>
           <div className="relative">
             <div

@@ -3,8 +3,7 @@ import { useDispatch } from "react-redux";
 import { Card } from "../card/card";
 import { Graph } from "../ecommerce-graph/graph";
 import { getEcommerceCardDataThunk } from "@/redux/slice/ecommerce/getEcommerceCardDataSlice";
-import { getEcommerceMonthlySalesData , getEcommerceSalesDetails} from "../../../redux/api/ecommerce/dashboardApi";
-import Slider from "../slider/slider";
+import { getEcommerceMonthlySalesData, getEcommerceSalesDetails, getEcommerceTransactions } from "../../../redux/api/ecommerce/dashboardApi";
 import DashboardTable from "./dashboard-table";
 import Categories from "./categories";
 import { AppDispatch } from '@/redux/store/store'; // Adjust the import path as necessary
@@ -25,7 +24,7 @@ interface SalesData {
 }
 
 interface SalesDetails {
-  username:string;
+  username: string;
   productName: string;
   date: Date;
   country: string;
@@ -33,12 +32,18 @@ interface SalesDetails {
   quantity: number;
 }
 
+interface Transaction {
+  productName: string;
+  price: number;
+  photo: string;
+  itemId: string; // Ensure itemsId is included here
+}
+
 const EcommerceDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [salesDetails, setSalesDetails] = useState<SalesDetails[]>([]);
-  console.log(salesDetails, "sales details1111")
-
   const [salesProduct, setSalesProduct] = useState<SalesData[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
   const [cardData, setCardData] = useState<DashboardCardData>({
     todayProducts: 0,
@@ -52,14 +57,17 @@ const EcommerceDashboard: React.FC = () => {
   useEffect(() => {
     callApiToFetchSalesProducts(selectedYear);
     callApiToGetEcommerceCardData();
-    callApiToFetchSalesDetails()
+    callApiToFetchSalesDetails();
+    callApiToFetchTransactions();
   }, [selectedYear]);
 
   const callApiToGetEcommerceCardData = async () => {
     try {
-      const result = await dispatch(getEcommerceCardDataThunk()) as { payload: DashboardCardData };
+      const result = await dispatch(getEcommerceCardDataThunk()) ;
+
+      console.log(result, 68)
       if (result.payload) {
-        setCardData(result.payload);
+        setCardData(result.payload.data);
       }
     } catch (error) {
       console.error("Failed to fetch card data", error);
@@ -69,9 +77,8 @@ const EcommerceDashboard: React.FC = () => {
   const callApiToFetchSalesProducts = async (year: number) => {
     try {
       const result = await getEcommerceMonthlySalesData(year);
-      console.log(result, "result123")
       if (result && result.data) {
-        setSalesProduct(result.data.data || []); // Ensure the result is stored correctly in salesDetails
+        setSalesProduct(result.data.data || []);
       }
     } catch (error) {
       console.error("Failed to fetch sales data", error);
@@ -79,17 +86,35 @@ const EcommerceDashboard: React.FC = () => {
     }
   };
 
-
   const callApiToFetchSalesDetails = async () => {
     try {
       const result = await getEcommerceSalesDetails();
-      // console.log(result.data.data.items, "result")
-
       if (result && result.data) {
-        setSalesDetails(result.data.data.items || []); // Ensure data matches expected format
+        setSalesDetails(result.data.data.items || []);
       }
     } catch (error) {
-      console.error("Failed to fetch sales data", error);
+      console.error("Failed to fetch sales details", error);
+    }
+  };
+
+
+  
+
+  const callApiToFetchTransactions = async () => {
+    try {
+      const result = await getEcommerceTransactions();
+      if (result && result.data) {
+        // Flatten the transactions data to handle individual items
+        const flattenedTransactions = result.data.data.flatMap((order: any) => 
+          order.items.map((item: any) => ({
+            ...item,
+            itemId: item.itemId // Ensure itemId is mapped to itemsId
+          }))
+        );
+        setTransactions(flattenedTransactions || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch transactions", error);
     }
   };
 
@@ -97,19 +122,18 @@ const EcommerceDashboard: React.FC = () => {
     <div className="flex flex-col items-center justify-center">
       <Card data={cardData} />
       <div className="w-full flex flex-col justify-center lg:flex-row gap-6 mt-10 pb-10">
-        <div className="w-full mt-10 ">
+        <div className="w-full mt-10">
           <Graph salesData={salesProduct} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />
         </div>
-      
       </div>
 
       <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
         <div className="w-full lg:w-3/5">
-        <DashboardTable salesDetails={salesDetails} /> 
+          <DashboardTable salesDetails={salesDetails} />
         </div>
-        {/* <div className="w-full lg:w-2/5">
-          <Categories dashboardSalesData={salesProduct} />
-        </div> */}
+        <div className="w-full lg:w-2/5 mt-2">
+          <Categories transactions={transactions} />
+        </div>
       </div>
     </div>
   );
