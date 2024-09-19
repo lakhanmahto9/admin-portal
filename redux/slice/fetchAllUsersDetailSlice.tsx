@@ -25,6 +25,7 @@ const initialState = {
   playlist : null as any,
   buyer : null as any,
   seller : null as any,
+  eCommerceSales:null as any,
 
 
 };
@@ -48,7 +49,8 @@ const userInformationSlice = createSlice({
         state.artAndMusicSales = action?.payload?.artAndMusicSales;
         state.playlist = action.payload?.totalPlaylist;
         state.seller = action.payload?.totalSeller;
-        state.buyer = action.payload?.totalBuyer
+        state.buyer = action.payload?.totalBuyer,
+        state.eCommerceSales = action.payload?.eCommerceSales
       })
       .addCase(userInformation.rejected, (state, action) => {
         state.status = "failed";
