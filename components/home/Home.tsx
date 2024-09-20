@@ -17,7 +17,7 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-auto sm:h-screen bg-[#20364b] p-4 sm:pl-10 sm:pr-5 sm:py-7">
+    <div className="w-full h-[100%] sm:h-screen bg-[#20364b] p-4 sm:pl-10 sm:pr-5 sm:py-7">
       <div className="flex justify-between h-[10%]">
         <div className="">
           <p className="text-slate-100 text-xl sm:text-2xl">Creative</p>
@@ -64,6 +64,16 @@ export const Home: React.FC = () => {
           >
             E-Commerce
           </p>
+          <p
+            onClick={() => setActiveTab("Franchise")}
+            className={`px-4 py-2 cursor-pointer ${
+              activeTab === "Franchise"
+                ? "text-slate-100 border-b-2 border-[#ddba4c]"
+                : "text-slate-300 border-b-2 border-transparent hover:border-[#ddba4c]"
+            }`}
+          >
+            Franchise
+          </p>
           <div
             className="w-20 h-10 rounded-full"
             onClick={() => dispatch(openCredential(activeTab))}
@@ -82,7 +92,7 @@ export const Home: React.FC = () => {
             </p>
           </div>
       </div>
-      <div className="w-full h-[90%] flex flex-col md:flex-row">
+      <div className="w-full h-[95%] flex flex-col md:flex-row ">
         <div className="w-full md:w-1/2 flex flex-col gap-2 mt-10 order-2 md:order-1">
           <p className="text-3xl md:text-5xl font-bold text-[#ddba4c]">Welcome to our</p>
           <p className="text-3xl md:text-5xl font-bold text-slate-100">
@@ -98,7 +108,7 @@ export const Home: React.FC = () => {
           </p>
 
           <div className=" flex flex-col md:flex-row w-full">
-            <div className="flex flex-col gap-3 w-full md:w-1/2">
+            <div className="flex flex-col gap-3 w-full  md:w-1/2">
               <div
                 onClick={() => dispatch(openCredential("Tutorial"))}
                 className="w-full md:w-96 h-16 bg-[#9bd4f2]  rounded-full flex justify-center items-center cursor-pointer"
@@ -129,6 +139,12 @@ export const Home: React.FC = () => {
                 className="w-full md:w-96 h-16 rounded-full bg-[#9bd4f2] flex justify-center items-center cursor-pointer"
               >
                 <p className="text-lg font-semibold text-[#fff]">E-Commerce</p>
+              </div>
+              <div
+                onClick={() => dispatch(openCredential("Franchise"))}
+                className="w-full md:w-96 h-16 rounded-full bg-[#9bd4f2] flex justify-center items-center cursor-pointer"
+              >
+                <p className="text-lg font-semibold text-[#fff]">Franchise</p>
               </div>
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center">

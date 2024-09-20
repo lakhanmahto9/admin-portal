@@ -51,6 +51,8 @@ export const Login: React.FC = () => {
           router.push("/admin-dashboard/seller-art/art-dashboard")
         }else if(type === "E-Commerce"){
           router.push("/admin-dashboard/nft-ecommerce/ecommerce-dashboard")
+        }else if (type === "Franchise"){
+          router.push("/admin-dashboard/nft-franchise/franchise-dashboard")
         }
        }else{
         setSpin(false);

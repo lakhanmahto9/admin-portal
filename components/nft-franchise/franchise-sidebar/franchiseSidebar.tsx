@@ -8,12 +8,14 @@ import {
     Users,
     MyPlaylist,
     MorePeople,
-    MyProductIcon,
+    MusicIcon,
+    Art,
+    Courier
   } from "../../utils/icons";
   import React, { useEffect, useState } from "react";
   import getConfig from "next/config";
   import { useRouter } from "next/router";
-  import { useSelector, useDispatch } from "react-redux";
+  import { useSelector,useDispatch } from "react-redux";
   import { useThemeColors } from "@/components/utils/useThemeColor";
   import { artMusicAndVideoRevenue } from "@/redux/slice/fetchArtMusicAndVideoRevenueSlice";
   import { openCredential } from "@/redux/slice/creadentialSlice";
@@ -24,26 +26,25 @@ import {
   }
   
   const { publicRuntimeConfig } = getConfig();
-  const EcommerceSidebar: React.FC = () => {
+  const FranchiseSidebar: React.FC = () => {
     const [switchTab, setSwitchTab] = useState({
-      photography: false,
-      art: false,
+      tutorial: false,
+      photograhy: false,
       ecommerce: false,
-      franchise:false,
+      art:false,
     });
     const [artMusicAndVideoRevenueData, SetArtMusicAndVideoRevenueData] =
       useState<artMusicAndVideoData>({
         totalRevenueforArtMusic: 0,
         totalRevenue: 0,
       });
-    const dispatch = useDispatch();
     const router = useRouter();
+    const dispatch = useDispatch();
     const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
     const colors = useThemeColors(darkModeEnable);
     const [total, setTotal] = useState(0);
     const sidenavcolor = useSelector((state: any) => state.sidebarbg.color);
-  
-    // const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
+    
     const [info, setInfo] = useState({
       totalRevenue: 0,
     });
@@ -52,32 +53,29 @@ import {
       {
         icon: <SqureIcon color="blue" height="15" width="15" />,
         link: "Dashboard",
-        href: publicRuntimeConfig?.ecommerceDashboard,
+        href: publicRuntimeConfig?.franchiseDashboard,
       },
       {
-        icon: <BagCheck color="orange" height="18" width="18" />,
-        link: "Buyers",
-        href: publicRuntimeConfig?.ecommerceBuyers,
+        icon: <Courier color="red" height="18" width="18" />,
+        link: "Franchise",
+        href: publicRuntimeConfig?.franchise,
       },
   
       {
         icon: <Users color="red" height="18" width="18" />,
         link: "Sellers",
-        href: publicRuntimeConfig?.ecommerceSellers,
+        href: publicRuntimeConfig?.sellers,
       },
-     
       {
-        icon: <MyProductIcon color="red" height="18" width="18" />,
-        link: "Products",
-        href: publicRuntimeConfig?.products,
+        icon: <Art color="#FF1493" height="18" width="18" />,
+        link: "Art",
+        href: publicRuntimeConfig?.arts,
       },
-
       {
-        icon: <MyProductIcon color="red" height="18" width="18" />,
-        link: "Orders",
-        href: publicRuntimeConfig?.orders,
+        icon: <MusicIcon color="green" height="18" width="18" />,
+        link: "Music",
+        href: publicRuntimeConfig?.music,
       },
-   
       {
         icon: (
           <MorePeople
@@ -86,8 +84,19 @@ import {
             color={darkModeEnable ? "#9eaaef" : "black"}
           />
         ),
-        link: "Top Sellers",
-        href: publicRuntimeConfig?.topESellers,
+        link: "Top Sellers By Sale",
+        href: publicRuntimeConfig?.topCreatersByTotalSale,
+      },
+      {
+        icon: (
+          <MorePeople
+            width="24"
+            height="24"
+            color={darkModeEnable ? "#9eaaef" : "black"}
+          />
+        ),
+        link: "Top Sellers By Revenue",
+        href: publicRuntimeConfig?.topCreatersByRevenue,
       },
       {
         icon: <LogoutIcon color="red" height="18" width="18" />,
@@ -103,17 +112,25 @@ import {
       router.push(href);
     };
   
-    // useEffect(() => {
-    //   callToFetchArtMusicAndVideoRevenue();
-    // }, []);
+    useEffect(() => {
+      callToFetchArtMusicAndVideoRevenue();
+    }, []);
+  
+    const callToFetchArtMusicAndVideoRevenue = async () => {
+      const result = await dispatch<any>(artMusicAndVideoRevenue());
+      console.log(result?.payload?.totalRevenue);
+      SetArtMusicAndVideoRevenueData(result?.payload);
+    };
+  
     const changeSwitch = (type: string, value: boolean) => {
-      if(type === "art"){
+      if (type === "tutorial") {
         setSwitchTab((prev) => ({
           ...prev,
-          art: !value,
+          tutorial: !value,
         }));
-        dispatch(openCredential("Digital Art and Music"))
-        router.push("/admin-dashboard/seller-art/art-dashboard")
+        dispatch(openCredential("Tutorial"));
+        router.push("/admin-dashboard/seller-video/seller-dashboard")
+        
       }else if (type === "photography") {
         setSwitchTab((prev) => ({
           ...prev,
@@ -122,29 +139,22 @@ import {
         dispatch(openCredential("Digital photography"));
         router.push("/admin-dashboard/seller-photography/photography-dashboard")
         
-      }
-      else if(type === "tutorial"){
+      }else if(type === "ecommerce"){
         setSwitchTab((prev) => ({
           ...prev,
-          tutorial: !value,
+          ecommerce: !value,
         }));
-        dispatch(openCredential("Tutorial"))
-        router.push("/admin-dashboard/seller-video/seller-dashboard")
-      }else if(type === "franchise"){
+        dispatch(openCredential("E-Commerce"))
+        router.push("/admin-dashboard/nft-ecommerce/ecommerce-dashboard")
+      }if(type === "art"){
         setSwitchTab((prev) => ({
           ...prev,
-          franchise: !value,
+          art: !value,
         }));
-        dispatch(openCredential("Franchise"))
-        router.push("/admin-dashboard/nft-franchise/franchise-dashboard")
+        dispatch(openCredential("Digital Art and Music"))
+        router.push("/admin-dashboard/seller-art/art-dashboard")
       }
     };
-  
-    // const callToFetchArtMusicAndVideoRevenue = async () => {
-    //   const result = await dispatch<any>(artMusicAndVideoRevenue());
-    //   console.log(result?.payload.totalRevenue);
-    //   SetArtMusicAndVideoRevenueData(result?.payload);
-    // };
   
     return (
       <div className="w-full h-full px-5 py-3 lg:py-5">
@@ -159,7 +169,7 @@ import {
           <div className="h-[10%] flex gap-5 flex-col justify-center items-center">
             <div className="flex gap-2">
               <BagCheck color="blue" height="24" width="24" />
-              <p className="text-lg font-semibold">Admin- Ecommerce</p>
+              <p className="text-lg font-semibold">Franchise Dashboard</p>
             </div>
             <div className="w-full">
               <hr
@@ -172,7 +182,7 @@ import {
               />
             </div>
           </div>
-          <div className="h-[50%] py-2  overflow-y-auto scroller ">
+          <div className="h-[50%] py-2  overflow-y-auto scroller">
             {sideBarLink.map((item, index) => (
               <div
                 className={`${
@@ -182,7 +192,7 @@ import {
                       : `bg-[${sidenavcolor}] shadow-inner`
                     : ""
                 }
-                 h-12 rounded-xl px-2 flex justify-between items-center cursor-pointer mb-1`}
+                   h-12 rounded-xl px-2 flex justify-between items-center cursor-pointer mb-1`}
                 key={index}
                 onClick={() => handleLinkClick(item.href, item.link)}
               >
@@ -213,7 +223,7 @@ import {
                   darkModeEnable ? "text-[#5E72E4]" : "text-[#140e69]"
                 }`}
               >
-                ₹{artMusicAndVideoRevenueData.totalRevenue}
+                ₹{artMusicAndVideoRevenueData?.totalRevenueforArtMusic}
               </p>
               <p className="text-sm font-semibold" style={{ color: colors.text }}>
                 Total Revenue
@@ -221,11 +231,24 @@ import {
             </div>
             <div className="w-full flex flex-col gap-2">
               <div className="w-full h-10 px-4 bg-[#025f92] text-[#fff] rounded-lg flex justify-between items-center">
-                <p>Photography</p>
+                <p>Turorial</p>
                 <div
-                  onClick={() => changeSwitch("photography", switchTab.photography)}
+                  onClick={() => changeSwitch("tutorial", switchTab.tutorial)}
                   className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
-                    switchTab.photography
+                    switchTab.tutorial
+                      ? "justify-end bg-[#084363]"
+                      : "justify-start bg-[#c2c2c2]"
+                  } items-center`}
+                >
+                  <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+                </div>
+              </div>
+              <div className="w-full h-10 px-4 bg-[#025f92] text-[#fff] rounded-lg flex justify-between items-center">
+                <p>Art & Music</p>
+                <div
+                  onClick={() => changeSwitch("art", switchTab.art)}
+                  className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                    switchTab.art
                       ? "justify-end bg-[#084363]"
                       : "justify-start bg-[#c2c2c2]"
                   } items-center`}
@@ -234,11 +257,11 @@ import {
                 </div>
               </div>
               <div className="w-full h-10 bg-[#084363] text-[#fff] rounded-lg flex justify-between px-4 items-center">
-                <p>Art & Music</p>
+                <p>Photography</p>
                 <div
-                  onClick={() => changeSwitch("art", switchTab.art)}
+                  onClick={() => changeSwitch("photography", switchTab.photograhy)}
                   className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
-                    switchTab.art
+                    switchTab.photograhy
                       ? "justify-end bg-[#025f92]"
                       : "justify-start bg-[#c2c2c2]"
                   } items-center`}
@@ -247,24 +270,11 @@ import {
                 </div>
               </div>
               <div className="w-full h-10 px-4 bg-[#02364f] text-[#fff] rounded-lg flex justify-between items-center">
-                <p>Tutorial</p>
+                <p>Ecommerce</p>
                 <div
-                  onClick={() => changeSwitch("tutorial", switchTab.ecommerce)}
+                  onClick={() => changeSwitch("ecommerce", switchTab.ecommerce)}
                   className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
                     switchTab.ecommerce
-                      ? "justify-end bg-[#025f92]"
-                      : "justify-start bg-[#c2c2c2]"
-                  } items-center`}
-                >
-                  <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
-                </div>
-              </div>
-              <div className="w-full h-10 px-4 bg-[#02364f] text-[#fff] rounded-lg flex justify-between items-center">
-                <p>Franchise</p>
-                <div
-                  onClick={() => changeSwitch("franchise", switchTab.franchise)}
-                  className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
-                    switchTab.franchise
                       ? "justify-end bg-[#025f92]"
                       : "justify-start bg-[#c2c2c2]"
                   } items-center`}
@@ -279,5 +289,5 @@ import {
     );
   };
   
-  export default EcommerceSidebar;
+  export default FranchiseSidebar;
   

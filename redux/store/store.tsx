@@ -32,6 +32,9 @@ import sellerActionReducer from "../slice/ecommerce/sellerActionSlice";
 import productsReducer from "../slice/ecommerce/productslice";
 import orderReducer from "../slice/ecommerce/orderSlice";
 
+import fetchAllFranchiseSlice from "../slice/fetchAllFranchiseSlice";
+import franchiseProfileDetailsSlice from "../slice/franchiseProfileDetailsSlice";
+
 
 
 const persistConfig = {
@@ -114,6 +117,11 @@ const userDetails = persistReducer({ ...persistConfig, key: "user" }, userSlice)
 const nevSideColor = persistReducer({ ...persistConfig, key: "sidebarbg" }, sidebarNavColorSlice);
 const headerFix = persistReducer({ ...persistConfig, key: "fix" }, navfix);
 
+const allFranchise = persistReducer({...persistConfig,key:"fetchAllFranchise"},fetchAllFranchiseSlice)
+const franchiseProfile = persistReducer(
+  { ...persistConfig, key: "franchiseprofiledetails" },
+  franchiseProfileDetailsSlice
+);
 
 const store = configureStore({
   reducer: {
@@ -143,8 +151,9 @@ const store = configureStore({
     getEcommerceSellers:getEcommerceSellersReducer,
     sellerActions: sellerActionReducer,
     products: productsReducer,
-    orders: orderReducer
-
+    orders: orderReducer,
+    fetchAllFranchise :allFranchise,
+    franchiseprofiledetails:franchiseProfile,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

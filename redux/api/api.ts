@@ -192,4 +192,43 @@ export const disabledAdminNotificationForEcommerceApi = () => {
   });
 };
 
+export const fetchAllFranchiseApi = () => {
+  return axios.get(`${BASE_URL}/admin/fetch-all-franchise`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const franchiseProfileVerifyApi = (payload: any) => {
+  return axios.post(
+    `${BASE_URL}/admin/perticular-franchise-profile-verify`,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+};
+
+export const franchiseBlockApi = (payload: any) => {
+  return axios.patch(
+    `${BASE_URL}/admin/block-unblock-franchise/${payload.userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+};
+
+export const franchiseProfileDetailsApi = (payload: any) => {
+  return axios.post(`${BASE_URL}/admin/ecommerce-franchise-profile`, payload, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
 

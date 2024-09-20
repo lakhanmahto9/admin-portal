@@ -35,7 +35,11 @@
     "ecommerceSellers":"/admin-dashboard/nft-ecommerce/ecommerce-sellers",
     "products":"/admin-dashboard/nft-ecommerce/products",
     "orders":"/admin-dashboard/nft-ecommerce/orders",
-    "topESellers": "/admin-dashboard/nft-ecommerce/top-sellers"
+    "topESellers": "/admin-dashboard/nft-ecommerce/top-sellers",
+
+
+    "franchise": "/admin-dashboard/nft-franchise/franchise",
+    "franchiseDashboard":"/admin-dashboard/nft-franchise/franchise-dashboard"
 
   }
   

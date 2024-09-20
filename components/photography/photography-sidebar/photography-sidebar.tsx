@@ -23,6 +23,7 @@ export const PhotographySidebar: React.FC = () => {
     tutorial: false,
     art: false,
     ecommerce: false,
+    franchise:false,
   });
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   // const bg = useSellerThemeColors(isDarkEnabled);
@@ -103,6 +104,14 @@ export const PhotographySidebar: React.FC = () => {
       }));
       dispatch(openCredential("E-Commerce"))
       router.push("/admin-dashboard/nft-ecommerce/ecommerce-dashboard")
+
+    }else if(type === "franchise"){
+      setSwitchTab((prev) => ({
+        ...prev,
+        franchise: !value,
+      }));
+      dispatch(openCredential("Franchise"))
+      router.push("/admin-dashboard/nft-franchise/franchise-dashboard")
 
     }
   };
@@ -222,6 +231,19 @@ export const PhotographySidebar: React.FC = () => {
                 onClick={() => changeSwitch("ecommerce", switchTab.ecommerce)}
                 className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
                   switchTab.ecommerce
+                    ? "justify-end bg-[#025f92]"
+                    : "justify-start bg-[#c2c2c2]"
+                } items-center`}
+              >
+                <div className="w-5 h-5 bg-[#fff] rounded-full"></div>
+              </div>
+            </div>
+            <div className="w-full h-10 px-4 bg-[#02364f] text-[#fff] rounded-lg flex justify-between items-center">
+              <p>Franchise</p>
+              <div
+                onClick={() => changeSwitch("franchise", switchTab.franchise)}
+                className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
+                  switchTab.franchise
                     ? "justify-end bg-[#025f92]"
                     : "justify-start bg-[#c2c2c2]"
                 } items-center`}
