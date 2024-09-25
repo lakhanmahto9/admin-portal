@@ -39,7 +39,8 @@
 
 
     "franchise": "/admin-dashboard/nft-franchise/franchise",
-    "franchiseDashboard":"/admin-dashboard/nft-franchise/franchise-dashboard"
+    "franchiseDashboard":"/admin-dashboard/nft-franchise/franchise-dashboard",
+    "partners":"/admin-dashboard/nft-franchise/all-partners"
 
   }
   

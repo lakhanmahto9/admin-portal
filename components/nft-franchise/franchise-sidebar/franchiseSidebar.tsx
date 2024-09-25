@@ -19,6 +19,7 @@ import {
   import { useThemeColors } from "@/components/utils/useThemeColor";
   import { artMusicAndVideoRevenue } from "@/redux/slice/fetchArtMusicAndVideoRevenueSlice";
   import { openCredential } from "@/redux/slice/creadentialSlice";
+  import { TbTruckDelivery } from "react-icons/tb";
   
   interface artMusicAndVideoData {
     totalRevenueforArtMusic: number;
@@ -62,42 +63,42 @@ import {
       },
   
       {
-        icon: <Users color="red" height="18" width="18" />,
-        link: "Sellers",
-        href: publicRuntimeConfig?.sellers,
+        icon: <TbTruckDelivery style={{width:20, height:20}} />,
+        link: "Courier Partner",
+        href: publicRuntimeConfig?.partners,
       },
-      {
-        icon: <Art color="#FF1493" height="18" width="18" />,
-        link: "Art",
-        href: publicRuntimeConfig?.arts,
-      },
-      {
-        icon: <MusicIcon color="green" height="18" width="18" />,
-        link: "Music",
-        href: publicRuntimeConfig?.music,
-      },
-      {
-        icon: (
-          <MorePeople
-            width="24"
-            height="24"
-            color={darkModeEnable ? "#9eaaef" : "black"}
-          />
-        ),
-        link: "Top Sellers By Sale",
-        href: publicRuntimeConfig?.topCreatersByTotalSale,
-      },
-      {
-        icon: (
-          <MorePeople
-            width="24"
-            height="24"
-            color={darkModeEnable ? "#9eaaef" : "black"}
-          />
-        ),
-        link: "Top Sellers By Revenue",
-        href: publicRuntimeConfig?.topCreatersByRevenue,
-      },
+      // {
+      //   icon: <Art color="#FF1493" height="18" width="18" />,
+      //   link: "Art",
+      //   href: publicRuntimeConfig?.arts,
+      // },
+      // {
+      //   icon: <MusicIcon color="green" height="18" width="18" />,
+      //   link: "Music",
+      //   href: publicRuntimeConfig?.music,
+      // },
+      // {
+      //   icon: (
+      //     <MorePeople
+      //       width="24"
+      //       height="24"
+      //       color={darkModeEnable ? "#9eaaef" : "black"}
+      //     />
+      //   ),
+      //   link: "Top Sellers By Sale",
+      //   href: publicRuntimeConfig?.topCreatersByTotalSale,
+      // },
+      // {
+      //   icon: (
+      //     <MorePeople
+      //       width="24"
+      //       height="24"
+      //       color={darkModeEnable ? "#9eaaef" : "black"}
+      //     />
+      //   ),
+      //   link: "Top Sellers By Revenue",
+      //   href: publicRuntimeConfig?.topCreatersByRevenue,
+      // },
       {
         icon: <LogoutIcon color="red" height="18" width="18" />,
         link: "Logout",
@@ -216,7 +217,7 @@ import {
             ))}
           </div>
           <div className="h-[40%] flex flex-col justify-center items-center">
-            <div className="flex flex-col justify-center items-center">
+            {/* <div className="flex flex-col justify-center items-center">
               <img src="/wallet.svg" alt="wallet" className="w-12 h-12" />
               <p
                 className={` font-bold ${
@@ -228,7 +229,7 @@ import {
               <p className="text-sm font-semibold" style={{ color: colors.text }}>
                 Total Revenue
               </p>
-            </div>
+            </div> */}
             <div className="w-full flex flex-col gap-2">
               <div className="w-full h-10 px-4 bg-[#025f92] text-[#fff] rounded-lg flex justify-between items-center">
                 <p>Turorial</p>

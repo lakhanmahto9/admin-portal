@@ -1,27 +1,30 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { CrossIcon } from "@/public/icons/icons";
 import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
-import { franchiseProfileVerify } from "@/redux/slice/franchiseProfileVerifySlice";
+import { partnerProfileVerify } from "@/redux/slice/partnerProfileVerifySlice";
 import { franchiseProfileDetails } from "@/redux/slice/franchiseProfileDetailsSlice";
+import { partnersProfileDetails } from "@/redux/slice/partnersProfileDetailsSlice";
 
-
-export const VerifyModal: React.FC = () => {
+export const PartnerVerifyModal: React.FC = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const open = useSelector((state: any) => state.dialog);
   const dispatch = useDispatch();
   const handleVerify = async () => {
     try {
       const result = await dispatch<any>(
-        franchiseProfileVerify({ sellerId: open.id })
+        partnerProfileVerify({ sellerId: open.id })
       );
       if (result.payload?.success) {
-        dispatch(removeDialog({ open: false, type: ""}));
+        dispatch(removeDialog({ open: false, type: "" }));
         toast.success(result.payload?.message);
-        await dispatch<any>(franchiseProfileDetails({ buyerId:  open.id }));
-      }else{
-        dispatch(removeDialog({ open: false, type: ""}));
-        toast.warn("Seller not found!")
+        await dispatch<any>(partnersProfileDetails({ buyerId: id }));
+      } else {
+        dispatch(removeDialog({ open: false, type: "" }));
+        toast.warn("Seller not found!");
       }
     } catch (error) {
       console.log(error);

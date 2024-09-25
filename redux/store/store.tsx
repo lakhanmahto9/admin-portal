@@ -34,6 +34,7 @@ import orderReducer from "../slice/ecommerce/orderSlice";
 
 import fetchAllFranchiseSlice from "../slice/fetchAllFranchiseSlice";
 import franchiseProfileDetailsSlice from "../slice/franchiseProfileDetailsSlice";
+import partnersProfileDetailsSlice from "../slice/partnersProfileDetailsSlice";
 
 
 
@@ -122,6 +123,10 @@ const franchiseProfile = persistReducer(
   { ...persistConfig, key: "franchiseprofiledetails" },
   franchiseProfileDetailsSlice
 );
+const partnersProfile = persistReducer(
+  { ...persistConfig, key: "partnersProfileDetails" },
+  partnersProfileDetailsSlice
+);
 
 const store = configureStore({
   reducer: {
@@ -154,6 +159,7 @@ const store = configureStore({
     orders: orderReducer,
     fetchAllFranchise :allFranchise,
     franchiseprofiledetails:franchiseProfile,
+    partnersProfileDetails:partnersProfile,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

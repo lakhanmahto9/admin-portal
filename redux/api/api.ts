@@ -231,4 +231,55 @@ export const franchiseProfileDetailsApi = (payload: any) => {
   });
 };
 
+export const fetchParticularQPartnerApi = (payload: any) => {
+  return axios.post(
+    `${BASE_URL}/admin/fetch-franchise-particular-qpartner`,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+};
+
+export const partnersProfileDetailsApi = (payload: any) => {
+  return axios.post(`${BASE_URL}/admin/ecommerce-partners-profile`, payload, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const PartnerBlockApi = (payload: any) => {
+  return axios.patch(
+    `${BASE_URL}/admin/block-unblock-partner/${payload.userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+};
+
+export const partnerProfileVerifyApi = (payload: any) => {
+  return axios.post(
+    `${BASE_URL}/admin/perticular-partner-profile-verify`,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+};
+
+export const fetchAllPartnersApi = () => {
+  return axios.get(`${BASE_URL}/admin/fetch-all-partners`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
 

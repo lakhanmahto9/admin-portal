@@ -10,7 +10,7 @@ import {
   import { setDialog } from "@/redux/slice/blockOpenModalSlice";
   import { DialogModal } from "../common/modal";
   import { useThemeColors } from "@/components/utils/useThemeColor";
-  import { fetchAllFranchise } from "@/redux/slice/fetchAllFranchiseSlice";
+import { fetchAllPartners } from "@/redux/slice/fetchAllPartnersSlice";
   import noDataImage from "@/public/noData.png";
   import Image from "next/image";
   
@@ -30,7 +30,7 @@ import {
     isBlocked: boolean;
   }
   
-  export const FranchiseDetails: React.FC = () => {
+  export const AllPartners: React.FC = () => {
     const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
     const colors = useThemeColors(isDarkModeEnable);
     const [buyers, setBuyers] = useState<Buyer[]>([]);
@@ -41,11 +41,11 @@ import {
   
     const callApiTofetchAllFranchise = async () => {
       setLoading(true); // Start loading
-      const result = await dispatch<any>(fetchAllFranchise());
+      const result = await dispatch<any>(fetchAllPartners());
       if (result.payload?.success) {
-        console.log(result.payload?.data?.franchise)
-        setBuyers(result?.payload?.data?.franchise);
-        setFilteredBuyers(result?.payload?.data?.franchise);
+        console.log(result.payload?.data?.allPartners)
+        setBuyers(result?.payload?.data?.allPartners);
+        setFilteredBuyers(result?.payload?.data?.allPartners);
       }
       setLoading(false); // Stop loading
     };
@@ -59,9 +59,10 @@ import {
       router.push(`/admin-dashboard/nft-franchise/franchise-partners/${item._id}`);
     };
   
-    const profile = (item: any) => {
-      router.push(`/admin-dashboard/nft-franchise/franchise-profile/${item?._id}`);
-    };
+    const partnersProfile = (item: any) => {
+        localStorage.setItem("image", item.profile_pic);
+        router.push(`/admin-dashboard/nft-franchise/partners-profile/${item?._id}`);
+      };
   
     const backToDashboard = () => {
       router.push("/admin-dashboard/nft-franchise/franchise-dashboard");
@@ -102,7 +103,7 @@ import {
                 className={`text-lg font-semibold`}
                 style={{ color: colors.text }}
               >
-                All Franchise
+                All Partners
               </p>
             </div>
             <div className="flex px-2 gap-2 items-center">
@@ -191,7 +192,7 @@ import {
                         <p className="text-[#fff]">Partner's</p>
                       </div>
                       <div
-                        onClick={() => profile(item)}
+                        onClick={() => partnersProfile(item)}
                         className={`w-1/2 cursor-pointer rounded-lg flex justify-center items-center ${
                           isDarkModeEnable ? "bg-[#051139]" : "bg-[#025f92]"
                         }`}
@@ -216,7 +217,7 @@ import {
                       dispatch(
                         setDialog({
                           open: true,
-                          type: "block",
+                          type: "partnerBlock",
                           id: item._id,
                           block: item.isBlocked,
                         })

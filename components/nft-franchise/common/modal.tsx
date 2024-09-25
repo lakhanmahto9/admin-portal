@@ -3,6 +3,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { VerifyModal } from "./verifyModal";
 import { BlockModal } from "./block";
+import { PartnerBlockModal } from "./partnerBlock";
+import { PartnerVerifyModal } from "./partnerVerify";
 
 
 
@@ -18,7 +20,8 @@ export const DialogModal: React.FC = () => {
       <div>
         {open.type === "verify"&&<VerifyModal />}
         {open.type === "block"&&<BlockModal />}
-        
+        {open.type === "partnerBlock"&&<PartnerBlockModal />}
+        {open.type === "partnerVerify"&&<PartnerVerifyModal />}
       </div>
     </Dialog>
   );

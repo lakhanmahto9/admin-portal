@@ -17,7 +17,7 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-[100%] sm:h-screen bg-[#20364b] p-4 sm:pl-10 sm:pr-5 sm:py-7">
+    <div className="w-full h-auto sm:h-screen bg-[#20364b] p-4 sm:pl-10 sm:pr-5 py-5 lg:py-0 ">
       <div className="flex justify-between h-[10%]">
         <div className="">
           <p className="text-slate-100 text-xl sm:text-2xl">Creative</p>
@@ -92,7 +92,7 @@ export const Home: React.FC = () => {
             </p>
           </div>
       </div>
-      <div className="w-full h-[95%] flex flex-col md:flex-row ">
+      <div className="w-full h-[90%] flex flex-col md:flex-row ">
         <div className="w-full md:w-1/2 flex flex-col gap-2 mt-10 order-2 md:order-1">
           <p className="text-3xl md:text-5xl font-bold text-[#ddba4c]">Welcome to our</p>
           <p className="text-3xl md:text-5xl font-bold text-slate-100">

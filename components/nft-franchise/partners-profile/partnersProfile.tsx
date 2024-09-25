@@ -4,16 +4,16 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { setDialog } from "@/redux/slice/blockOpenModalSlice";
 import { DialogModal } from "../common/modal";
-import { franchiseProfileDetails } from "@/redux/slice/franchiseProfileDetailsSlice";
+import { partnersProfileDetails } from "@/redux/slice/partnersProfileDetailsSlice";
 import { useThemeColors } from "@/components/utils/useThemeColor";
 
-export const FranchiseProfile: React.FC = () => {
+export const PartnersProfile: React.FC = () => {
   const profile = useSelector(
-    (state: any) => state.franchiseprofiledetails?.data?.franchise
+    (state: any) => state.partnersProfileDetails?.data?.partners
   );
 
   const profile1 = useSelector(
-    (state: any) => state.franchiseprofiledetails?.data?.franchiseAddress
+    (state: any) => state.artMusicBuyerProfile?.data?.buyerAdress
   );
   const isDarkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(isDarkModeEnable);
@@ -32,7 +32,7 @@ export const FranchiseProfile: React.FC = () => {
 
   const callApiToProfile = async () => {
     try {
-      await dispatch<any>(franchiseProfileDetails({ buyerId: id }));
+      await dispatch<any>(partnersProfileDetails({ buyerId: id }));
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +60,7 @@ export const FranchiseProfile: React.FC = () => {
               className={`text-lg font-semibold `}
               style={{ color: colors.text }}
             >
-              Franchise profile
+              Partner profile
             </p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export const FranchiseProfile: React.FC = () => {
             <div className="flex gap-4">
               <p className="text-lg font-semibold" style={{color:colors.text}}>PIN</p>
               <p className="text-lg "style={{color:colors.text}}>
-                {profile1?.pin || "NA"}
+                {profile1?.postalCode || "NA"}
               </p>
             </div>
             <div className="flex gap-4">
@@ -174,7 +174,7 @@ export const FranchiseProfile: React.FC = () => {
             </div>
             <button
               onClick={() =>
-                dispatch(setDialog({ open: true, type: "verify", id: id }))
+                dispatch(setDialog({ open: true, type: "partnerVerify", id: id }))
               }
               disabled={profile?.isApproved}
               className={`mt-4 w-40 h-12 rounded-md py-1 flex justify-center items-center gap-2 ${

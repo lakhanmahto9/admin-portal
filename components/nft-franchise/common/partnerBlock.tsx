@@ -1,27 +1,28 @@
 import { CrossIcon } from "@/public/icons/icons";
-import { fetchAllFranchise } from "@/redux/slice/fetchAllFranchiseSlice";
+import { fetchParticularQPartner } from "@/redux/slice/fetchParticularQPartnerSlice";
 import { removeDialog } from "@/redux/slice/photography/OpenModalSlice";
-import { franchiseBlock } from "@/redux/slice/franchiseBlockSlice";
+import { PartnerBlock } from "@/redux/slice/partnerBlockSlice";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
-export const BlockModal: React.FC = () => {
+export const PartnerBlockModal: React.FC = () => {
+  const router = useRouter();
   const open = useSelector((state: any) => state.dialog);
+  const { id } = router.query;
   const [spin, setSpin] = useState(false);
   const dispatch = useDispatch();
   const handleBlock = async () => {
     try {
       setSpin(true);
-      const result = await dispatch<any>(
-        franchiseBlock({ userId: open.id })
-      );
+      const result = await dispatch<any>(PartnerBlock({ userId: open.id }));
       if (result.payload?.success) {
         setSpin(false);
-        dispatch(removeDialog({ open: false, type: ""}));
+        dispatch(removeDialog({ open: false, type: "" }));
         toast.success(result.payload?.message);
-        await dispatch<any>(fetchAllFranchise());
-      }else{
+        await dispatch<any>(fetchParticularQPartner({ franchiseId: id }));
+      } else {
         setSpin(false);
       }
     } catch (error) {
@@ -44,7 +45,7 @@ export const BlockModal: React.FC = () => {
       </div>
       <div className="mt-5 px-5">
         <p className="text-md text-[#fff]">
-          Are you sure, want to {open.block? "unblock":"block"} this user?
+          Are you sure, want to {open.block ? "unblock" : "block"} this user?
         </p>
       </div>
       <div className="mt-5 flex justify-end">
@@ -52,8 +53,7 @@ export const BlockModal: React.FC = () => {
           onClick={handleBlock}
           className="flex justify-center items-center cursor-pointer text-white w-28 h-12 border rounded-md"
         >
-          {spin?"Wait...": open.block?"Unblock":"Block"}
-        
+          {spin ? "Wait..." : open.block ? "Unblock" : "Block"}
         </div>
       </div>
     </div>
