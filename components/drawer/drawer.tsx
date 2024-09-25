@@ -4,6 +4,8 @@ import React from "react";
 import ArtSidebar from "../nft-art-music/art-sidebar/artSidebar";
 import { useSelector } from "react-redux";
 import VideoSidebar from "../nft-video/video-sidebar/videoSidebar";
+import EcommerceSidebar from "../nft-ecommerce/ecommerce-sidebar/ecommerce-sidebar";
+import { PhotographySidebar } from "../photography/photography-sidebar/photography-sidebar";
 
 
 export const Drawerpage: React.FC = () => {
@@ -15,7 +17,15 @@ export const Drawerpage: React.FC = () => {
   };
   const DrawerList = (
     <Box sx={{ width: 300 }} role="presentation" onClick={toggleDrawer(false)}>
-      {type === "Tutorial" ? <VideoSidebar /> : <ArtSidebar />}
+      {type === "Tutorial" ? (
+        <VideoSidebar />
+      ) : type === "Art" ? (
+        <ArtSidebar />
+      ) : type === "Photography" ? ( // Add condition for Photography Sidebar
+        <PhotographySidebar />
+      ) : type === "E-Commerce" ? ( // Add condition for Ecommerce Sidebar
+        <EcommerceSidebar />
+      ) : null}
     </Box>
   );
   return (
