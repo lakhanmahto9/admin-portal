@@ -25,6 +25,7 @@ import salePhotographySlice from "../slice/photography/PhotographySaleSlice";
 import BuyerPhotograhySlice from "../slice/photography/AllBuyerPhotography";
 import getEcommerceBuyersReducer from "../slice/ecommerce/getEcommerceBuyersSlice";
 import actionReducer from "../slice/ecommerce/actionSlice";
+import totalRevenue from "../slice/totalPriceSlice";
 
 
 import getEcommerceSellersReducer from "../slice/ecommerce/getEcommerceSellersSlice";
@@ -53,6 +54,11 @@ const darkTheme = persistReducer(
 const phseller = persistReducer(
   { ...persistConfig, key: "phseller" },
   allPhSellerSlice
+);
+
+const TotalRenue = persistReducer(
+  { ...persistConfig, key: "price" },
+  totalRevenue
 );
 const phprofile = persistReducer(
   { ...persistConfig, key: "phprofile" },
@@ -143,8 +149,8 @@ const store = configureStore({
     getEcommerceSellers:getEcommerceSellersReducer,
     sellerActions: sellerActionReducer,
     products: productsReducer,
-    orders: orderReducer
-
+    orders: orderReducer,
+    price:TotalRenue
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

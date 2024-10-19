@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Login } from "../credentials/login";
 import { openCredential } from "@/redux/slice/creadentialSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { TotalPrice } from "@/redux/slice/totalPriceSlice";
 
 export const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Tutorial");
   const router = useRouter();
   const dispatch = useDispatch();
+  const {price} = useSelector((state:any)=>state?.price?.price || 0)
   const handleDahsboard = (type: string) => {
     if (type === "video") {
       router.push("/seller-video/seller-dashboard");
@@ -15,6 +17,17 @@ export const Home: React.FC = () => {
       router.push("/seller-art/seller-dashboard");
     }
   };
+  useEffect(()=>{
+    getAllPrice();
+  },[])
+
+  const getAllPrice = async () =>{
+    try {
+      await dispatch<any>(TotalPrice())
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="w-full h-auto sm:h-screen bg-[#20364b] p-4 sm:pl-10 sm:pr-5 sm:py-7">
@@ -135,7 +148,7 @@ export const Home: React.FC = () => {
               <div>
                 <p className="text-lg text-slate-100">Total Amount</p>
                 <p className="text-6xl font-bold text-[#fff]" id="textshadow">
-                  $99,990
+                  ${price}
                 </p>
               </div>
             </div>

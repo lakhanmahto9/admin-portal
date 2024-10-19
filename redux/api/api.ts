@@ -192,4 +192,12 @@ export const disabledAdminNotificationForEcommerceApi = () => {
   });
 };
 
+export const getTotalPrice = () => {
+  return axios.get(`${BASE_URL}/admin/total-revenue-from-all-module`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
 

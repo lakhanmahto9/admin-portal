@@ -7,6 +7,7 @@ import { getEcommerceMonthlySalesData, getEcommerceSalesDetails, getEcommerceTra
 import DashboardTable from "./dashboard-table";
 import Categories from "./categories";
 import { AppDispatch } from '@/redux/store/store'; // Adjust the import path as necessary
+import Transaction from "../transaction/Transaction";
 
 export interface DashboardCardData {
   todayProducts: number;
@@ -127,13 +128,16 @@ const EcommerceDashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
+      {/* <div className="w-full flex flex-col justify-between lg:flex-row gap-6 pb-5 mt-10">
         <div className="w-full lg:w-3/5">
           <DashboardTable salesDetails={salesDetails} />
         </div>
         <div className="w-full lg:w-2/5 mt-2">
           <Categories transactions={transactions} />
         </div>
+      </div> */}
+      <div className="my-8 w-full">
+        <Transaction/>
       </div>
     </div>
   );
