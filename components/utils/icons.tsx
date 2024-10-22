@@ -430,7 +430,11 @@ export const CheckDoubleIcon: React.FC<StarProps> = ({
   );
 };
 
-export const MyProductIcon: React.FC<StarProps> = ({ color, width, height }) => (
+export const MyProductIcon: React.FC<StarProps> = ({
+  color,
+  width,
+  height,
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width}
@@ -439,7 +443,39 @@ export const MyProductIcon: React.FC<StarProps> = ({ color, width, height }) => 
     className="bi bi-bag"
     viewBox="0 0 16 16"
   >
-    <path d="M5.5 5V4a2.5 2.5 0 1 1 5 0v1h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h2zm1-1v1h4V4a1.5 1.5 0 0 0-3 0v1z"/>
-    <path d="M3 7v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7H3z"/>
+    <path d="M5.5 5V4a2.5 2.5 0 1 1 5 0v1h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h2zm1-1v1h4V4a1.5 1.5 0 0 0-3 0v1z" />
+    <path d="M3 7v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7H3z" />
+  </svg>
+);
+
+export const OrderIcon: React.FC<StarProps> = ({ color, width, height }) => (
+  <svg
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-bucket-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="M2.522 5H2a.5.5 0 0 0-.494.574l1.372 9.149A1.5 1.5 0 0 0 4.36 16h7.278a1.5 1.5 0 0 0 1.483-1.277l1.373-9.149A.5.5 0 0 0 14 5h-.522A5.5 5.5 0 0 0 2.522 5m1.005 0a4.5 4.5 0 0 1 8.945 0z" />
+  </svg>
+);
+
+export const PersonHeartsIcon: React.FC<StarProps> = ({
+  color,
+  width,
+  height,
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={color}
+    className="bi bi-person-hearts"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M11.5 1.246c.832-.855 2.913.642 0 2.566-2.913-1.924-.832-3.421 0-2.566M9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4m13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276ZM15 2.165c.555-.57 1.942.428 0 1.711-1.942-1.283-.555-2.281 0-1.71Z"
+    />
   </svg>
 );

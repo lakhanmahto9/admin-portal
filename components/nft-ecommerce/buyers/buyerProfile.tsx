@@ -137,18 +137,25 @@ const BuyerProfile: React.FC = () => {
               <p className="text-lg text-[#6a6a6b] break-all">{profile?.about}</p>
             </div> */}
 
+            {
+              !profile?.buyer?.isApproved &&(
+
+          
+
             <div
               onClick={() => {
-                if (!profile?.isApproved) {
                   dispatch(
                     setDialog({ open: true, type: "buyerVerify", id: id })
                   );
-                }
+                
               }}
               className="mt-4 w-40 h-12 bg-[#025f92] cursor-pointer rounded-md py-1 flex justify-center items-center gap-2"
             >
-              <p className="text-white">Verify</p>
+              <button className="text-white">Verify</button>
             </div>
+                  
+                )
+              }
           </div>
         </div>
       </div>
