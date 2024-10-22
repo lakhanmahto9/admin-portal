@@ -26,7 +26,7 @@ const EcommerceSidebar: React.FC = () => {
   const [switchTab, setSwitchTab] = useState({
     photography: false,
     art: false,
-    ecommerce: false,
+    tutorial: false,
   });
   // const [artMusicAndVideoRevenueData, SetArtMusicAndVideoRevenueData] =
   //   useState<artMusicAndVideoData>({
@@ -143,12 +143,13 @@ const EcommerceSidebar: React.FC = () => {
       }));
       dispatch(openCredential("Digital photography"));
       router.push("/admin-dashboard/seller-photography/photography-dashboard");
-    } else if (type === "ecommerce") {
+    }   else if(type === "tutorial"){
       setSwitchTab((prev) => ({
         ...prev,
-        ecommerce: !value,
+        tutorial: !value,
       }));
-      dispatch(openCredential("E-Commerce"));
+      dispatch(openCredential("Tutorial"))
+      router.push("/admin-dashboard/seller-video/seller-dashboard")
     }
   };
 
@@ -256,9 +257,9 @@ const EcommerceSidebar: React.FC = () => {
               <div className="w-full h-10 px-4 bg-[#02364f] text-[#fff] rounded-lg flex justify-between items-center">
                 <p>Tutorial</p>
                 <div
-                  onClick={() => changeSwitch("tutorial", switchTab.ecommerce)}
+                  onClick={() => changeSwitch("tutorial", switchTab.tutorial)}
                   className={`w-16 h-6 cursor-pointer rounded-full px-1 flex ${
-                    switchTab.ecommerce
+                    switchTab.tutorial
                       ? "justify-end bg-[#025f92]"
                       : "justify-start bg-[#c2c2c2]"
                   } items-center`}
