@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { useSelector } from "react-redux";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import moment from "moment";
 
 interface SalesData {
   month: string; // Ensure this property is present
@@ -20,7 +21,6 @@ interface SalesData {
 
 interface ChartProps {
   year: number;
-  salesData: SalesData[];
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -58,14 +58,35 @@ const CustomDot = (props: any) => {
   return null;
 };
 
-export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
-  console.log(year, salesData, 6274)
+export const Chart: React.FC<ChartProps> = ({ year}) => {
+  // console.log(year, salesData, 6274)
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
-
+  const eCommerceSales = useSelector((state: any) => state?.user?.eCommerceSales) || [];
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+  useEffect(()=>{
+    filterData();
+  },[year]);
+  const filterData = () => {
+    const filtered = eCommerceSales.filter((item: any) =>
+      moment(item.createdAt).year() === year
+    );
+  
+    const monthlyData = Array.from({ length: 12 }, (_, i) => ({
+      name: moment().month(i).format("MMM"),
+      totalSoldItems: 0,
+    }));
+  
+    filtered.forEach((item: any) => {
+      const month = moment(item.createdAt).month();
+      monthlyData[month].totalSoldItems += 1;
+    });
+    console.log(monthlyData)
+    setFilteredData(monthlyData);
+  }
   return (
     <ResponsiveContainer width="98%" height={300}>
-      <LineChart data={salesData}>
+      <LineChart data={filteredData}>
         <defs>
           <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow
@@ -91,7 +112,7 @@ export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
           dot={<CustomDot />}
           filter="url(#shadow)"
         />
-        <Line
+        {/* <Line
           type="monotone"
           dataKey="totalRevenue"
           name="Total Revenue"
@@ -99,7 +120,7 @@ export const Chart: React.FC<ChartProps> = ({ year, salesData }) => {
           strokeWidth={3}
           dot={<CustomDot />}
           filter="url(#shadow)"
-        />
+        /> */}
       </LineChart>
     </ResponsiveContainer>
   );

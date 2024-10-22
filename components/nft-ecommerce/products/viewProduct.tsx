@@ -4,21 +4,25 @@ import { useRouter } from "next/router";
 import { AppDispatch, RootState } from "@/redux/store/store";
 import { getProductByIdThunk } from "@/redux/slice/ecommerce/productslice";
 import { LeftIcon } from "@/public/icons/icons";
+import { useThemeColors } from "@/components/utils/useThemeColor";
 
 const ViewProduct: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { id } = router.query;
-  const product = useSelector((state: RootState) => state.products.singleProduct);
-  console.log(product, "product")
+  const product = useSelector(
+    (state: RootState) => state.products.singleProduct
+  );
+  console.log(product, "product");
   const isDarkEnabled = useSelector((state: RootState) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkEnabled);
 
   useEffect(() => {
     if (typeof id === "string") {
       const fetchProduct = async () => {
         try {
-         const res = await dispatch(getProductByIdThunk(id));
-         console.log(res, "res product")
+          const res = await dispatch(getProductByIdThunk(id));
+          console.log(res, "res product");
         } catch (error) {
           console.error("Error fetching product:", error);
         }
@@ -33,20 +37,18 @@ const ViewProduct: React.FC = () => {
 
   return (
     <div
-      className={`w-full h-[83vh] ${
-        isDarkEnabled ? "bg-[#101c44]" : "bg-white"
-      } rounded-xl shadow-lg`}
+      className={`w-full h-[83vh] rounded-xl shadow-lg`}
+      style={{ background: colors.cardBg }}
     >
       {/* Header */}
       <div
-        className={`h-[12%] ${
-          isDarkEnabled ? "bg-[#101c44]" : "bg-[#f0f4ff]"
-        } rounded-t-xl flex justify-between items-center p-4 shadow-md`}
+        className={`h-[12%] rounded-t-xl flex justify-between items-center p-4 shadow-md`}
+        style={{ background: colors.sidebarBg }}
       >
         <div onClick={back} className="flex items-center gap-4 cursor-pointer">
           <div
             className={`w-10 h-10 ${
-              isDarkEnabled ? "bg-[#040836]" : "bg-[#025f92]"
+              isDarkEnabled ? "bg-[#051139]" : "bg-[#025f92]"
             } flex items-center justify-center rounded-full shadow-md`}
           >
             <LeftIcon color="#fff" width="20" height="20" />
@@ -69,8 +71,8 @@ const ViewProduct: React.FC = () => {
             product.items.map((item, index) => (
               <div
                 key={index}
-                className={`w-full h-auto border rounded-lg p-6 ${
-                  isDarkEnabled ? "bg-[#1b294a]" : "bg-white"
+                className={`w-full h-auto rounded-lg p-6 ${
+                  isDarkEnabled ? "bg-[#051139]" : "bg-white border"
                 } shadow-lg flex flex-col items-center text-center`}
               >
                 <div className="w-40 h-40 border-2 border-gray-300 rounded-full overflow-hidden shadow-sm">
@@ -81,13 +83,12 @@ const ViewProduct: React.FC = () => {
                   />
                 </div>
                 <p
-                  className={`mt-4 text-xl font-bold ${
-                    isDarkEnabled ? "text-white" : "text-gray-800"
-                  }`}
+                  className={`mt-4 text-xl font-bold `}
+                  style={{ color: colors.text }}
                 >
                   {item.color}
                 </p>
-                
+
                 <p
                   className={`text-lg ${
                     isDarkEnabled ? "text-gray-300" : "text-gray-500"
@@ -100,9 +101,7 @@ const ViewProduct: React.FC = () => {
                     <div
                       key={idx}
                       className={`flex justify-between items-center w-full p-2 border-b ${
-                        isDarkEnabled
-                          ? "border-gray-600"
-                          : "border-gray-200"
+                        isDarkEnabled ? "border-gray-600" : "border-gray-200"
                       }`}
                     >
                       <p
@@ -110,7 +109,8 @@ const ViewProduct: React.FC = () => {
                           isDarkEnabled ? "text-white" : "text-gray-800"
                         }`}
                       >
-                        Size: <span className="font-normal">{sizeAndStock.size}</span>
+                        Size:{" "}
+                        <span className="font-normal">{sizeAndStock.size}</span>
                       </p>
                       <p
                         className={`text-lg ${
@@ -119,7 +119,9 @@ const ViewProduct: React.FC = () => {
                             : "text-red-500"
                         } font-semibold`}
                       >
-                        {sizeAndStock.stock > 0 ? `${sizeAndStock.stock} in stock` : "Out of stock"}
+                        {sizeAndStock.stock > 0
+                          ? `${sizeAndStock.stock} in stock`
+                          : "Out of stock"}
                       </p>
                     </div>
                   ))}
@@ -134,7 +136,7 @@ const ViewProduct: React.FC = () => {
         {/* Right: Product Information */}
         <div
           className={`w-full md:w-[60%] ${
-            isDarkEnabled ? "bg-[#1b294a]" : "bg-white"
+            isDarkEnabled ? "bg-[#051139]" : "bg-white"
           } rounded-lg shadow-lg p-8 space-y-6`}
         >
           <h2
@@ -151,24 +153,34 @@ const ViewProduct: React.FC = () => {
           </div>
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-gray-800"}`}>Name</p>
-              <p className="text-[#6a6a6b]">{product?.name}</p>
+              <p className={`font-semibold `} style={{ color: colors.text }}>
+                Name
+              </p>
+              <p className="" style={{color:colors.text}}>{product?.name}</p>
             </div>
             <div className="flex justify-between">
-              <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-gray-800"}`}>Description</p>
-              <p className="text-[#6a6a6b]">{product?.description}</p>
+              <p className={`font-semibold `} style={{ color: colors.text }}>
+                Description
+              </p>
+              <p className="" style={{color:colors.text}}>{product?.description}</p>
             </div>
             <div className="flex justify-between">
-              <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-gray-800"}`}>Fabric</p>
-              <p className="text-[#6a6a6b]">{product?.fabric}</p>
+              <p className={`font-semibold `} style={{ color: colors.text }}>
+                Fabric
+              </p>
+              <p className="" style={{color:colors.text}}>{product?.fabric}</p>
             </div>
             <div className="flex justify-between">
-              <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-gray-800"}`}>Pattern</p>
-              <p className="text-[#6a6a6b]">{product?.pattern}</p>
+              <p className={`font-semibold `} style={{ color: colors.text }}>
+                Pattern
+              </p>
+              <p className="" style={{color:colors.text}}>{product?.pattern}</p>
             </div>
             <div className="flex justify-between">
-              <p className={`font-semibold ${isDarkEnabled ? "text-white" : "text-gray-800"}`}>Total Stock</p>
-              <p className="text-[#6a6a6b]">{product?.totalStock}</p>
+              <p className={`font-semibold `} style={{ color: colors.text }}>
+                Total Stock
+              </p>
+              <p className="" style={{color:colors.text}}>{product?.totalStock}</p>
             </div>
           </div>
         </div>

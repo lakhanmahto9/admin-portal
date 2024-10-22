@@ -184,4 +184,20 @@ export const disabledAdminNotificationForVideoApi = () => {
   });
 };
 
+export const disabledAdminNotificationForEcommerceApi = () => {
+  return axios.get(`${BASE_URL}/admin/admin-dissabled-notification-for-ecommerce`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const getTotalPrice = () => {
+  return axios.get(`${BASE_URL}/admin/total-revenue-from-all-module`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
 
