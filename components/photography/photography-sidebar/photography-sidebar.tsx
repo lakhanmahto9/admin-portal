@@ -51,6 +51,13 @@ export const PhotographySidebar: React.FC = () => {
       href: publicRuntimeConfig?.photographybuyerdetails,
     },
     {
+      icon: <UserIcon color="red" height="18" width="18" />,
+      link: "Top Seller",
+      href: publicRuntimeConfig?.topPhotographySellers,
+    },
+
+
+    {
       icon: <LogoutIcon color="red" height="18" width="18" />,
       link: "Logout",
       href: publicRuntimeConfig?.login,
