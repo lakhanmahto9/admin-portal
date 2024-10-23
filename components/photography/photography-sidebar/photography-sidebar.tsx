@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { openCredential } from "@/redux/slice/creadentialSlice";
 import { useDispatch } from "react-redux";
+import { MorePeople } from "@/components/utils/icons";
 //   import { useSellerThemeColors } from "@/components/utils/sellerThemeColor";
 
 export const PhotographySidebar: React.FC = () => {
@@ -51,7 +52,7 @@ export const PhotographySidebar: React.FC = () => {
       href: publicRuntimeConfig?.photographybuyerdetails,
     },
     {
-      icon: <UserIcon color="red" height="18" width="18" />,
+      icon: <MorePeople color="red" height="18" width="18" />,
       link: "Top Seller",
       href: publicRuntimeConfig?.topPhotographySellers,
     },
