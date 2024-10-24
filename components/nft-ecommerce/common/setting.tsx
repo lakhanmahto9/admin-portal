@@ -4,6 +4,7 @@ import { Stack, Switch, styled } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFix } from "@/redux/slice/headerNavFixSlice";
+import {  useRouter } from "next/router";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 44,
@@ -50,6 +51,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const SettingModal: React.FC = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
   const fix = useSelector((state:any) => state.fix?.fix);
@@ -73,11 +75,17 @@ export const SettingModal: React.FC = () => {
     )}`;
     window.open(facebookUrl, "_blank");
   };
+  const navigateToDashboard = () => {
+    router.push("/admin-dashboard/nft-ecommerce/ecommerce-dashboard");
+  }
+  const navigateToProducts = () => {
+    router.push("/admin-dashboard/nft-ecommerce/products");
+  }
   return (
     <div className="w-full h-full p-4 overflow-y-scroll">
-      <div className="flex flex-col">
+       <div className="flex flex-col">
         <p className="text-xl text-[#384b6a] font-semibold">
-          Dashboard Configurator
+         Ecommerce Dashboard Configurator
         </p>
         <p className="text-[#717d96]">See our dashboard options.</p>
       </div>
@@ -110,7 +118,7 @@ export const SettingModal: React.FC = () => {
           ></p>
         </div>
         <div className="">
-          <p className="text-[#384b6a] text-xl">Sidenav Type</p>
+          {/* <p className="text-[#384b6a] text-xl">Sidenav Type</p>
           <p className="text-[#717d96]">
             {" "}
             Choose between 2 different sidenav types.
@@ -122,9 +130,9 @@ export const SettingModal: React.FC = () => {
             <div className="h-10 w-36 border cursor-pointer border-[#3520ed] rounded-lg flex justify-center items-center">
               <p className="text-[#3520ed] font-semibold">Dark</p>
             </div>
-          </div>
+          </div> */}
           <div>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-6">
               <p className="text-[#384b6a] text-lg">Nevbar fixed</p>
               <p>
                 <Stack direction="row" spacing={1} alignItems="center">
@@ -151,14 +159,14 @@ export const SettingModal: React.FC = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5 mt-8">
-            <div className="flex justify-center items-center cursor-pointer w-full h-10 bg-black text-white rounded-md">
+            <div className="flex justify-center items-center cursor-pointer w-full h-10 bg-black text-white rounded-md" onClick={navigateToDashboard}>
               <p className="text-white font-semibold">Dashboard</p>
             </div>
-            <div className="flex justify-center items-center cursor-pointer w-full h-10 border border-[black] text-white rounded-md">
-              <p className="text-[#384b6a] font-semibold">View Profile</p>
+            <div className="flex justify-center items-center cursor-pointer w-full h-10 border border-[black] text-white rounded-md" onClick={navigateToProducts}>
+              <p className="text-[#384b6a] font-semibold">View Products</p>
             </div>
           </div>
-          <div className="mt-8 flex flex-col justify-center items-center">
+          {/* <div className="mt-8 flex flex-col justify-center items-center">
             <p className="text-[#384b68] font-semibold mb-2">
               Thank you for sharing!
             </p>
@@ -176,7 +184,7 @@ export const SettingModal: React.FC = () => {
                 <p className="text-white">Facebook</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

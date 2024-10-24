@@ -106,7 +106,7 @@ export const SettingModal: React.FC = () => {
           ></p>
         </div>
         <div className="">
-          <p className="text-[#384b6a] text-xl">Sidenav Type</p>
+          {/* <p className="text-[#384b6a] text-xl">Sidenav Type</p>
           <p className="text-[#717d96]">
             {" "}
             Choose between 2 different sidenav types.
@@ -118,9 +118,9 @@ export const SettingModal: React.FC = () => {
             <div className="h-10 w-36 border cursor-pointer border-[#3520ed] rounded-lg flex justify-center items-center">
               <p className="text-[#3520ed] font-semibold">Dark</p>
             </div>
-          </div>
+          </div> */}
           <div>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-6">
               <p className="text-[#384b6a] text-lg">Nevbar fixed</p>
               <p>
                 <Stack direction="row" spacing={1} alignItems="center">

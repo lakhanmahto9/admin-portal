@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+//prashant video header
 const initialState = {
   open: false,
   type: "",
