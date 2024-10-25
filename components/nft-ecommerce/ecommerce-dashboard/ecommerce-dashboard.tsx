@@ -16,6 +16,13 @@ export interface DashboardCardData {
   totalProducts: number;
   totalSellers: number;
   totalBuyers: number;
+  newBuyers:number;
+  newSellers:number;
+  newProducts:number;
+  buyersPercentageChange:number;
+  sellersPercentageChange:number;
+  productsPercentageChange:number;
+
 }
 
 interface SalesData {
@@ -53,6 +60,12 @@ const EcommerceDashboard: React.FC = () => {
     totalProducts: 0,
     totalSellers: 0,
     totalBuyers: 0,
+    newBuyers:0,
+    newSellers:0,
+    newProducts:0,
+    buyersPercentageChange:0,
+    sellersPercentageChange:0,
+    productsPercentageChange:0,
   });
 
   useEffect(() => {

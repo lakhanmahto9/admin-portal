@@ -10,6 +10,20 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ data }) => {
   console.log(data, "dataa")
+//   {
+//     "totalBuyers": 6,
+//     "totalSellers": 10,
+//     "totalProducts": 10,
+//     "todayBuyers": 1,
+//     "todaySellers": 0,
+//     "todayProducts": 0,
+//     "newBuyers": 0,
+//     "newSellers": 0,
+//     "newProducts": 0,
+//     "buyersPercentageChange": 50,
+//     "sellersPercentageChange": 100,
+//     "productsPercentageChange": 100
+// }
   const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
   const colors = useThemeColors(darkModeEnable);
  
@@ -43,7 +57,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
           </div>
         </div>
         <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
+          <p className="font-semibold text-[#23e751]">{data?.buyersPercentageChange}%</p>&nbsp;
           <p className="">since last year</p>
         </div>
       </div>
@@ -60,8 +74,8 @@ export const Card: React.FC<CardProps> = ({ data }) => {
           <div></div>
         </div>
         <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
+          <p className="font-semibold text-[#23e751]">{data?.newBuyers}</p>&nbsp;
+          <p className="">since yesterday</p>
         </div>
       </div>
 
@@ -77,7 +91,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
           <div></div>
         </div>
         <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
+          <p className="font-semibold text-[#23e751]">{data.sellersPercentageChange}%</p>&nbsp;
           <p className="">since last year</p>
         </div>
       </div>
@@ -94,8 +108,8 @@ export const Card: React.FC<CardProps> = ({ data }) => {
           <div></div>
         </div>
         <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
+          <p className="font-semibold text-[#23e751]">{data.newSellers}</p>&nbsp;
+          <p className="">since yesterday</p>
         </div>
       </div>
 
@@ -111,8 +125,8 @@ export const Card: React.FC<CardProps> = ({ data }) => {
           <div></div>
         </div>
         <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
+          <p className="font-semibold text-[#23e751]">{data.newProducts}</p>&nbsp;
+          <p className="">since yesterday</p>
         </div>
       </div>
       <div
@@ -127,7 +141,7 @@ export const Card: React.FC<CardProps> = ({ data }) => {
           <div></div>
         </div>
         <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
+          <p className="font-semibold text-[#23e751]">{data.productsPercentageChange}%</p>&nbsp;
           <p className="">since last year</p>
         </div>
       </div>

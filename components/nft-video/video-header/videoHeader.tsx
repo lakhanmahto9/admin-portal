@@ -44,7 +44,7 @@ const VideoHeader: React.FC = () => {
         {/* Icons section */}
         <div className="flex gap-4 items-center">
           {/* Drawer button for smaller screens */}
-          <div className="block setingModal:hidden cursor-pointer">
+          <div className="block sm:hidden cursor-pointer">
             <Drawerpage />
           </div>
 
