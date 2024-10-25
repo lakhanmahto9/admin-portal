@@ -104,3 +104,12 @@ export const notificationupadateapi = () => {
     },
   });
 };
+
+export const getPhotographyCardDataApi = () => {
+  return axios.get(`${BASE_URL}/admin/get-photography-card-data`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
