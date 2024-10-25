@@ -1,176 +1,122 @@
-import { PhotoIcon } from "../../utils/icons";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { DashboardCardData } from "../video-dashboard/video-dashboard";
 import { useThemeColors } from "@/components/utils/useThemeColor";
+import { useSelector } from "react-redux";
+import { PlaylistIcon, UserIcon } from "@/public/icons/icons";
+import { getTutorialCardDataApi } from "@/redux/api/tutorial/tutorialApi";
 
-interface CardProps {
-  data: DashboardCardData;
-}
-
-export const Card: React.FC<CardProps> = ({ data }) => {
-  const darkModeEnable = useSelector((state: any) => state.darkmode.dark);
-  const colors = useThemeColors(darkModeEnable);
-  //   const data = useSelector(
-  //     (state: any) => state.sellerphotography?.data?.photography || []
-  //   );
-  //   const mysale = useSelector((state: any) => state.sales.data?.mysale || []);
-  const [info, setInfo] = useState({
-    totalPhotography: 0,
-    totalBuyer: 0,
-    totalRevenue: 0,
-    todayRevenue: 0,
+export const Card: React.FC = () => {
+  const isDarkEnabled = useSelector((state: any) => state.darkmode.dark);
+  const [cardData, setCardData] = useState({
+    totalUsers: 0,
+    totalCreators: 0,
+    totalPlaylists: 0,
+    todayUsers: 0,
+    todayCreators: 0,
+    todayPlaylists: 0,
+    usersPercentageChange: 0,
+    creatorsPercentageChange: 0,
+    playlistsPercentageChange: 0,
+    newUsers: 0,
+    newCreators: 0,
+    newPlaylists: 0,
   });
 
   useEffect(() => {
-    // callFilterFunction();
+    const fetchData = async () => {
+      try {
+        const response = await getTutorialCardDataApi();
+        if (response.data) {
+          setCardData(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch card data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
-  //   const callFilterFunction = () => {
-  //     if (mysale.length > 0) {
-  //       const totalRev = mysale.reduce((total: number, data: any) => {
-  //         return total + data.price;
-  //       }, 0);
-
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         totalRevenue: totalRev,
-  //       }));
-  //       const currentDate = new Date();
-  //       const filterSale = mysale.filter((item: any) => {
-  //         const itemDate = new Date(item.createdAt);
-  //         return (
-  //           itemDate.getFullYear() === currentDate.getFullYear() &&
-  //           itemDate.getMonth() === currentDate.getMonth() &&
-  //           itemDate.getDate() === currentDate.getDate()
-  //         );
-  //       });
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         todayRevenue: filterSale.reduce(
-  //           (acc: number, data: any) => (acc = acc + data.price),
-  //           0
-  //         ),
-  //       }));
-  //     }
-  //   };
+  const bg = useThemeColors(isDarkEnabled);
   const cardStyle = {
-    backgroundColor: colors.cardBg,
-    // border: `1px solid ${darkModeEnable ? "#3C4E6D" : "gray"}`,
-    boxShadow: `0px 1px 4px -1px `,
-    color: colors.text,
+    backgroundColor: `${bg.cardBg}`,
+    border: `1px solid "#192555"`,
+    color: bg.text,
   };
 
+  const stats = [
+    {
+      title: "Total Users",
+      value: cardData.totalUsers,
+      change: `${cardData.usersPercentageChange.toFixed(1)}%`,
+      since: "since last year",
+      icon: <UserIcon color="#22219a" height="18" width="18" />,
+    },
+    {
+      title: "Today's Users",
+      value: cardData.todayUsers,
+      change: cardData.newUsers,
+      since: "since yesterday",
+      icon: <UserIcon color="#22219a" height="18" width="18" />,
+    },
+    {
+      title: "Total Creators",
+      value: cardData.totalCreators,
+      change: `${cardData.creatorsPercentageChange.toFixed(1)}%`,
+      since: "since last year",
+      icon: <UserIcon color="#22219a" height="18" width="18" />,
+    },
+    {
+      title: "Today's Creators",
+      value: cardData.todayCreators,
+      change: cardData.newCreators,
+      since: "since yesterday",
+      icon: <UserIcon color="#22219a" height="18" width="18" />,
+    },
+    {
+      title: "Total Playlists",
+      value: cardData.totalPlaylists,
+      change: `${cardData.playlistsPercentageChange.toFixed(1)}%`,
+      since: "since last year",
+      icon: <PlaylistIcon color="#22219a" height="18" width="18" />,
+    },
+    {
+      title: "Today's Playlists",
+      value: cardData.todayPlaylists,
+      change: cardData.newPlaylists,
+      since: "since yesterday",
+      icon: <PlaylistIcon color="#22219a" height="18" width="18" />,
+    },
+  ];
+
   return (
-    <div className="w-full flex flex-wrap  gap-3">
-      <div
-        className={`w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4 shadow-md `}
-        style={cardStyle}
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold ">Total Buyer</p>
-            <p className="text-xl font-bold">{data.totalBuyerCount}</p>
-          </div>
-          <div className="relative">
-            <div
-              className="w-10 h-10 rounded-full flex  justify-center items-center"
-              id="bg-round"
-            ></div>
-            <div className="absolute top-1 right-1 w-8 h-8 bg-[#fff] rounded-full flex justify-center items-center">
-              <PhotoIcon color="#22219a" height="18" width="18" />
+    <div className="w-full flex flex-wrap justify-start gap-3">
+      {stats.map((stat, index) => (
+        <div
+          key={index}
+          className="w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4"
+          style={cardStyle}
+        >
+          <div className="flex justify-between">
+            <div className="flex flex-col">
+              <p className="text-sm font-semibold">{stat.title}</p>
+              <p className="text-xl font-bold">{stat.value}</p>
+            </div>
+            <div className="relative">
+              <div
+                className="w-10 h-10 rounded-full flex justify-center items-center"
+                id="bg-round"
+              ></div>
+              <div className="absolute top-1 right-1 w-8 h-8 bg-[#fff] rounded-full flex justify-center items-center">
+                {stat.icon}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
-        </div>
-      </div>
-
-      <div
-        className="w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4 shadow-md"
-        style={cardStyle}
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Today&apos;s Buyer</p>
-            <p className="text-xl font-bold">{data.todayBuyerCount}</p>
+          <div className="flex">
+            <p className="font-semibold text-[#23e751]">{stat.change}</p>
+            &nbsp;
+            <p>{stat.since}</p>
           </div>
-          <div></div>
         </div>
-        <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
-        </div>
-      </div>
-
-      <div
-        className="w-full sm:w-[48%] lg:w-[24%] h-28  rounded-2xl p-4 shadow-md"
-        style={cardStyle}
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Total Creater</p>
-            <p className="text-xl font-bold">{data.totalCreatorCount}</p>
-          </div>
-          <div></div>
-        </div>
-        <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
-        </div>
-      </div>
-
-      <div
-        className="w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4 shadow-md"
-        style={cardStyle}
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Today&apos;s Creater</p>
-            <p className="text-xl font-bold">{data.todayCreatorCount}</p>
-          </div>
-          <div></div>
-        </div>
-        <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
-        </div>
-      </div>
-
-      <div
-        className="w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4 shadow-md"
-        style={cardStyle}
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Today&apos;s Playlist</p>
-            <p className="text-xl font-bold">{data.todayPlaylistCount}</p>
-          </div>
-          <div></div>
-        </div>
-        <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
-        </div>
-      </div>
-      <div
-        className="w-full sm:w-[48%] lg:w-[24%] h-28 rounded-2xl p-4 shadow-md"
-        style={cardStyle}
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Total Playlist</p>
-            <p className="text-xl font-bold">{data.totalPlaylistCount}</p>
-          </div>
-          <div></div>
-        </div>
-        <div className="flex">
-          <p className="font-semibold text-[#23e751]">5%</p>&nbsp;
-          <p className="">since last year</p>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

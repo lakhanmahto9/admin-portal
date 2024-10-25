@@ -43,3 +43,11 @@ export const fetchTopSellersOnBasisOfSalesApi = () => {
     }
   );
 };
+
+export const getTutorialCardDataApi = () => {
+  return axios.get(`${BASE_URL}/admin/get-tutorial-card-data`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};

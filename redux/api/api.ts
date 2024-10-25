@@ -201,3 +201,10 @@ export const getTotalPrice = () => {
 };
 
 
+export const getArtMusicCardDataApi = () => {
+  return axios.get(`${BASE_URL}/admin/get-art-music-card-data`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
